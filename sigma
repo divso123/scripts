@@ -1,0 +1,166 @@
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+
+local Player = Players.LocalPlayer
+local Settings = getgenv().Settings or {}
+
+--// CONFIG
+local CollectiblesFolder = Settings.collectibles_folder
+local PlotsFolder = Settings.plots_folder
+
+local DestinationName = Settings.destination_name
+local TeleportDelay = Settings.teleport_delay or 2
+
+local MovementMode = Settings.movement_mode or "Teleport"
+local TweenSpeed = Settings.tween_speed or 100
+
+local RequiredAttributes = Settings.required_attributes or {}
+
+local OwnerAttributes = Settings.owner_attributes or {
+    "OwnerUserId",
+    "OwnerId",
+    "UserId",
+    "Owner"
+}
+
+--// VALIDATE CONFIG
+if not CollectiblesFolder then
+    warn("collectibles_folder is not configured")
+    return
+end
+
+if not PlotsFolder then
+    warn("plots_folder is not configured")
+    return
+end
+
+if not DestinationName then
+    warn("destination_name is not configured")
+    return
+end
+
+--// CHECK IF THIS IS YOUR PLOT
+local function IsMyPlot(Plot)
+    for _, AttributeName in ipairs(OwnerAttributes) do
+        local Value = Plot:GetAttribute(AttributeName)
+
+        if Value ~= nil then
+            if tostring(Value) == tostring(Player.UserId)
+                or tostring(Value) == Player.Name then
+                return true
+            end
+        end
+    end
+
+    return false
+end
+
+--// FIND YOUR PLOT
+local function GetMyPlot()
+    for _, Plot in ipairs(PlotsFolder:GetChildren()) do
+        if IsMyPlot(Plot) then
+            return Plot
+        end
+    end
+
+    return nil
+end
+
+--// MOVE TO YOUR PLOT
+local function MoveToMyPlot()
+    local Plot = GetMyPlot()
+
+    if not Plot then
+        warn("Your plot was not found")
+        return
+    end
+
+    local Destination = Plot:FindFirstChild(DestinationName, true)
+
+    if not Destination then
+        warn("Teleport destination was not found:", DestinationName)
+        return
+    end
+
+    local Character = Player.Character
+    local Root = Character and Character:FindFirstChild("HumanoidRootPart")
+
+    if not Root then
+        return
+    end
+
+    local TargetCFrame = Destination.CFrame + Vector3.new(0, 3, 0)
+
+    if MovementMode == "Teleport" then
+        Root.CFrame = TargetCFrame
+
+    elseif MovementMode == "Tween" then
+        if TweenSpeed <= 0 then
+            warn("Tween speed must be greater than 0")
+            return
+        end
+
+        local Distance = (Root.Position - TargetCFrame.Position).Magnitude
+        local Duration = Distance / TweenSpeed
+
+        local Tween = TweenService:Create(
+            Root,
+            TweenInfo.new(
+                Duration,
+                Enum.EasingStyle.Linear
+            ),
+            {
+                CFrame = TargetCFrame
+            }
+        )
+
+        Tween:Play()
+    else
+        warn("Invalid movement_mode:", MovementMode)
+    end
+end
+
+--// CHECK COLLECTIBLE ATTRIBUTES
+local function AttributesMatch(Object)
+    for Name, Value in pairs(RequiredAttributes) do
+        if Object:GetAttribute(Name) ~= Value then
+            return false
+        end
+    end
+
+    return true
+end
+
+--// SET UP PROXIMITY PROMPT
+local function SetupPrompt(Prompt)
+    Prompt.Triggered:Connect(function(TriggeredPlayer)
+        if TriggeredPlayer ~= Player then
+            return
+        end
+
+        local Object = Prompt.Parent
+
+        while Object and Object ~= CollectiblesFolder do
+            if AttributesMatch(Object) then
+                task.delay(TeleportDelay, MoveToMyPlot)
+                return
+            end
+
+            Object = Object.Parent
+        end
+    end)
+end
+
+--// EXISTING PROMPTS
+for _, Object in ipairs(CollectiblesFolder:GetDescendants()) do
+    if Object:IsA("ProximityPrompt") then
+        SetupPrompt(Object)
+    end
+end
+
+--// NEW PROMPTS
+CollectiblesFolder.DescendantAdded:Connect(function(Object)
+    if Object:IsA("ProximityPrompt") then
+        SetupPrompt(Object)
+    end
+end)
