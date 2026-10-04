@@ -4,163 +4,1165 @@ local TweenService = game:GetService("TweenService")
 local Player = Players.LocalPlayer
 local Settings = getgenv().Settings or {}
 
---// CONFIG
+--// FOLDERS
 local CollectiblesFolder = Settings.collectibles_folder
 local PlotsFolder = Settings.plots_folder
 
+
+--// DESTINATION
 local DestinationName = Settings.destination_name
-local TeleportDelay = Settings.teleport_delay or 2
+local DestinationValue = Settings.destination_value
+local DestinationObject = Settings.destination_object
 
-local MovementMode = Settings.movement_mode or "Teleport"
-local TweenSpeed = Settings.tween_speed or 100
+local DestinationFallbacks =
+    Settings.destination_fallbacks or {}
 
-local RequiredAttributes = Settings.required_attributes or {}
 
-local OwnerAttributes = Settings.owner_attributes or {
-    "OwnerUserId",
-    "OwnerId",
-    "UserId",
-    "Owner"
-}
+--// MOVEMENT
+local TeleportDelay =
+    Settings.teleport_delay or 2
 
---// VALIDATE CONFIG
+local MovementMode =
+    Settings.movement_mode or "Teleport"
+
+local TweenSpeed =
+    Settings.tween_speed or 100
+
+
+--// ADVANCED OFFSET
+local Offset =
+    Settings.offset or Vector3.new(0, 3, 0)
+
+local OffsetPosition =
+    Settings.offset_position or Vector3.new(0, 0, 0)
+
+local OffsetRotation =
+    Settings.offset_rotation or Vector3.new(0, 0, 0)
+
+
+--// COLLECTIBLE ATTRIBUTES
+local RequiredAttributes =
+    Settings.required_attributes or {}
+
+local AttributeMatchMode =
+    Settings.attribute_match_mode or "All"
+
+-- "All"
+-- Every configured attribute must match
+
+-- "Any"
+-- At least one configured attribute must match
+
+-- "Exists"
+-- Attribute only needs to exist
+
+
+--// OWNER DETECTION
+local OwnerAttributes =
+    Settings.owner_attributes or {
+        "OwnerUserId",
+        "OwnerId",
+        "UserId",
+        "Owner"
+    }
+
+local OwnerValues =
+    Settings.owner_values or {
+        "Owner",
+        "OwnerUserId",
+        "OwnerId",
+        "UserId"
+    }
+
+
+--// EXTRA OWNER SEARCH
+local CheckPlotAttributes =
+    Settings.check_plot_attributes ~= false
+
+local CheckPlotValues =
+    Settings.check_plot_values ~= false
+
+local CheckPlotDescendants =
+    Settings.check_plot_descendants ~= false
+
+
+--// PROMPT FILTERING
+local PromptFilter =
+    Settings.prompt_filter or {}
+
+local PromptNames =
+    PromptFilter.names or {}
+
+local PromptActions =
+    PromptFilter.actions or {}
+
+local PromptObjects =
+    PromptFilter.objects or {}
+
+local RequirePromptEnabled =
+    PromptFilter.require_enabled ~= false
+
+local RequirePromptVisible =
+    PromptFilter.require_visible or false
+
+
+--// DEBUG
+local Debug =
+    Settings.debug or false
+
+
+--// ACTIVE MOVEMENT
+local ActiveTween = nil
+local IsMoving = false
+
+
+--// DEBUG PRINT
+local function DebugPrint(...)
+
+    if Debug then
+        print("[Movement]", ...)
+    end
+end
+
+
+--// CONFIG CHECK
 if not CollectiblesFolder then
-    warn("collectibles_folder is not configured")
+
+    warn(
+        "[Movement] collectibles_folder is not configured"
+    )
+
     return
 end
+
 
 if not PlotsFolder then
-    warn("plots_folder is not configured")
+
+    warn(
+        "[Movement] plots_folder is not configured"
+    )
+
     return
 end
 
-if not DestinationName then
-    warn("destination_name is not configured")
-    return
+
+--// STOP CURRENT MOVEMENT
+local function StopMovement()
+
+    if ActiveTween then
+
+        ActiveTween:Cancel()
+        ActiveTween = nil
+
+    end
+
+    IsMoving = false
 end
 
---// CHECK IF THIS IS YOUR PLOT
+
+--// VALUE MATCH
+local function ValueMatchesPlayer(Value)
+
+    if Value == nil then
+        return false
+    end
+
+
+    if tostring(Value) ==
+        tostring(Player.UserId) then
+
+        return true
+    end
+
+
+    if tostring(Value) ==
+        Player.Name then
+
+        return true
+    end
+
+
+    if typeof(Value) == "Instance" then
+
+        if Value == Player then
+            return true
+        end
+
+
+        if Value.Name == Player.Name then
+            return true
+        end
+    end
+
+
+    return false
+end
+
+
+--// CHECK VALUE OBJECT
+local function CheckValueObject(ValueObject)
+
+    if not ValueObject then
+        return false
+    end
+
+
+    if ValueObject:IsA("StringValue")
+        or ValueObject:IsA("IntValue")
+        or ValueObject:IsA("NumberValue")
+        or ValueObject:IsA("BoolValue") then
+
+        return ValueMatchesPlayer(
+            ValueObject.Value
+        )
+    end
+
+
+    if ValueObject:IsA("ObjectValue") then
+
+        return ValueMatchesPlayer(
+            ValueObject.Value
+        )
+    end
+
+
+    return false
+end
+
+
+--// CHECK PLOT OWNER
 local function IsMyPlot(Plot)
-    for _, AttributeName in ipairs(OwnerAttributes) do
-        local Value = Plot:GetAttribute(AttributeName)
 
-        if Value ~= nil then
-            if tostring(Value) == tostring(Player.UserId)
-                or tostring(Value) == Player.Name then
+    --==================================================
+    -- 1. PLOT ATTRIBUTES
+    --==================================================
+
+    if CheckPlotAttributes then
+
+        for _, AttributeName in ipairs(
+            OwnerAttributes
+        ) do
+
+            local Value =
+                Plot:GetAttribute(
+                    AttributeName
+                )
+
+
+            if Value ~= nil
+                and ValueMatchesPlayer(Value) then
+
+                DebugPrint(
+                    "Owner found through attribute:",
+                    AttributeName
+                )
+
                 return true
             end
         end
     end
 
+
+    --==================================================
+    -- 2. DIRECT VALUE OBJECTS
+    --==================================================
+
+    if CheckPlotValues then
+
+        for _, ValueName in ipairs(
+            OwnerValues
+        ) do
+
+            local ValueObject =
+                Plot:FindFirstChild(
+                    ValueName
+                )
+
+
+            if ValueObject
+                and CheckValueObject(
+                    ValueObject
+                ) then
+
+                DebugPrint(
+                    "Owner found through value:",
+                    ValueName
+                )
+
+                return true
+            end
+        end
+    end
+
+
+    --==================================================
+    -- 3. DESCENDANT VALUE OBJECTS
+    --==================================================
+
+    if CheckPlotDescendants then
+
+        for _, Descendant in ipairs(
+            Plot:GetDescendants()
+        ) do
+
+            -- Attributes on descendants
+            if CheckPlotAttributes then
+
+                for _, AttributeName in ipairs(
+                    OwnerAttributes
+                ) do
+
+                    local Value =
+                        Descendant:GetAttribute(
+                            AttributeName
+                        )
+
+
+                    if Value ~= nil
+                        and ValueMatchesPlayer(
+                            Value
+                        ) then
+
+                        DebugPrint(
+                            "Owner found through descendant attribute:",
+                            Descendant:GetFullName(),
+                            AttributeName
+                        )
+
+                        return true
+                    end
+                end
+            end
+
+
+            -- ValueObjects
+            if CheckPlotValues then
+
+                for _, ValueName in ipairs(
+                    OwnerValues
+                ) do
+
+                    if Descendant.Name ==
+                        ValueName then
+
+                        if CheckValueObject(
+                            Descendant
+                        ) then
+
+                            DebugPrint(
+                                "Owner found through descendant value:",
+                                Descendant:GetFullName()
+                            )
+
+                            return true
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+
     return false
 end
 
+
 --// FIND YOUR PLOT
 local function GetMyPlot()
-    for _, Plot in ipairs(PlotsFolder:GetChildren()) do
+
+    for _, Plot in ipairs(
+        PlotsFolder:GetChildren()
+    ) do
+
         if IsMyPlot(Plot) then
+
+            DebugPrint(
+                "Found your plot:",
+                Plot:GetFullName()
+            )
+
             return Plot
         end
     end
 
+
+    DebugPrint(
+        "Your plot was not found"
+    )
+
+
     return nil
 end
 
---// MOVE TO YOUR PLOT
+
+--// RESOLVE STRINGVALUE
+local function ResolveStringValue(ValueObject)
+
+    if not ValueObject then
+        return nil
+    end
+
+
+    if not ValueObject:IsA(
+        "StringValue"
+    ) then
+
+        return nil
+    end
+
+
+    if ValueObject.Value == "" then
+        return nil
+    end
+
+
+    return ValueObject.Value
+end
+
+
+--// FIND DESTINATION
+local function FindDestination(Plot)
+
+    --==================================================
+    -- 1. DIRECT OBJECT
+    --==================================================
+
+    if DestinationObject then
+
+        if DestinationObject:IsA(
+            "ObjectValue"
+        ) then
+
+            if DestinationObject.Value then
+
+                DebugPrint(
+                    "Destination found through ObjectValue"
+                )
+
+                return DestinationObject.Value
+            end
+
+
+        elseif DestinationObject:IsA(
+            "BasePart"
+        )
+            or DestinationObject:IsA(
+                "Attachment"
+            )
+            or DestinationObject:IsA(
+                "Model"
+            ) then
+
+            DebugPrint(
+                "Destination found through direct object"
+            )
+
+            return DestinationObject
+        end
+    end
+
+
+    --==================================================
+    -- 2. STRINGVALUE
+    --==================================================
+
+    if DestinationValue then
+
+        if DestinationValue:IsA(
+            "StringValue"
+        ) then
+
+            local Name =
+                ResolveStringValue(
+                    DestinationValue
+                )
+
+
+            if Name then
+
+                local Destination =
+                    Plot:FindFirstChild(
+                        Name,
+                        true
+                    )
+
+
+                if Destination then
+
+                    DebugPrint(
+                        "Destination found through StringValue:",
+                        Name
+                    )
+
+                    return Destination
+                end
+            end
+        end
+    end
+
+
+    --==================================================
+    -- 3. DIRECT NAME
+    --==================================================
+
+    if DestinationName then
+
+        local Destination =
+            Plot:FindFirstChild(
+                DestinationName,
+                true
+            )
+
+
+        if Destination then
+
+            DebugPrint(
+                "Destination found:",
+                DestinationName
+            )
+
+            return Destination
+        end
+    end
+
+
+    --==================================================
+    -- 4. FALLBACKS
+    --==================================================
+
+    for _, Fallback in ipairs(
+        DestinationFallbacks
+    ) do
+
+        if typeof(Fallback) ==
+            "Instance" then
+
+            if Fallback:IsA(
+                "ObjectValue"
+            )
+                and Fallback.Value then
+
+                return Fallback.Value
+            end
+
+
+            if Fallback:IsA(
+                "StringValue"
+            ) then
+
+                local Name =
+                    ResolveStringValue(
+                        Fallback
+                    )
+
+
+                if Name then
+
+                    local Destination =
+                        Plot:FindFirstChild(
+                            Name,
+                            true
+                        )
+
+
+                    if Destination then
+                        return Destination
+                    end
+                end
+            end
+
+
+        elseif typeof(Fallback) ==
+            "string" then
+
+            local Destination =
+                Plot:FindFirstChild(
+                    Fallback,
+                    true
+                )
+
+
+            if Destination then
+                return Destination
+            end
+        end
+    end
+
+
+    return nil
+end
+
+
+--// GET DESTINATION CFRAME
+local function GetDestinationCFrame(
+    Destination
+)
+
+    if Destination:IsA(
+        "BasePart"
+    ) then
+
+        return Destination.CFrame
+    end
+
+
+    if Destination:IsA(
+        "Attachment"
+    ) then
+
+        return Destination.WorldCFrame
+    end
+
+
+    if Destination:IsA(
+        "Model"
+    ) then
+
+        return Destination:GetPivot()
+    end
+
+
+    return nil
+end
+
+
+--// CREATE FINAL TARGET CFRAME
+local function GetTargetCFrame(
+    DestinationCFrame
+)
+
+    -- Position offset
+    local FinalCFrame =
+        DestinationCFrame
+        + Offset
+        + OffsetPosition
+
+
+    -- Rotation offset
+    FinalCFrame =
+        FinalCFrame
+        * CFrame.Angles(
+            math.rad(
+                OffsetRotation.X
+            ),
+            math.rad(
+                OffsetRotation.Y
+            ),
+            math.rad(
+                OffsetRotation.Z
+            )
+        )
+
+
+    return FinalCFrame
+end
+
+
+--// MOVE TO PLOT
 local function MoveToMyPlot()
-    local Plot = GetMyPlot()
+
+    -- Cancel previous movement
+    StopMovement()
+
+
+    local Plot =
+        GetMyPlot()
+
 
     if not Plot then
-        warn("Your plot was not found")
         return
     end
 
-    local Destination = Plot:FindFirstChild(DestinationName, true)
+
+    local Destination =
+        FindDestination(
+            Plot
+        )
+
 
     if not Destination then
-        warn("Teleport destination was not found:", DestinationName)
+
+        warn(
+            "[Movement] No destination found"
+        )
+
         return
     end
 
-    local Character = Player.Character
-    local Root = Character and Character:FindFirstChild("HumanoidRootPart")
+
+    local DestinationCFrame =
+        GetDestinationCFrame(
+            Destination
+        )
+
+
+    if not DestinationCFrame then
+
+        warn(
+            "[Movement] Destination has no usable position"
+        )
+
+        return
+    end
+
+
+    -- Current character
+    local Character =
+        Player.Character
+
+
+    if not Character then
+        return
+    end
+
+
+    local Root =
+        Character:FindFirstChild(
+            "HumanoidRootPart"
+        )
+
 
     if not Root then
         return
     end
 
-    local TargetCFrame = Destination.CFrame + Vector3.new(0, 3, 0)
 
-    if MovementMode == "Teleport" then
-        Root.CFrame = TargetCFrame
+    local TargetCFrame =
+        GetTargetCFrame(
+            DestinationCFrame
+        )
 
-    elseif MovementMode == "Tween" then
+
+    DebugPrint(
+        "Movement mode:",
+        MovementMode
+    )
+
+
+    DebugPrint(
+        "Destination:",
+        Destination:GetFullName()
+    )
+
+
+    --==================================================
+    -- TELEPORT
+    --==================================================
+
+    if MovementMode ==
+        "Teleport" then
+
+        IsMoving = true
+
+        Root.CFrame =
+            TargetCFrame
+
+        IsMoving = false
+
+        return
+    end
+
+
+    --==================================================
+    -- TWEEN
+    --==================================================
+
+    if MovementMode ==
+        "Tween" then
+
         if TweenSpeed <= 0 then
-            warn("Tween speed must be greater than 0")
+
+            warn(
+                "[Movement] Tween speed must be greater than 0"
+            )
+
             return
         end
 
-        local Distance = (Root.Position - TargetCFrame.Position).Magnitude
-        local Duration = Distance / TweenSpeed
 
-        local Tween = TweenService:Create(
-            Root,
-            TweenInfo.new(
-                Duration,
-                Enum.EasingStyle.Linear
-            ),
-            {
-                CFrame = TargetCFrame
-            }
+        local Distance =
+            (
+                Root.Position
+                - TargetCFrame.Position
+            ).Magnitude
+
+
+        local Duration =
+            Distance / TweenSpeed
+
+
+        if Duration <= 0 then
+            return
+        end
+
+
+        IsMoving = true
+
+
+        ActiveTween =
+            TweenService:Create(
+
+                Root,
+
+                TweenInfo.new(
+                    Duration,
+                    Enum.EasingStyle.Linear,
+                    Enum.EasingDirection.Out
+                ),
+
+                {
+                    CFrame = TargetCFrame
+                }
+            )
+
+
+        local Tween =
+            ActiveTween
+
+
+        Tween.Completed:Connect(
+            function()
+
+                if ActiveTween ==
+                    Tween then
+
+                    ActiveTween = nil
+                    IsMoving = false
+                end
+            end
         )
 
+
         Tween:Play()
-    else
-        warn("Invalid movement_mode:", MovementMode)
+
+        return
     end
+
+
+    warn(
+        "[Movement] Invalid movement_mode:",
+        MovementMode
+    )
 end
 
---// CHECK COLLECTIBLE ATTRIBUTES
-local function AttributesMatch(Object)
-    for Name, Value in pairs(RequiredAttributes) do
-        if Object:GetAttribute(Name) ~= Value then
+
+--// FLEXIBLE ATTRIBUTE MATCHING
+local function AttributesMatch(
+    Object
+)
+
+    local AttributeCount = 0
+    local MatchedCount = 0
+
+
+    for Name, ExpectedValue in pairs(
+        RequiredAttributes
+    ) do
+
+        AttributeCount += 1
+
+
+        local ActualValue =
+            Object:GetAttribute(
+                Name
+            )
+
+
+        --==================================================
+        -- EXISTS MODE
+        --==================================================
+
+        if AttributeMatchMode ==
+            "Exists" then
+
+            if ActualValue ~= nil then
+                MatchedCount += 1
+            end
+
+
+        --==================================================
+        -- NORMAL VALUE MATCH
+        --==================================================
+
+        else
+
+            local Match = false
+
+
+            -- Exact value
+            if ActualValue ==
+                ExpectedValue then
+
+                Match = true
+            end
+
+
+            -- String comparison
+            if not Match
+                and ActualValue ~= nil
+                and tostring(
+                    ActualValue
+                ) ==
+                    tostring(
+                        ExpectedValue
+                    ) then
+
+                Match = true
+            end
+
+
+            if Match then
+                MatchedCount += 1
+            end
+        end
+    end
+
+
+    -- No filters = everything matches
+    if AttributeCount == 0 then
+        return true
+    end
+
+
+    -- ANY
+    if AttributeMatchMode ==
+        "Any" then
+
+        return MatchedCount > 0
+    end
+
+
+    -- EXISTS
+    if AttributeMatchMode ==
+        "Exists" then
+
+        return MatchedCount ==
+            AttributeCount
+    end
+
+
+    -- ALL
+    return MatchedCount ==
+        AttributeCount
+end
+
+
+--// PROMPT FILTER
+local function PromptMatchesFilter(
+    Prompt
+)
+
+    -- Enabled check
+    if RequirePromptEnabled
+        and not Prompt.Enabled then
+
+        return false
+    end
+
+
+    -- Visible check
+    if RequirePromptVisible
+        and not Prompt.Visible then
+
+        return false
+    end
+
+
+    -- Prompt name
+    if #PromptNames > 0 then
+
+        local NameMatched = false
+
+
+        for _, Name in ipairs(
+            PromptNames
+        ) do
+
+            if Prompt.Name ==
+                Name then
+
+                NameMatched = true
+                break
+            end
+        end
+
+
+        if not NameMatched then
             return false
         end
     end
 
+
+    -- ActionText
+    if #PromptActions > 0 then
+
+        local ActionMatched = false
+
+
+        for _, Action in ipairs(
+            PromptActions
+        ) do
+
+            if Prompt.ActionText ==
+                Action then
+
+                ActionMatched = true
+                break
+            end
+        end
+
+
+        if not ActionMatched then
+            return false
+        end
+    end
+
+
+    -- Specific prompt instances
+    if #PromptObjects > 0 then
+
+        local ObjectMatched = false
+
+
+        for _, Object in ipairs(
+            PromptObjects
+        ) do
+
+            if Prompt == Object then
+
+                ObjectMatched = true
+                break
+            end
+        end
+
+
+        if not ObjectMatched then
+            return false
+        end
+    end
+
+
     return true
 end
 
---// SET UP PROXIMITY PROMPT
-local function SetupPrompt(Prompt)
-    Prompt.Triggered:Connect(function(TriggeredPlayer)
-        if TriggeredPlayer ~= Player then
-            return
-        end
 
-        local Object = Prompt.Parent
+--// SET UP PROMPT
+local function SetupPrompt(
+    Prompt
+)
 
-        while Object and Object ~= CollectiblesFolder do
-            if AttributesMatch(Object) then
-                task.delay(TeleportDelay, MoveToMyPlot)
+    -- Don't connect unwanted prompts
+    if not PromptMatchesFilter(
+        Prompt
+    ) then
+
+        DebugPrint(
+            "Prompt filtered:",
+            Prompt:GetFullName()
+        )
+
+        return
+    end
+
+
+    Prompt.Triggered:Connect(
+        function(
+            TriggeredPlayer
+        )
+
+            if TriggeredPlayer ~=
+                Player then
+
                 return
             end
 
-            Object = Object.Parent
+
+            -- Re-check the filter
+            -- when the prompt is triggered
+            if not PromptMatchesFilter(
+                Prompt
+            ) then
+
+                return
+            end
+
+
+            local Object =
+                Prompt.Parent
+
+
+            while Object
+                and Object ~=
+                    CollectiblesFolder do
+
+                if AttributesMatch(
+                    Object
+                ) then
+
+                    DebugPrint(
+                        "Matching collectible triggered"
+                    )
+
+
+                    task.delay(
+                        TeleportDelay,
+                        MoveToMyPlot
+                    )
+
+
+                    return
+                end
+
+
+                Object =
+                    Object.Parent
+            end
         end
-    end)
+    )
 end
+
 
 --// EXISTING PROMPTS
-for _, Object in ipairs(CollectiblesFolder:GetDescendants()) do
-    if Object:IsA("ProximityPrompt") then
+for _, Object in ipairs(
+    CollectiblesFolder:GetDescendants()
+) do
+
+    if Object:IsA(
+        "ProximityPrompt"
+    ) then
+
         SetupPrompt(Object)
     end
 end
 
+
 --// NEW PROMPTS
-CollectiblesFolder.DescendantAdded:Connect(function(Object)
-    if Object:IsA("ProximityPrompt") then
-        SetupPrompt(Object)
+CollectiblesFolder.DescendantAdded:Connect(
+    function(Object)
+
+        if Object:IsA(
+            "ProximityPrompt"
+        ) then
+
+            SetupPrompt(Object)
+        end
     end
-end)
+)
+
+
+--// CHARACTER RESPAWN
+Player.CharacterAdded:Connect(
+    function()
+
+        StopMovement()
+
+        DebugPrint(
+            "Character respawned - movement reset"
+        )
+    end
+)
+
+
+DebugPrint(
+    "Script loaded"
+)
